@@ -1,0 +1,61 @@
+@import "./_variables";
+
+:root {
+  @for $i from 0 through 12 {
+    --sp-#{$i}: #{$offset * $i}px;
+    @if $i > 0 {
+      --sp-n#{$i}: -#{$offset * $i}px;
+    }
+    @if $i == 12 {
+      --sp-auto: auto;
+    }
+    @if $i == 0 {
+      --sp-05: #{$offset * 0.5}px;
+      --sp-n05: -#{$offset * 0.5}px;
+    }
+  }
+}
+.app {
+  @each $className, $properties in $classList {
+    @for $i from 0 through 12 {
+      @if type-of($properties) == 'string' {
+        $properties: append((), $properties)
+      }
+      .#{$className}-#{$i} {
+        @for $k from 1 through length($properties) {
+          $property: nth($properties, $k);
+          #{$property}: #{$offset * $i}px;
+        }
+      }
+      @if $i == 12 {
+        .#{$className}-auto {
+          @for $k from 1 through length($properties) {
+            $property: nth($properties, $k);
+            #{$property}: auto;
+          }
+        }
+      }
+      @if $i == 0 {
+        .#{$className}-05 {
+          @for $k from 1 through length($properties) {
+            $property: nth($properties, $k);
+            #{$property}: #{$offset * 0.5}px;
+          }
+        }
+      }
+    }
+  }
+  @each $className, $properties in $classListNegative {
+    @for $i from 1 through 12 {
+      @if type-of($properties) == 'string' {
+        $properties: append((), $properties)
+      }
+      .#{$className}-n#{$i} {
+        @for $k from 1 through length($properties) {
+          $property: nth($properties, $k);
+          #{$property}: -#{$offset * $i}px;
+        }
+      }
+    }
+  }
+}
