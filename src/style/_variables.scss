@@ -1,0 +1,98 @@
+$offset: 4;
+$mainContainerWidth: 600px;
+
+$retina-dpi: 144dpi;
+$retina-dppx: 1.5dppx;
+
+$classList: (
+  ma: margin,
+  my: margin-top margin-bottom,
+  mx: margin-left margin-right,
+  mt: margin-top,
+  mb: margin-bottom,
+  ml: margin-left,
+  mr: margin-right,
+  pa: padding,
+  py: padding-top padding-bottom,
+  px: padding-left padding-right,
+  pl: padding-left,
+  pr: padding-right,
+  pt: padding-top,
+  pb: padding-bottom,
+);
+$classListNegative: (
+  ma: margin,
+  my: margin-top margin-bottom,
+  mx: margin-left margin-right,
+  mt: margin-top,
+  mb: margin-bottom,
+  ml: margin-left,
+  mr: margin-right,
+);
+
+@mixin mobile-only {
+  /*iPhone X*/
+  @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) {
+    @content;
+  }
+  /*iPhone 6, 7, & 8 */
+  @media only screen and (min-device-width: 375px) and (max-device-width: 667px) {
+    @content;
+  }
+  /*iPhone 6, 7, & 8 Plus */
+  @media only screen and (min-device-width: 414px) and (max-device-width: 736px) {
+    @content;
+  }
+
+  /*iPhone 5 & 5S in portrait & landscape*/
+  @media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
+    @content;
+  }
+}
+
+@mixin mobile-up {
+  @media screen and (min-width: 375px) {
+    @content;
+  }
+}
+
+@mixin portrait-up {
+  @media screen and (min-width: $mainContainerWidth) {
+    @content;
+  }
+}
+
+@mixin landscape-up {
+  @media screen and (min-width: 1000px) {
+    @content;
+  }
+}
+
+@mixin desktop-up {
+  @media screen and (min-width: 1200px) {
+    @content;
+  }
+}
+
+@mixin mobile-landscape {
+  @media screen and (orientation: landscape) and (max-device-width: 1000px) {
+    @content;
+  }
+}
+
+:root {
+  --safe-bottom-position: 0;
+}
+
+@mixin add-font-face($font-family, $file-path, $weight: normal, $style: normal, $font-display: auto) {
+  @font-face {
+    font-style: $style;
+    font-weight: $weight;
+    font-family: $font-family;
+
+    font-display: $font-display;
+    src: url("#{$file-path}.eot");
+    src: url("#{$file-path}.eot") format("embedded-opentype"), url("#{$file-path}.woff2") format("woff2"),
+    url("#{$file-path}.woff") format("woff");
+  }
+}
