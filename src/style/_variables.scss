@@ -1,8 +1,9 @@
-$offset: 4;
-$mainContainerWidth: 600px;
+$offset: 5;
+$base-page-width: 1040px;
 
 $retina-dpi: 144dpi;
 $retina-dppx: 1.5dppx;
+
 
 $classList: (
   ma: margin,
@@ -56,8 +57,8 @@ $classListNegative: (
   }
 }
 
-@mixin portrait-up {
-  @media screen and (min-width: $mainContainerWidth) {
+@mixin tablet-up {
+  @media screen and (min-width: 768px) {
     @content;
   }
 }
@@ -68,20 +69,10 @@ $classListNegative: (
   }
 }
 
-@mixin desktop-up {
-  @media screen and (min-width: 1200px) {
-    @content;
-  }
-}
-
 @mixin mobile-landscape {
   @media screen and (orientation: landscape) and (max-device-width: 1000px) {
     @content;
   }
-}
-
-:root {
-  --safe-bottom-position: 0;
 }
 
 @mixin add-font-face($font-family, $file-path, $weight: normal, $style: normal, $font-display: auto) {

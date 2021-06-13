@@ -1,18 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import MainContentRouterView from "./router/MainContentRouterView";
 
-function App() {
+export default function App() {
   return (
-    <Router>
-      <Link to="/">Logo</Link>
-
-      <Switch>
-        <Route exact path="/">
-          <div className="mt-8">Hello</div>
-        </Route>
-      </Switch>
-    </Router>
+    <React.Fragment>
+      <MainContentRouterView />
+      {/*<PushManager />*/}
+    </React.Fragment>
   );
 }
-
-export default App;

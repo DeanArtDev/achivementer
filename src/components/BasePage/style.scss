@@ -1,0 +1,7 @@
+@import "../../style/_variables";
+
+.base-page {
+  max-width: $base-page-width;
+  margin: 0 auto;
+  padding: 0 var(--sp-4);
+}
