@@ -86,13 +86,13 @@ $classListNegative: (
 
 @mixin add-font-face($font-family, $file-path, $weight: normal, $style: normal, $font-display: auto) {
   @font-face {
-    font-style: $style;
-    font-weight: $weight;
     font-family: $font-family;
-
+    font-weight: $weight;
+    font-style: $style;
     font-display: $font-display;
-    src: url("#{$file-path}.eot");
-    src: url("#{$file-path}.eot") format("embedded-opentype"), url("#{$file-path}.woff2") format("woff2"),
-    url("#{$file-path}.woff") format("woff");
+
+    src: local("Roboto"),
+    url("#{$file-path}.woff") format("woff"),
+    url("#{$file-path}.woff2") format("woff2");
   }
 }
