@@ -12,6 +12,8 @@ module.exports = {
       rules: {
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "react-hooks/exhaustive-deps": "off",
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": ["error"],
       },
     },
   ],

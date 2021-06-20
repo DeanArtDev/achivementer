@@ -14,7 +14,6 @@
   outline: none;
   perspective: 1000px;
 
-
   &:focus {
     box-shadow: 0 0 0 4px var(--palette-bg), 0 0 0 7px var(--palette-gray-lighten-2);
   }
@@ -48,16 +47,13 @@
   }
 }
 
-
 .study-card__back {
   transform: rotateY(180deg);
 }
 
-.study-card__prompt {
-  .study-card__front {
-    transform: rotateY(180deg);
-  }
-  .study-card__back {
-    transform: rotateY(360deg);
-  }
+.study-card__prompt .study-card__front {
+  transform: rotateY(180deg);
+}
+.study-card__prompt .study-card__back {
+  transform: rotateY(360deg);
 }
