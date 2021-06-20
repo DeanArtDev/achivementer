@@ -1,8 +1,12 @@
 import React, { PropsWithChildren } from "react";
+import { Link } from "react-router-dom";
+import { LocationDescriptor } from "history";
+import { LocationState } from "../../type";
 import BasePreloader from "../BasePreloader";
 import "./style.scss";
 
 interface Props {
+  to?: LocationDescriptor<LocationState>;
   secondary?: boolean;
   negative?: boolean;
   positive?: boolean;
@@ -10,9 +14,12 @@ interface Props {
   disabled?: boolean;
   className?: string;
   type?: "submit" | "button";
+  onClick?: (evt: React.MouseEvent) => void;
 }
 
 export default function BaseButton({
+  to,
+  onClick,
   children,
   secondary,
   negative,
@@ -28,9 +35,19 @@ export default function BaseButton({
   if (negative) cls.push("base-button__negative");
   if (positive) cls.push("base-button__positive");
 
+  if (to) {
+    return <Link className={cls.join(" ")} to={to}>{children}</Link>;
+  }
+
+  const onClickHandler = (evt: React.MouseEvent) => {
+    if (onClick && !loading && !disabled) {
+      onClick(evt);
+    }
+  };
+
   return (
-    <button className={cls.join(" ")} type={type} disabled={disabled}>
-      {loading && <BasePreloader size="30"/>}
+    <button className={cls.join(" ")} type={type} disabled={disabled} onClick={onClickHandler}>
+      {loading && <BasePreloader size="30" />}
       {!loading && children}
     </button>
   );

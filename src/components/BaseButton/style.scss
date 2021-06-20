@@ -25,11 +25,22 @@ $button-min-width: 140px;
   }
 
   &:active {
-    opacity: 1;
+    opacity: 0.9;
   }
 
   &:focus {
     box-shadow: 0 0 0 2px var(--palette-bg), 0 0 0 4px var(--palette-primary);
+  }
+}
+
+.base-button__secondary {
+  background-color: transparent;
+  padding: var(--sp-1);
+  max-width: initial;
+  min-width: initial;
+
+  &:focus {
+    box-shadow: 0 0 0 2px var(--palette-fg);
   }
 }
 
@@ -38,6 +49,10 @@ $button-min-width: 140px;
 
   &:focus {
     box-shadow: 0 0 0 2px var(--palette-bg), 0 0 0 4px var(--palette-negative);
+  }
+
+  &:active {
+    opacity: 0.8;
   }
 }
 

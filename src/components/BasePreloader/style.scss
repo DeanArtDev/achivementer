@@ -5,7 +5,7 @@ $fontColor: #ffffff;
   position: relative;
 }
 
-svg {
+.preloader svg {
   position: absolute;
   top: 0;
   left: 0;
@@ -20,7 +20,6 @@ svg {
   padding: var(--sp-2);
 
   font-size: 10px;
-  font-family: arial;
   color: #ffffff;
   i {
     position: relative;
