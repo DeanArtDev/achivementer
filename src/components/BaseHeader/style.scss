@@ -1,0 +1,15 @@
+@import "../../style/_variables";
+
+.base-header {
+  display: grid;
+  align-items: center;
+  max-width: $base-page-width;
+  height: $header-width;
+  margin: 0 auto;
+  padding: 0 var(--sp-4);
+
+  background-color: var(--palette-bg);
+  border-bottom: 2px solid var(--palette-gray);
+
+  justify-items: end;
+}

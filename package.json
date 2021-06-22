@@ -1,7 +1,10 @@
 {
   "name": "achivementer-frontend",
   "version": "0.1.0",
-  "author": {"name": "DeanArtDev", "email": "deankorobchenko@gmail.com"},
+  "author": {
+    "name": "DeanArtDev",
+    "email": "deankorobchenko@gmail.com"
+  },
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
@@ -46,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-transition-group": "^4.4.1",
     "csscomb": "^4.3.0",
     "node-sass": "^6.0.0",
     "prettier": "^2.3.1"

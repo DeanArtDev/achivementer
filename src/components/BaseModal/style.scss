@@ -1,0 +1,49 @@
+@import "../../style/_palette";
+@import "../../style/_variables";
+
+.base-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 100%;
+  padding: var(--sp-1);
+
+  background-color: var(--palette-bg);
+  border-radius: 14px;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.overlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: block;
+
+  background-color: rgba($color-fg, 0.9);
+}
+
+.fade-animation {
+  animation: fade 0.7s ease-out;
+}
+
+@include mobile-up {
+  .base-modal {
+    max-width: 400px;
+    padding: var(--sp-3);
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
