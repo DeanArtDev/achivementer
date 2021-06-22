@@ -1,7 +1,9 @@
 import React from "react";
 import { ReactComponent as AddIcon } from "../../images/icons/add.svg";
-import BaseButton from "../BaseButton";
 import useModalLink from "../../hooks/useModalLocation";
+import { ROUTE } from "../../router/consts";
+import BaseButton from "../BaseButton";
+
 import "./style.scss";
 
 export default function BaseHeader() {
@@ -10,8 +12,8 @@ export default function BaseHeader() {
 
   return (
     <header className={cls.join(" ")}>
-      <BaseButton secondary to={getLocation("/add-card")}>
-        <AddIcon className={"base-header__add-card"} width={24} height={24} />
+      <BaseButton secondary to={getLocation(ROUTE.addCard)}>
+        <AddIcon className="base-header__add-card" width={24} height={24} />
       </BaseButton>
     </header>
   );

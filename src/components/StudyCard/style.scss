@@ -41,10 +41,6 @@
   cursor: pointer;
 
   transition: 1s transform;
-
-  &:active {
-    background-color: var(--palette-gray-lighten-3);
-  }
 }
 
 .study-card__back {
@@ -56,4 +52,10 @@
 }
 .study-card__prompt .study-card__back {
   transform: rotateY(360deg);
+}
+
+.study-card__edit {
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
 }
