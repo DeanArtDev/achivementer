@@ -36,7 +36,11 @@ export default function BaseButton({
   if (positive) cls.push("base-button__positive");
 
   if (to) {
-    return <Link className={cls.join(" ")} to={to}>{children}</Link>;
+    return (
+      <Link className={cls.join(" ")} to={to}>
+        {children}
+      </Link>
+    );
   }
 
   const onClickHandler = (evt: React.MouseEvent) => {
