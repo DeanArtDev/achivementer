@@ -1,13 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import { ReactComponent as EditIcon } from "../../images/icons/edit.svg";
+import { ROUTE } from "../../router/consts";
 import useModalLink from "../../hooks/useModalLocation";
 import BaseButton from "../BaseButton";
-
-import { ROUTE } from "../../router/consts";
-
 import "./style.scss";
-import { useHistory } from "react-router-dom";
 
 interface Props {
   className?: string;
@@ -15,7 +12,6 @@ interface Props {
 
 export default function StudyCard({ className }: Props) {
   const [isPrompt, setIsPrompt] = useState(false);
-  const history = useHistory();
   const { getLocation } = useModalLink();
 
   const cls = ["study-card"];
@@ -30,7 +26,7 @@ export default function StudyCard({ className }: Props) {
 
   return (
     <div className={cls.join(" ")} tabIndex={0}>
-      <p className="study-card__front"onClick={onClickCard} >
+      <p className="study-card__front" onClick={onClickCard}>
         <BaseButton className="study-card__edit" secondary to={getLocation(ROUTE.addCard)}>
           <EditIcon width={24} height={24} />
         </BaseButton>

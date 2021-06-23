@@ -16,9 +16,11 @@ export default function PageCardRepetition() {
           <p className={"card-repetition__reminder mb-4"}>
             ProidentfsdfdsProidentfsdfdsProidentfsdfdsProidentfsdfdsProi.
           </p>
-          <BaseButton className={"card-repetition__btn mt-auto"}>Got it!</BaseButton>
+          <BaseButton className={"card-repetition__btn mt-auto"}>
+            Got it!
+          </BaseButton>
           <BaseButton className={"card-repetition__btn mt-auto"} negative>
-            Repeate tomorrow
+            Repeat tomorrow
           </BaseButton>
         </div>
       </section>
