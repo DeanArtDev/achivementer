@@ -23,7 +23,6 @@ export default function BaseButton({
   onClick,
   children,
   secondary,
-  transparent,
   negative,
   positive,
   loading,
@@ -34,7 +33,6 @@ export default function BaseButton({
   const cls = ["base-button"];
   if (className) cls.push(className);
   if (secondary) cls.push("base-button__secondary");
-  if (transparent) cls.push("base-button__transparent");
   if (negative) cls.push("base-button__negative");
   if (positive) cls.push("base-button__positive");
 

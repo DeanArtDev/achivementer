@@ -40,11 +40,11 @@ export default function StudyCardSlider({ cardList, onNextSlideClick, onPrevSlid
       </ul>
 
       <div className="study-card-slider__btn-wrapper mt-2 mb-2">
-        <BaseButton className="study-card-slider__btn" disabled={isPrevDisabled} transparent onClick={onPrevClick}>
+        <BaseButton className="study-card-slider__btn" disabled={isPrevDisabled} secondary onClick={onPrevClick}>
           Go to the prev slide
           <PrevIcon width={24} />
         </BaseButton>
-        <BaseButton className="study-card-slider__btn" disabled={isNextDisabled} transparent onClick={onNextClick}>
+        <BaseButton className="study-card-slider__btn" disabled={isNextDisabled} secondary onClick={onNextClick}>
           Go to the next slide
           <NextIcon width={24} />
         </BaseButton>

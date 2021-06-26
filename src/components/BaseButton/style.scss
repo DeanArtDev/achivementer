@@ -47,20 +47,6 @@ $button-min-width: 140px;
 }
 
 .base-button__secondary {
-  min-width: initial;
-  max-width: initial;
-  padding: var(--sp-1);
-
-  color: var(--palette-fg);
-
-  background-color: transparent;
-
-  &:focus {
-    box-shadow: 0 0 0 2px var(--palette-fg);
-  }
-}
-
-.base-button__transparent {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -77,8 +63,8 @@ $button-min-width: 140px;
   }
 
   &:disabled {
-    cursor: not-allowed;
     background-color: transparent;
+    cursor: not-allowed;
     opacity: 0.3;
 
     &:hover {
