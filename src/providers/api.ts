@@ -2,7 +2,7 @@ import axios from "axios";
 import config from "../config";
 
 const api = axios.create({
-  timeout: 10000,
+  timeout: config.maxRequestTimeout,
   baseURL: config.appBackendUrl,
   headers: {
     cors: config.appBackendUrl,
