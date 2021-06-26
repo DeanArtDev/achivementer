@@ -3,12 +3,16 @@
 .card-repetition {
   display: grid;
   max-width: 425px;
+  min-height: 340px;
 
   grid-row-gap: var(--sp-8);
   grid-template-columns: 1fr;
 }
 
 .card-repetition__card-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: var(--sp-3);
 }
 
@@ -30,6 +34,10 @@
   word-break: break-word;
 }
 
+.card-repetition__reminder-empty {
+  color: var(--palette-positive-lighten-1);
+}
+
 .card-repetition__btn {
   width: 100%;
 }
@@ -40,9 +48,10 @@
     max-width: 800px;
 
     grid-column-gap: var(--sp-6);
-    grid-template-columns: 280px auto;
+    grid-template-columns: 280px 400px;
   }
   .card-repetition__content {
+    width: 100%;
     margin-left: auto;
 
     grid-column-gap: 10px;

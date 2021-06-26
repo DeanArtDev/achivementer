@@ -4,7 +4,7 @@ import api from "../../api";
 class CardProvider implements CardProviderInterface {
   private readonly path = "/card";
 
-  public async getAll() {
+  public async getAll(): Promise<Card[]> {
     const response = await api.get(this.path);
     return response.data;
   }
@@ -24,7 +24,7 @@ class CardProvider implements CardProviderInterface {
     return response.data;
   }
 
-  private getUrlWithId(id: string) {
+  private getUrlWithId(id: string): string {
     return `${this.path}/${id}`;
   }
 }

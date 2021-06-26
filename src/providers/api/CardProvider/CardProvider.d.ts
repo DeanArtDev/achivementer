@@ -1,6 +1,7 @@
 export type Card = {
   id: string;
   termUnderStudy: string;
+  prompt?: string;
   definition?: string;
   createdAt: string;
   updatedAt?: string;
@@ -11,10 +12,13 @@ export type UpdateCardDataInput = {
   termUnderStudy?: string;
   definition?: string;
   nextRepeatAt: string;
+  prompt?: string;
 };
 
 export type CreateCardDataInput = {
   termUnderStudy: string;
+  definition?: string;
+  prompt?: string;
 };
 
 export interface CardProviderInterface {

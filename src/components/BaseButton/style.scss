@@ -9,7 +9,7 @@ $button-min-width: 140px;
   padding: var(--sp-2) var(--sp-4);
 
   font-size: 20px;
-  line-height: 30px;
+  line-height: 1.4;
   color: var(--palette-bg);
 
   background-color: var(--palette-primary);
@@ -33,14 +33,61 @@ $button-min-width: 140px;
   }
 }
 
+.base-button:disabled {
+  background-color: var(--palette-gray);
+  cursor: not-allowed;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px var(--palette-bg), 0 0 0 4px var(--palette-gray);
+  }
+}
+
 .base-button__secondary {
-  background-color: transparent;
-  padding: var(--sp-1);
-  max-width: initial;
   min-width: initial;
+  max-width: initial;
+  padding: var(--sp-1);
+
+  color: var(--palette-fg);
+
+  background-color: transparent;
 
   &:focus {
     box-shadow: 0 0 0 2px var(--palette-fg);
+  }
+}
+
+.base-button__transparent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: initial;
+  max-width: initial;
+  padding: var(--sp-1);
+
+  color: var(--palette-fg);
+
+  background-color: transparent;
+
+  &:focus {
+    box-shadow: 0 0 0 2px var(--palette-fg);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: transparent;
+    opacity: 0.3;
+
+    &:hover {
+      opacity: 0.3;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 2px var(--palette-bg), 0 0 0 4px var(--palette-gray);
+    }
   }
 }
 
@@ -61,18 +108,5 @@ $button-min-width: 140px;
 
   &:focus {
     box-shadow: 0 0 0 2px var(--palette-bg), 0 0 0 4px var(--palette-positive);
-  }
-}
-
-.base-button:disabled {
-  background-color: var(--palette-gray);
-  cursor: not-allowed;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  &:focus {
-    box-shadow: 0 0 0 2px var(--palette-bg), 0 0 0 4px var(--palette-gray);
   }
 }

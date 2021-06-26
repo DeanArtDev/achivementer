@@ -1,0 +1,37 @@
+$slide-min-width: 250px;
+$slide-min-heigh: 340px;
+
+.study-card-slider {
+  display: grid;
+  overflow: hidden;
+
+  grid-template-columns: $slide-min-width;
+  grid-template-rows: repeat(2, auto);
+}
+
+.study-card-slider__wrapper {
+  display: flex;
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  transition: transform 0.4s;
+}
+
+.study-card-slider__slide {
+  display: grid;
+  min-width: $slide-min-width;
+  min-height: $slide-min-heigh;
+
+  place-items: center;
+}
+
+.study-card-slider__btn-wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.study-card-slider__btn {
+  font-size: 0;
+}

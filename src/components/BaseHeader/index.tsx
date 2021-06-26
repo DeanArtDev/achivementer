@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactComponent as AddIcon } from "../../images/icons/add.svg";
-import useModalLink from "../../hooks/useModalLocation";
 import { ROUTE } from "../../router/consts";
+import useModalLink from "../../hooks/useModalLocation";
 import BaseButton from "../BaseButton";
 
 import "./style.scss";
