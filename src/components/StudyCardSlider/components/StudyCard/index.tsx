@@ -1,22 +1,21 @@
+import { ReactComponent as EditIcon } from "../../../../images/icons/edit.svg";
+
 import React from "react";
 import { useState } from "react";
-import { ReactComponent as EditIcon } from "../../images/icons/edit.svg";
-import useModalLink from "../../hooks/useModalLocation";
-import BaseButton from "../BaseButton";
-
-import { ROUTE } from "../../router/consts";
-
+import { ROUTE } from "../../../../router/consts";
+import useModalLink from "../../../../hooks/useModalLocation";
+import BaseButton from "../../../BaseButton";
 import "./style.scss";
-import { useHistory } from "react-router-dom";
 
 interface Props {
   className?: string;
+  termUnderStudy: string;
+  definition?: string;
 }
 
-export default function StudyCard({ className }: Props) {
-  const [isPrompt, setIsPrompt] = useState(false);
-  const history = useHistory();
+export default function StudyCard({ className, termUnderStudy, definition }: Props) {
   const { getLocation } = useModalLink();
+  const [isPrompt, setIsPrompt] = useState(false);
 
   const cls = ["study-card"];
   if (className) cls.push(className);
@@ -24,20 +23,22 @@ export default function StudyCard({ className }: Props) {
 
   const onClickCard = (evt: React.MouseEvent) => {
     if (evt.currentTarget === evt.target) {
-      setIsPrompt(!isPrompt);
+      rotateIfHasDefinition();
     }
   };
+  const rotateIfHasDefinition = () => definition && setIsPrompt(!isPrompt);
 
   return (
     <div className={cls.join(" ")} tabIndex={0}>
-      <p className="study-card__front"onClick={onClickCard} >
+      <p className="study-card__front" onClick={onClickCard}>
         <BaseButton className="study-card__edit" secondary to={getLocation(ROUTE.addCard)}>
           <EditIcon width={24} height={24} />
         </BaseButton>
-        <em>happineshappineshappineshappines</em>
+        <em>{termUnderStudy}</em>
       </p>
+
       <p className={"study-card__back"} onClick={onClickCard}>
-        <em>the prompt of happines</em>
+        <em>{definition}</em>
       </p>
     </div>
   );

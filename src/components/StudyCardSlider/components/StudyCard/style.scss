@@ -13,10 +13,6 @@
   border-radius: 10px;
   outline: none;
   perspective: 1000px;
-
-  &:focus {
-    box-shadow: 0 0 0 4px var(--palette-bg), 0 0 0 7px var(--palette-gray-lighten-2);
-  }
 }
 
 .study-card__front,
