@@ -52,7 +52,7 @@ export default function BaseButton({
 
   return (
     <button className={cls.join(" ")} type={type} disabled={disabled} onClick={onClickHandler}>
-      {loading && <BasePreloader size="30" />}
+      {loading && <BasePreloader size={24} />}
       {!loading && children}
     </button>
   );

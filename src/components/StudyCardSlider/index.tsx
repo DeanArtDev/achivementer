@@ -1,7 +1,7 @@
 import { ReactComponent as NextIcon } from "../../images/icons/right-arrow.svg";
 import { ReactComponent as PrevIcon } from "../../images/icons/left-arrow.svg";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Card } from "../../providers/api/CardProvider/CardProvider";
 import StudyCard from "./components/StudyCard";
 import BaseButton from "../BaseButton/index";
@@ -10,21 +10,22 @@ import "./style.scss";
 
 interface Props {
   cardList: Card[];
-  onNextSlideClick?: (slideIndex: number) => void;
-  onPrevSlideClick?: (slideIndex: number) => void;
+  onNextSlideClick?: () => void;
+  onPrevSlideClick?: () => void;
+  onCurrentSlideChange?: (slideIndex: number) => void;
 }
 
-export default function StudyCardSlider({ cardList, onNextSlideClick, onPrevSlideClick }: Props) {
-  const { isNearSlide, isEmpty, isPrevDisabled, isNextDisabled, currentSlide, containerStyles, goToNextOrPrevSlide } =
-    useController(cardList);
+export default function StudyCardSlider({ cardList, onCurrentSlideChange, onNextSlideClick, onPrevSlideClick }: Props) {
+  const { isNearSlide, isEmpty, isPrevDisabled, isNextDisabled, containerStyles, goToNextOrPrevSlide } =
+    useController(cardList, onCurrentSlideChange);
 
   const onNextClick = () => {
     goToNextOrPrevSlide(true);
-    onNextSlideClick && onNextSlideClick(currentSlide);
+    onNextSlideClick && onNextSlideClick();
   };
   const onPrevClick = () => {
     goToNextOrPrevSlide(false);
-    onPrevSlideClick && onPrevSlideClick(currentSlide);
+    onPrevSlideClick && onPrevSlideClick();
   };
 
   return (

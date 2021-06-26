@@ -10,6 +10,8 @@
 }
 
 .card-repetition__card-wrapper {
+  position: relative;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,6 +40,12 @@
   color: var(--palette-positive-lighten-1);
 }
 
+.card-repetition__preloader {
+  position: absolute;
+  background-color: var(--palette-bg);
+  z-index: 1;
+}
+
 .card-repetition__btn {
   width: 100%;
 }
@@ -62,5 +70,26 @@
   .card-repetition__reminder {
     grid-column: 2 span;
     grid-row: 2 span;
+  }
+}
+
+.show-control {
+  &-enter {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  &-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 500ms, transform 500ms;
+  }
+
+  &-exit {
+    opacity: 1;
+  }
+  &-exit-active {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 500ms, transform 500ms;
   }
 }
