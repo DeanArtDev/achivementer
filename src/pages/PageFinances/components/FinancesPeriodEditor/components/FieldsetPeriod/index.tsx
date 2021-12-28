@@ -14,11 +14,13 @@ export default function FieldsetPeriod({ className }: Props) {
   return (
     <fieldset className={cls.join(" ")}>
       <legend className={"mb-2"}>Period:</legend>
+
       <div className={"fieldset-period__wrapper"}>
         <label className={"fieldset-period__label"} htmlFor={"period"}>
           <span className={"fieldset-period__text mb-2"}>Month</span>
           <BaseInput className={"fieldset-period__type pa-3"} id={"period"} name={"period"} type={"month"} />
         </label>
+
         <label className={"fieldset-period__label"} htmlFor={"part"}>
           <span className={"fieldset-period__text mb-2"}>Part</span>
           <BaseInput

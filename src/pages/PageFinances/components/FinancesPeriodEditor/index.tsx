@@ -1,35 +1,25 @@
-import React, { PropsWithChildren } from "react";
-import BaseInput from "../../../../components/BaseInput";
+import React from "react";
 import FieldsetPeriod from "./components/FieldsetPeriod";
+import FieldsetIncome from "./components/FieldsetIncome";
+import FieldsetPercent from "./components/FieldsetPercent";
 
-// import "./style.scss";
-// type Props = {};
+import "./style.scss";
 
-export default function FinancesPeriodEditor(props: PropsWithChildren<any>) {
+type Props = {
+  className?: string;
+};
+
+export default function FinancesPeriodEditor({ className }: Props) {
+  const cls = ["finance-period-editor"];
+  if (className) cls.push(className);
+
   return (
-    <form className={"finance-form mb-5"}>
+    <form className={cls.join(" ")}>
       <FieldsetPeriod className={"mb-4"} />
 
-      <fieldset className={"mb-4"}>
-        <legend className={"mb-2"}>Period income:</legend>
-        <div className={"finance-form__income-wrapper"}>
-          <BaseInput className={"finance-form__income pa-3 mb-2"} type="number" name="income" placeholder={"20000"} />
-        </div>
-      </fieldset>
+      <FieldsetIncome className={"mb-4"} />
 
-      <fieldset>
-        <legend className={"mb-2"}>Percents &quot;%&quot;:</legend>
-        <div className={"finance-form__percent-wrapper"}>
-          <BaseInput className={"finance-form__percent pa-3"} type="number" name="common-percent" placeholder={"50"} />
-          <BaseInput
-            className={"finance-form__percent pa-3"}
-            type="number"
-            name="piggy-bank-percent"
-            placeholder={"20"}
-          />
-          <BaseInput className={"finance-form__percent pa-3"} type="number" name="free-percent" placeholder={"30"} />
-        </div>
-      </fieldset>
+      <FieldsetPercent />
     </form>
   );
 }
