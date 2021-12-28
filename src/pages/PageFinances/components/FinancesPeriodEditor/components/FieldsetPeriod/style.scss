@@ -1,0 +1,27 @@
+@import "style/_variables";
+
+.fieldset-period__wrapper {
+  display: grid;
+  justify-content: space-between;
+
+  grid-template-columns: 1fr;
+  @include mobile-up {
+    grid-column-gap: var(--sp-2);
+    grid-template-columns: 3fr 1fr;
+  }
+}
+
+.fieldset-period__type {
+  min-width: 260px;
+  height: 55px;
+}
+
+.fieldset-period__text {
+  display: inline-flex;
+  font-size: 14px;
+  color: var(--palette-gray);
+}
+
+.fieldset-period__part {
+  text-align: center;
+}

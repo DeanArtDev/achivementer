@@ -1,30 +1,31 @@
 import React from "react";
-import { Switch, Route, useLocation, useHistory } from "react-router-dom";
+import { Switch, Route, useLocation } from "react-router-dom";
 import { LocationState } from "../../type";
+import BaseHeader from "../../components/BaseHeader";
+import PageFinances from "../../pages/PageFinances";
 
-import PageCardRepetition from "../../pages/PageCardRepetition";
-import ModalAddCard from "../../modals/ModalAddCard";
-
-export default function MainContentRouterView() {
+export default function FinanceRouter() {
   const location = useLocation<LocationState>();
-  const history = useHistory();
+  // const history = useHistory();
 
   const backgroundLocation = location.state?.location;
-  const onCloseModal = () => history.replace(backgroundLocation);
+  // const handleCloseModal = () => history.replace(backgroundLocation);
 
   const addModalsRoutes = () => {
     return (
       <Route exact path={"/add-card"}>
-        <ModalAddCard onCloseModal={onCloseModal} />
+        <div />
       </Route>
     );
   };
 
   return (
     <React.Fragment>
+      <BaseHeader className={"container-narrow"} />
+
       <Switch location={backgroundLocation || location}>
         <Route exact path={"/"}>
-          <PageCardRepetition />
+          <PageFinances />
         </Route>
       </Switch>
 

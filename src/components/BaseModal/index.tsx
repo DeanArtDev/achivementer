@@ -1,21 +1,21 @@
 import React, { PropsWithChildren, MouseEvent } from "react";
 import "./style.scss";
 
-interface Props {
-  onCloseModal: () => void;
-}
+type Props = {
+  handleCloseModal: () => void;
+};
 
-export default function BaseModal({ children, onCloseModal }: PropsWithChildren<Props>) {
+export default function BaseModal({ children, handleCloseModal }: PropsWithChildren<Props>) {
   const cls = ["base-modal fade-animation"];
 
-  const withHideByOverlayAndButton = (evt: MouseEvent): void => {
+  const handleCurrentTargetCloseModal = (evt: MouseEvent): void => {
     if (evt.target === evt.currentTarget) {
-      onCloseModal();
+      handleCloseModal();
     }
   };
 
   return (
-    <div className={"overlay"} onClickCapture={withHideByOverlayAndButton}>
+    <div className={"overlay"} onClick={handleCurrentTargetCloseModal}>
       <div className={cls.join(" ")}>{children}</div>
     </div>
   );

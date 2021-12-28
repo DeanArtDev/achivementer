@@ -1,20 +1,14 @@
-import React from "react";
-import { ReactComponent as AddIcon } from "../../images/icons/add.svg";
-import { ROUTE } from "../../router/consts";
-import useModalLink from "../../hooks/useModalLocation";
-import BaseButton from "../BaseButton";
+import React, { PropsWithChildren } from "react";
 
 import "./style.scss";
 
-export default function BaseHeader() {
-  const cls = ["base-header"];
-  const { getLocation } = useModalLink();
+type Props = {
+  className?: string;
+};
 
-  return (
-    <header className={cls.join(" ")}>
-      <BaseButton secondary to={getLocation(ROUTE.addCard)}>
-        <AddIcon className="base-header__add-card" width={24} height={24} />
-      </BaseButton>
-    </header>
-  );
+export default function BaseHeader({ children, className }: PropsWithChildren<Props>) {
+  const cls = ["base-header"];
+  if (className) cls.push(className);
+
+  return <header className={cls.join(" ")}>{children}</header>;
 }

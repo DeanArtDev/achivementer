@@ -1,0 +1,25 @@
+@import "../../style/_variables";
+
+.base-input {
+  width: 100%;
+  min-height: 55px;
+  border: 1px solid var(--palette-primary);
+  border-radius: 10px;
+  outline: none;
+}
+
+.base-input--number {
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    margin: 0;
+
+    -webkit-appearance: none;
+  }
+
+  &::placeholder {
+    text-align: center;
+    color: var(--palette-gray-lighten-2);
+  }
+}

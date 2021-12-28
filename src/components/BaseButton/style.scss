@@ -1,35 +1,49 @@
-$button-max-width: 230px;
-$button-min-width: 140px;
+@import "../../style/_variables";
 
 .base-button {
+  position: relative;
+
   display: grid;
+  justify-items: center;
   align-items: center;
-  min-width: $button-min-width;
-  max-width: $button-max-width;
-  padding: var(--sp-2) var(--sp-4);
+  padding: var(--sp-2) var(--sp-6);
+  overflow: hidden;
 
   font-size: 20px;
   line-height: 1.4;
-  color: var(--palette-bg);
+  color: var(--palette-fg);
 
-  background-color: var(--palette-primary);
-  border: none;
-  border-radius: 1000px;
+  background-color: transparent;
+  background-image: none;
+  border: solid 1px var(--palette-fg);
+  border-radius: 25px;
   outline: none;
-  cursor: pointer;
 
-  justify-items: center;
+  @include landscape-up {
+    cursor: pointer;
 
-  &:hover {
-    opacity: 0.7;
-  }
+    &::before {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
 
-  &:active {
-    opacity: 0.9;
-  }
+      width: 100%;
+      height: 0;
 
-  &:focus {
-    box-shadow: 0 0 0 2px var(--palette-bg), 0 0 0 4px var(--palette-primary);
+      background-image: linear-gradient(to top, var(--palette-gray-lighten-5) 0%, transparent 55%, transparent 100%);
+
+      transition: height 0.7s ease;
+    }
+
+    &:hover::before {
+      height: 100%;
+    }
+
+    &:active {
+      opacity: 0.7;
+    }
   }
 }
 
@@ -40,49 +54,45 @@ $button-min-width: 140px;
   &:hover {
     opacity: 1;
   }
-
-  &:focus {
-    box-shadow: 0 0 0 2px var(--palette-bg), 0 0 0 4px var(--palette-gray);
-  }
 }
 
-.base-button__secondary {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: initial;
-  max-width: initial;
-  padding: var(--sp-1);
+.base-button--secondary {
+  color: var(--palette-bg);
 
-  color: var(--palette-fg);
+  background-color: var(--palette-primary);
 
-  background-color: transparent;
+  @include landscape-up {
+    &:hover {
+      opacity: 0.7;
+    }
 
-  &:focus {
-    box-shadow: 0 0 0 2px var(--palette-fg);
+    &:active {
+      opacity: 0.9;
+    }
+  }
+
+  &::before {
+    background-image: none;
   }
 
   &:disabled {
-    background-color: transparent;
     cursor: not-allowed;
     opacity: 0.3;
 
-    &:hover {
-      opacity: 0.3;
-    }
+    @include landscape-up {
+      &:hover {
+        opacity: 0.3;
+      }
 
-    &:focus {
-      box-shadow: 0 0 0 2px var(--palette-bg), 0 0 0 4px var(--palette-gray);
+      &:focus {
+        box-shadow: 0 0 0 2px var(--palette-bg), 0 0 0 4px var(--palette-gray);
+      }
     }
   }
 }
 
 .base-button__negative {
   background-color: var(--palette-negative);
-
-  &:focus {
-    box-shadow: 0 0 0 2px var(--palette-bg), 0 0 0 4px var(--palette-negative);
-  }
 
   &:active {
     opacity: 0.8;
@@ -91,8 +101,8 @@ $button-min-width: 140px;
 
 .base-button__positive {
   background-color: var(--palette-positive);
+}
 
-  &:focus {
-    box-shadow: 0 0 0 2px var(--palette-bg), 0 0 0 4px var(--palette-positive);
-  }
+.base-button--full-width {
+  width: 100%;
 }

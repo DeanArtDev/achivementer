@@ -81,6 +81,7 @@
         "-webkit-align-items",
         "-moz-box-align",
         "-ms-flex-align",
+        "justify-items",
         "align-items",
         "-webkit-box-ordinal-group",
         "-webkit-order",

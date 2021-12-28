@@ -1,12 +1,12 @@
 import React from "react";
-import MainContentRouterView from "./router/MainContentRouterView";
+import FinanceRouter from "./router/FinanceRouter";
 import { BrowserRouter as Router } from "react-router-dom";
 
 export default function App() {
   return (
     <Router>
-        <MainContentRouterView />
-        {/*<PushManager />*/}
+      <FinanceRouter />
+      {/*<PushManager />*/}
     </Router>
   );
 }

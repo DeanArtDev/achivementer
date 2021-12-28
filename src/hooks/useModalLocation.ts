@@ -9,6 +9,7 @@ export type ModalLocationFactory = (
 
 export default function useModalLink() {
   const location = useLocation<LocationState>();
+
   const getLocation: ModalLocationFactory = (pathname, state) => ({
     pathname,
     state: {

@@ -3,6 +3,7 @@
 @import "./style/_spacing";
 @import "./style/_variables";
 @import "./style/_palette";
+@import "./style/_common";
 
 @include add-font-face("Roboto", "/font/Roboto/Roboto-Light", 300, normal, swap);
 @include add-font-face("Roboto", "/font/Roboto/Roboto-Regular", 400, normal, swap);

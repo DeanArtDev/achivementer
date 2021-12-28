@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { LocationDescriptor } from "history";
 import { LocationState } from "../../type";
 import BasePreloader from "../BasePreloader";
+
 import "./style.scss";
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
   positive?: boolean;
   loading?: boolean;
   disabled?: boolean;
+  fullWith?: boolean;
   className?: string;
   type?: "submit" | "button";
   onClick?: (evt: React.MouseEvent) => void;
@@ -28,13 +30,15 @@ export default function BaseButton({
   loading,
   disabled,
   className,
+  fullWith,
   type = "button",
 }: PropsWithChildren<Props>) {
   const cls = ["base-button"];
   if (className) cls.push(className);
-  if (secondary) cls.push("base-button__secondary");
+  if (secondary) cls.push("base-button--secondary");
   if (negative) cls.push("base-button__negative");
   if (positive) cls.push("base-button__positive");
+  if (fullWith) cls.push("base-button--full-width");
 
   if (to) {
     return (
