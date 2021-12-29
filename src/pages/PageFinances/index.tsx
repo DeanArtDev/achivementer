@@ -16,10 +16,6 @@ export default function PageFinances() {
 
       <div className="page-finances__content pa-4">
         <FinancesPeriodEditor className={"mb-5"} />
-
-        <BaseButton className={"mt-auto"} secondary fullWith>
-          Save
-        </BaseButton>
       </div>
     </BasePage>
   );

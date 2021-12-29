@@ -1,4 +1,5 @@
 import React from "react";
+import BaseButton from "components/BaseButton";
 import FieldsetPeriod from "./components/FieldsetPeriod";
 import FieldsetIncome from "./components/FieldsetIncome";
 import FieldsetPercent from "./components/FieldsetPercent";
@@ -15,11 +16,15 @@ export default function FinancesPeriodEditor({ className }: Props) {
 
   return (
     <form className={cls.join(" ")}>
-      <FieldsetPeriod className={"mb-4"} />
+      <FieldsetPeriod />
 
-      <FieldsetIncome className={"mb-4"} />
+      <FieldsetIncome />
 
       <FieldsetPercent />
+
+      <BaseButton className={"mt-auto"} secondary fullWith>
+        Save
+      </BaseButton>
     </form>
   );
 }

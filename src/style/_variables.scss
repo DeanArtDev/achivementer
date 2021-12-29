@@ -2,11 +2,8 @@ $offset: 5;
 $container: 1040px;
 $container-narrow: 600px;
 $min-header-height: 56px;
-
 $retina-dpi: 144dpi;
 $retina-dppx: 1.5dppx;
-
-
 $classList: (
   ma: margin,
   my: margin-top margin-bottom,
@@ -84,11 +81,11 @@ $classListNegative: (
 
 @mixin add-font-face($font-family, $file-path, $weight: normal, $style: normal, $font-display: auto) {
   @font-face {
-    font-family: $font-family;
-    font-weight: $weight;
     font-style: $style;
-    font-display: $font-display;
+    font-weight: $weight;
+    font-family: $font-family;
 
+    font-display: $font-display;
     src: local("Roboto"),
     url("#{$file-path}.woff") format("woff"),
     url("#{$file-path}.woff2") format("woff2");

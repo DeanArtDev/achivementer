@@ -1,3 +1,8 @@
 .finance-period-editor {
+  display: grid;
+
   font-size: 20px;
+
+  grid-row-gap: var(--sp-4);
+  grid-template-rows: repeat(3, min-content) 1fr;
 }
