@@ -29,8 +29,8 @@ export default function PageFinances() {
       <div className={"page-finances__content pa-4"}>
         {isEditMode && <FinancesReportEditor onEditReport={handleReportEdit} />}
 
-        {reports.map((r, index) => (
-          <FinancialReportItem report={r} key={index} />
+        {!isEditMode && reports.map((r, index) => (
+          <FinancialReportItem className={"mb-4"} report={r} key={index} />
         ))}
       </div>
     </BasePage>
