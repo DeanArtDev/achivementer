@@ -22,3 +22,10 @@ export enum Month {
   "November",
   "December",
 }
+
+export enum Period {
+  "First",
+  "Second",
+  "Third",
+  "Fourth",
+}

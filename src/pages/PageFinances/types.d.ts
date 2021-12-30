@@ -1,20 +1,21 @@
 import { ExtractKeysOfValueType } from "type";
 
 export type FinancialPercents = {
-  commonPercent: string;
-  piggyBankPercent: string;
-  freePercent: string;
+  commonPercent: number;
+  piggyBankPercent: number;
+  freePercent: number;
 };
 
 export type FinancialReport = {
   period: FinancialPeriod
-  income: string;
+  income: number;
   percents: FinancialPercents;
 };
 
 export type FinancialPeriod = {
   month: string;
-  part: string;
+  part: number;
 }
 
 export type FinancialPercentsValue = ExtractKeysOfValueType<FinancialPercents>;
+export type FinancialPeriodValue = ExtractKeysOfValueType<FinancialPeriod>

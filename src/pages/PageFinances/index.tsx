@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { FinancialReport } from "./types";
 import BasePage from "components/BasePage";
 import BaseButton from "components/BaseButton";
+import FinancialReportItem from "./components/FinancialReportItem";
+import FinancesReportEditor from "./components/FinancesPeriodEditor";
 
 import "./style.scss";
-import FinancialReportItem from "./components/FinancesPeriodEditor/components/FinancialReportItem";
-import FinancesReportEditor from "./components/FinancesPeriodEditor";
-import { FinancialReport } from "./components/FinancesPeriodEditor/types";
 
 export default function PageFinances() {
   const [reports, setReports] = useState<FinancialReport[]>([]);
@@ -26,11 +26,11 @@ export default function PageFinances() {
         </li>
       </ul>
 
-      <div className="page-finances__content pa-4">
+      <div className={"page-finances__content pa-4"}>
         {isEditMode && <FinancesReportEditor onEditReport={handleReportEdit} />}
 
-        {reports.map((r) => (
-          <FinancialReportItem report={r} key={new Date().toString()} />
+        {reports.map((r, index) => (
+          <FinancialReportItem report={r} key={index} />
         ))}
       </div>
     </BasePage>

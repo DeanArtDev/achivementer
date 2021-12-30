@@ -1,8 +1,11 @@
 import React, { FormEvent, useState } from "react";
-import { ExtractKeysOfValueType } from "type";
-import { FinancialReport, FinancialPercents, FinancialPercentsValue, FinancialPeriod } from "./types";
-import { PARTS_LIMIT } from "./consts";
-import { isNumericStringOrVoid } from "utils/predicats";
+import {
+  FinancialReport,
+  FinancialPercents,
+  FinancialPeriod,
+  FinancialPercentsValue,
+  FinancialPeriodValue,
+} from "../../types";
 import BaseButton from "components/BaseButton";
 import FieldsetPeriod from "./components/FieldsetPeriod";
 import FieldsetIncome from "./components/FieldsetIncome";
@@ -15,47 +18,38 @@ type Props = {
   onEditReport?: (report: FinancialReport) => void;
 };
 
-const PERCENT_LIMIT = 100;
-
 const getInitialPeriodMonthValue = (): string => {
   const data = new Date();
   return `${data.getFullYear()}-${data.getMonth() + 1}`;
 };
 
 export default function FinancesReportEditor({ className, onEditReport }: Props) {
-  const cls = ["finance-period-editor"];
+  const cls = ["finance-report-editor"];
   if (className) cls.push(className);
 
   const [formData, setFormData] = useState<FinancialReport>({
     period: {
       month: getInitialPeriodMonthValue(),
-      part: "",
+      part: 0,
     },
-    income: "",
+    income: 0,
     percents: {
-      commonPercent: "",
-      piggyBankPercent: "",
-      freePercent: "",
+      commonPercent: 0,
+      piggyBankPercent: 0,
+      freePercent: 0,
     },
   });
 
   const handleChangePercents = (name: keyof FinancialPercents, value: FinancialPercentsValue): void => {
-    if (isNumericStringOrVoid(value) && Number(value) <= PERCENT_LIMIT) {
-      setFormData({ ...formData, percents: { ...formData.percents, [name]: value } });
-    }
+    setFormData({ ...formData, percents: { ...formData.percents, [name]: value } });
   };
 
-  const handleChangeIncome = (income: string): void => {
-    if (isNumericStringOrVoid(income)) {
-      setFormData({ ...formData, income });
-    }
+  const handleChangeIncome = (income: number): void => {
+    setFormData({ ...formData, income: Number(income) });
   };
 
-  const handleChangePeriod = (name: keyof FinancialPeriod, value: ExtractKeysOfValueType<FinancialPeriod>) => {
-    //todo: when it is replaced a select tag you should have a look at name === month
-    if ((isNumericStringOrVoid(value) && Number(value) <= PARTS_LIMIT) || name === "month") {
-      setFormData({ ...formData, period: { ...formData.period, [name]: value } });
-    }
+  const handleChangePeriod = (name: keyof FinancialPeriod, value: FinancialPeriodValue) => {
+    setFormData({ ...formData, period: { ...formData.period, [name]: value } });
   };
 
   const handleSubmitForm = (evt: FormEvent<HTMLFormElement>): void => {

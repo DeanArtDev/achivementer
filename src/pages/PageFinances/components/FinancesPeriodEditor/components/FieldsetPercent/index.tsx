@@ -1,5 +1,7 @@
 import React from "react";
-import { FinancialPercents, FinancialPercentsValue } from "../../types";
+import {FinancialPercents, FinancialPercentsValue} from "../../../../types";
+import { isNumericOrVoid } from "utils/predicats";
+import { numericToStringAdapter } from "utils/adapters";
 import BaseInput from "components/BaseInput";
 
 import "./style.scss";
@@ -10,12 +12,16 @@ type Props = {
   onChangePercents?: (name: keyof FinancialPercents, value: FinancialPercentsValue) => void;
 };
 
+const PERCENT_LIMIT = 100;
+
 export default function FieldsetPercent({ percents, className, onChangePercents }: Props) {
   const cls = ["fieldset-percent"];
   if (className) cls.push(className);
 
-  const handleChangeInput = (name: keyof FinancialPercents, value: FinancialPercentsValue): void => {
-    onChangePercents && onChangePercents(name, value);
+  const handleChangeInput = (name: keyof FinancialPercents, value: string): void => {
+    if (isNumericOrVoid(value) && Number(value) <= PERCENT_LIMIT) {
+      onChangePercents && onChangePercents(name, Number(value));
+    }
   };
 
   return (
@@ -27,7 +33,7 @@ export default function FieldsetPercent({ percents, className, onChangePercents 
           className={"fieldset-percent__input pa-3"}
           name="common-percent"
           placeholder={"50"}
-          value={percents.commonPercent}
+          value={numericToStringAdapter(percents.commonPercent)}
           required
           onChange={(v) => handleChangeInput("commonPercent", v)}
         />
@@ -36,7 +42,7 @@ export default function FieldsetPercent({ percents, className, onChangePercents 
           className={"fieldset-percent__input pa-3"}
           name="piggy-bank-percent"
           placeholder={"20"}
-          value={percents.piggyBankPercent}
+          value={numericToStringAdapter(percents.piggyBankPercent)}
           required
           onChange={(v) => handleChangeInput("piggyBankPercent", v)}
         />
@@ -44,7 +50,7 @@ export default function FieldsetPercent({ percents, className, onChangePercents 
           className={"fieldset-percent__input pa-3"}
           name="free-percent"
           placeholder={"30"}
-          value={percents.freePercent}
+          value={numericToStringAdapter(percents.freePercent)}
           required
           onChange={(v) => handleChangeInput("freePercent", v)}
         />

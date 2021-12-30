@@ -1,23 +1,28 @@
 import React from "react";
-import { ExtractKeysOfValueType } from "type";
-import { FinancialPeriod } from "../../types";
+import { FinancialPeriod, FinancialPeriodValue } from "../../../../types";
 import { PARTS_LIMIT } from "../../consts";
+import { numericToStringAdapter } from "utils/adapters";
+import { isNumericOrVoid } from "utils/predicats";
 import BaseInput from "components/BaseInput";
 
 import "./style.scss";
 
 type Props = {
   className?: string;
-  period?: FinancialPeriod;
-  onChangePeriod?: (name: keyof FinancialPeriod, value: ExtractKeysOfValueType<FinancialPeriod>) => void;
+  period: FinancialPeriod;
+  onChangePeriod?: (name: keyof FinancialPeriod, value: FinancialPeriodValue) => void;
 };
 
 export default function FieldsetPeriod({ className, period, onChangePeriod }: Props) {
   const cls = ["fieldset-period"];
   if (className) cls.push(className);
 
-  const handlePeriodChange = (name: keyof FinancialPeriod, value: ExtractKeysOfValueType<FinancialPeriod>): void => {
-    onChangePeriod && onChangePeriod(name, value);
+  const handlePeriodChange = (name: keyof FinancialPeriod, value: string): void => {
+    const typedValue = name === "month" ? value : Number(value);
+    //todo: when it is replaced a select tag you should have a look at name === month
+    if ((isNumericOrVoid(value) && Number(value) <= PARTS_LIMIT) || name === "month") {
+      onChangePeriod && onChangePeriod(name, typedValue);
+    }
   };
 
   return (
@@ -33,7 +38,7 @@ export default function FieldsetPeriod({ className, period, onChangePeriod }: Pr
             id={"period"}
             name={"period"}
             type={"month"}
-            value={period?.month}
+            value={period.month}
             required
             onChange={(v) => handlePeriodChange("month", v)}
           />
@@ -48,7 +53,7 @@ export default function FieldsetPeriod({ className, period, onChangePeriod }: Pr
             name={"part"}
             placeholder={`1 - ${PARTS_LIMIT}`}
             required
-            value={period?.part}
+            value={numericToStringAdapter(period.part)}
             onChange={(v) => handlePeriodChange("part", v)}
           />
         </label>
