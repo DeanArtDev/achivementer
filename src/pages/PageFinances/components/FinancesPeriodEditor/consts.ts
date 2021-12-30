@@ -1,0 +1,1 @@
+export const PARTS_LIMIT = 4;

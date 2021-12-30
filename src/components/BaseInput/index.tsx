@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 
 import "./style.scss";
 
@@ -7,14 +7,21 @@ type Props = {
   id?: string;
   type?: string;
   name?: string;
+  value?: string;
   placeholder?: string;
+  required?: boolean;
+  onChange?: (value: string) => void;
 };
 
-export default function BaseInput({ className, id, type = "text", name, placeholder }: Props) {
+export default function BaseInput({ className, type = "text", onChange, ...props }: Props) {
   const cls = ["base-input"];
   if (className) cls.push(className);
 
   if (type === "number") cls.push("base-input--number");
 
-  return <input className={cls.join(" ")} id={id} type={type} name={name} placeholder={placeholder} />;
+  const handleChangeInput = (evt: ChangeEvent<HTMLInputElement>) => {
+    onChange && onChange(evt.target.value);
+  };
+
+  return <input className={cls.join(" ")} type={type} {...props} onChange={handleChangeInput} />;
 }

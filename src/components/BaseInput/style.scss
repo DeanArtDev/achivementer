@@ -24,3 +24,10 @@
     color: var(--palette-gray-lighten-2);
   }
 }
+
+.base-input:invalid {
+  border: 1px solid var(--palette-negative);
+  &::placeholder {
+    color: var(--palette-negative);
+  }
+}

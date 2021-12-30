@@ -1,4 +1,4 @@
-import { ReactComponent as EditIcon } from "../../../../images/icons/edit.svg";
+import { ReactComponent as EditIcon } from "../../../../assets/images/icons/edit.svg";
 
 import React from "react";
 import { useState } from "react";

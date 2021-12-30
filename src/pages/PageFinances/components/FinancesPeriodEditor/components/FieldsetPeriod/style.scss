@@ -5,6 +5,7 @@
   justify-content: space-between;
 
   grid-template-columns: 1fr;
+  grid-row-gap: var(--sp-1);
   @include mobile-up {
     grid-column-gap: var(--sp-2);
     grid-template-columns: 3fr 1fr;
@@ -23,6 +24,7 @@
   color: var(--palette-gray);
 }
 
-.fieldset-period__part {
+.fieldset-period__wrapper .fieldset-period__part {
   text-align: center;
+  padding: var(--sp-1);
 }
