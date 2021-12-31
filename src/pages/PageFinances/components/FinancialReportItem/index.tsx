@@ -54,7 +54,7 @@ export default function FinancialReportItem({ className, report }: Props) {
     <div className={cls.join(" ")}>
       <h3 className={"finance-report__title py-4"}>{title}</h3>
 
-      <div className={"finance-report__total-income my-2"} >{`The month income: ${report.income}`}</div>
+      <div className={"finance-report__total-income my-2"}>{`The month income: ${report.income}`}</div>
 
       <table className={"finance-report__table"}>
         <tbody className={"finance-report__table-body"}>

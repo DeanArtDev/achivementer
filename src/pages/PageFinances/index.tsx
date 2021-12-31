@@ -20,7 +20,7 @@ export default function PageFinances() {
     <BasePage className={"page-finances container-narrow"}>
       <ul className={"finance-control px-4 py-2 mb-4"}>
         <li className={"finance-control__item"}>
-          <BaseButton className={"fw-light ml-auto"} onClick={() => setIsEditMode(true)}>
+          <BaseButton className={"fw-light ml-auto"} disabled={isEditMode} onClick={() => setIsEditMode(true)}>
             Add month
           </BaseButton>
         </li>
@@ -29,9 +29,7 @@ export default function PageFinances() {
       <div className={"page-finances__content pa-4"}>
         {isEditMode && <FinancesReportEditor onEditReport={handleReportEdit} />}
 
-        {!isEditMode && reports.map((r, index) => (
-          <FinancialReportItem className={"mb-4"} report={r} key={index} />
-        ))}
+        {!isEditMode && reports.map((r, index) => <FinancialReportItem className={"mb-4"} report={r} key={index} />)}
       </div>
     </BasePage>
   );
