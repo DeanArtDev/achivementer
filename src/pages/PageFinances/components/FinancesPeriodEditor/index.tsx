@@ -6,7 +6,7 @@ import {
   FinancialPercentsValue,
   FinancialPeriodValue,
 } from "../../types";
-import BaseButton from "components/BaseButton";
+import BaseButton from "components/UI/BaseButton";
 import FieldsetPeriod from "./components/FieldsetPeriod";
 import FieldsetIncome from "./components/FieldsetIncome";
 import FieldsetPercent from "./components/FieldsetPercent";

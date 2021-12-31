@@ -3,7 +3,7 @@ import { FinancialPeriod, FinancialPeriodValue } from "../../../../types";
 import { PARTS_LIMIT } from "../../consts";
 import { numericToStringAdapter } from "utils/adapters";
 import { isNumericOrVoid } from "utils/predicats";
-import BaseInput from "components/BaseInput";
+import BaseInput from "components/UI/BaseInput";
 
 import "./style.scss";
 

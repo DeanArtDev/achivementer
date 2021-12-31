@@ -2,7 +2,7 @@ import React from "react";
 import {FinancialPercents, FinancialPercentsValue} from "../../../../types";
 import { isNumericOrVoid } from "utils/predicats";
 import { numericToStringAdapter } from "utils/adapters";
-import BaseInput from "components/BaseInput";
+import BaseInput from "components/UI/BaseInput";
 
 import "./style.scss";
 

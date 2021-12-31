@@ -4,7 +4,7 @@ import React from "react";
 import { useState } from "react";
 import { ROUTE } from "../../../../router/consts";
 import useModalLink from "../../../../hooks/useModalLocation";
-import BaseButton from "../../../BaseButton";
+import BaseButton from "../../../UI/BaseButton";
 import "./style.scss";
 
 interface Props {
