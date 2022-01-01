@@ -3,7 +3,7 @@ import { FinancialReport } from "./types";
 import BasePage from "components/UI/BasePage";
 import BaseButton from "components/UI/BaseButton";
 import FinancialReportItem from "./components/FinancialReportItem";
-import FinancesReportEditor from "./components/FinancesPeriodEditor";
+import FinancesReportEditor from "./components/FinancesReportEditor";
 
 import "./style.scss";
 
@@ -29,7 +29,10 @@ export default function PageFinances() {
       <div className={"page-finances__content pa-4"}>
         {isEditMode && <FinancesReportEditor onEditReport={handleReportEdit} />}
 
-        {!isEditMode && reports.map((r, index) => <FinancialReportItem className={"mb-4"} report={r} key={index} />)}
+        {!isEditMode &&
+          reports.map((r, index) => {
+            return <FinancialReportItem className={"mb-4"} report={r} key={index} />;
+          })}
       </div>
     </BasePage>
   );

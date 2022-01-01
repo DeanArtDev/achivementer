@@ -1,25 +1,27 @@
 import React from "react";
+import { ValidatingCallbacks } from "../../types";
 import { numericToStringAdapter } from "utils/adapters";
 import { isNumericOrVoid } from "utils/predicats";
 import BaseInput from "components/UI/BaseInput";
+import useController from "./useController";
 
 import "./style.scss";
 
 type Props = {
   className?: string;
   income: number;
-  required?: boolean;
-  onChangeIncome?: (income: number) => void;
+  onChangeIncome: (income: number) => void;
+  getValidationCallbacks?: ValidatingCallbacks;
 };
 
-export default function FieldsetIncome({ className, income, required, onChangeIncome }: Props) {
+export default function FieldsetIncome({ className, income, getValidationCallbacks, onChangeIncome }: Props) {
   const cls = ["fieldset-income"];
   if (className) cls.push(className);
 
+  const valid = useController(income, getValidationCallbacks);
+
   const handleChangeInput = (income: string): void => {
-    if (isNumericOrVoid(income)) {
-      onChangeIncome && onChangeIncome(Number(income));
-    }
+    if (isNumericOrVoid(income)) onChangeIncome(Number(income));
   };
 
   return (
@@ -32,7 +34,7 @@ export default function FieldsetIncome({ className, income, required, onChangeIn
           value={numericToStringAdapter(income)}
           name={"income"}
           placeholder={"20000"}
-          required={required}
+          valid={valid.income}
           onChange={handleChangeInput}
         />
       </div>

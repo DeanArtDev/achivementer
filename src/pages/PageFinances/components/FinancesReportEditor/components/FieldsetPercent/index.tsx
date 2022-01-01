@@ -1,26 +1,31 @@
 import React from "react";
-import {FinancialPercents, FinancialPercentsValue} from "../../../../types";
+import { FinancialPercents, FinancialPercentsValue } from "../../../../types";
+import { ValidatingCallbacks } from "../../types";
 import { isNumericOrVoid } from "utils/predicats";
 import { numericToStringAdapter } from "utils/adapters";
 import BaseInput from "components/UI/BaseInput";
 
 import "./style.scss";
+import useController from "./useController";
 
 type Props = {
   className?: string;
   percents: FinancialPercents;
-  onChangePercents?: (name: keyof FinancialPercents, value: FinancialPercentsValue) => void;
+  getValidationCallbacks?: ValidatingCallbacks;
+  onChangePercents: (name: keyof FinancialPercents, value: FinancialPercentsValue) => void;
 };
 
 const PERCENT_LIMIT = 100;
 
-export default function FieldsetPercent({ percents, className, onChangePercents }: Props) {
+export default function FieldsetPercent({ percents, className, getValidationCallbacks, onChangePercents }: Props) {
   const cls = ["fieldset-percent"];
   if (className) cls.push(className);
 
+  const valid = useController(percents, getValidationCallbacks);
+
   const handleChangeInput = (name: keyof FinancialPercents, value: string): void => {
     if (isNumericOrVoid(value) && Number(value) <= PERCENT_LIMIT) {
-      onChangePercents && onChangePercents(name, Number(value));
+      onChangePercents(name, Number(value));
     }
   };
 
@@ -34,7 +39,7 @@ export default function FieldsetPercent({ percents, className, onChangePercents 
           name="common-percent"
           placeholder={"50"}
           value={numericToStringAdapter(percents.commonPercent)}
-          required
+          valid={valid.commonPercent}
           onChange={(v) => handleChangeInput("commonPercent", v)}
         />
 
@@ -43,7 +48,7 @@ export default function FieldsetPercent({ percents, className, onChangePercents 
           name="piggy-bank-percent"
           placeholder={"20"}
           value={numericToStringAdapter(percents.piggyBankPercent)}
-          required
+          valid={valid.piggyBankPercent}
           onChange={(v) => handleChangeInput("piggyBankPercent", v)}
         />
         <BaseInput
@@ -51,7 +56,7 @@ export default function FieldsetPercent({ percents, className, onChangePercents 
           name="free-percent"
           placeholder={"30"}
           value={numericToStringAdapter(percents.freePercent)}
-          required
+          valid={valid.freePercent}
           onChange={(v) => handleChangeInput("freePercent", v)}
         />
       </div>

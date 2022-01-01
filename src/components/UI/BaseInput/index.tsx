@@ -9,13 +9,14 @@ type Props = {
   name?: string;
   value?: string;
   placeholder?: string;
-  required?: boolean;
+  valid?: boolean;
   onChange?: (value: string) => void;
 };
 
-export default function BaseInput({ className, type = "text", onChange, ...props }: Props) {
+export default function BaseInput({ className, type = "text", valid = true, onChange, ...props }: Props) {
   const cls = ["base-input"];
   if (className) cls.push(className);
+  if (!valid) cls.push("__invalid");
 
   if (type === "number") cls.push("base-input--number");
 

@@ -7,6 +7,13 @@
   border: 1px solid var(--palette-primary);
   border-radius: 10px;
   outline: none;
+
+  &.__invalid {
+    border: 1px solid var(--palette-negative);
+    &::placeholder {
+      color: var(--palette-negative);
+    }
+  }
 }
 
 .base-input--number {
@@ -22,12 +29,5 @@
   &::placeholder {
     text-align: center;
     color: var(--palette-gray-lighten-2);
-  }
-}
-
-.base-input:invalid {
-  border: 1px solid var(--palette-negative);
-  &::placeholder {
-    color: var(--palette-negative);
   }
 }

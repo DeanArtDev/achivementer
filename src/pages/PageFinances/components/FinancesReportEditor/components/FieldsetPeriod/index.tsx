@@ -1,27 +1,32 @@
 import React from "react";
 import { FinancialPeriod, FinancialPeriodValue } from "../../../../types";
+import { ValidatingCallbacks } from "../../types";
 import { PARTS_LIMIT } from "../../consts";
 import { numericToStringAdapter } from "utils/adapters";
-import { isNumericOrVoid } from "utils/predicats";
 import BaseInput from "components/UI/BaseInput";
+import { isNumericOrVoid } from "utils/predicats";
+import useController from "./useController";
 
 import "./style.scss";
 
 type Props = {
   className?: string;
   period: FinancialPeriod;
-  onChangePeriod?: (name: keyof FinancialPeriod, value: FinancialPeriodValue) => void;
+  onChangePeriod: (name: keyof FinancialPeriod, value: FinancialPeriodValue) => void;
+  getValidationCallbacks?: ValidatingCallbacks;
 };
 
-export default function FieldsetPeriod({ className, period, onChangePeriod }: Props) {
+export default function FieldsetPeriod({ className, period, getValidationCallbacks, onChangePeriod }: Props) {
   const cls = ["fieldset-period"];
   if (className) cls.push(className);
+
+  const valid = useController(period, getValidationCallbacks);
 
   const handlePeriodChange = (name: keyof FinancialPeriod, value: string): void => {
     const typedValue = name === "month" ? value : Number(value);
     //todo: when it is replaced a select tag you should have a look at name === month
     if ((isNumericOrVoid(value) && Number(value) <= PARTS_LIMIT) || name === "month") {
-      onChangePeriod && onChangePeriod(name, typedValue);
+      onChangePeriod(name, typedValue);
     }
   };
 
@@ -39,7 +44,7 @@ export default function FieldsetPeriod({ className, period, onChangePeriod }: Pr
             name={"period"}
             type={"month"}
             value={period.month}
-            required
+            valid={valid.month}
             onChange={(v) => handlePeriodChange("month", v)}
           />
         </label>
@@ -52,8 +57,8 @@ export default function FieldsetPeriod({ className, period, onChangePeriod }: Pr
             id={"part"}
             name={"part"}
             placeholder={`1 - ${PARTS_LIMIT}`}
-            required
             value={numericToStringAdapter(period.part)}
+            valid={valid.part}
             onChange={(v) => handlePeriodChange("part", v)}
           />
         </label>

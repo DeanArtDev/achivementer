@@ -1,3 +1,7 @@
-export const numericToStringAdapter = (value: number): string => {
-  return value === 0 ? "" : String(value);
-}
+export const numericToStringAdapter = (num: number): string => {
+  return num === 0 ? "" : String(num);
+};
+
+export const numericToZeroStringAdapter = (num: number): string => {
+  return num < 10 ? `0${num}` : String(num);
+};

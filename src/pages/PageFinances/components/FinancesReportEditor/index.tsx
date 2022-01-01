@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent } from "react";
 import {
   FinancialReport,
   FinancialPercents,
@@ -6,6 +6,7 @@ import {
   FinancialPercentsValue,
   FinancialPeriodValue,
 } from "../../types";
+import useController from "./useController";
 import BaseButton from "components/UI/BaseButton";
 import FieldsetPeriod from "./components/FieldsetPeriod";
 import FieldsetIncome from "./components/FieldsetIncome";
@@ -15,30 +16,14 @@ import "./style.scss";
 
 type Props = {
   className?: string;
-  onEditReport?: (report: FinancialReport) => void;
-};
-
-const getInitialPeriodMonthValue = (): string => {
-  const data = new Date();
-  return `${data.getFullYear()}-${data.getMonth() + 1}`;
+  onEditReport: (report: FinancialReport) => void;
 };
 
 export default function FinancesReportEditor({ className, onEditReport }: Props) {
   const cls = ["finance-report-editor"];
   if (className) cls.push(className);
 
-  const [formData, setFormData] = useState<FinancialReport>({
-    period: {
-      month: getInitialPeriodMonthValue(),
-      part: 0,
-    },
-    income: 0,
-    percents: {
-      commonPercent: 0,
-      piggyBankPercent: 0,
-      freePercent: 0,
-    },
-  });
+  const [formData, setFormData, isFieldsValid, callbacksArrayToMap, setValidationCallbacksBuffer] = useController();
 
   const handleChangePercents = (name: keyof FinancialPercents, value: FinancialPercentsValue): void => {
     setFormData({ ...formData, percents: { ...formData.percents, [name]: value } });
@@ -54,17 +39,36 @@ export default function FinancesReportEditor({ className, onEditReport }: Props)
 
   const handleSubmitForm = (evt: FormEvent<HTMLFormElement>): void => {
     evt.preventDefault();
-    onEditReport && onEditReport(formData);
+    //todo: доработать через Context что бы не было постоянных пересобираний callbacks а делалось это дин раз в момент нажатия submit
+    if (isFieldsValid()) onEditReport(formData);
+  };
+
+  const handleValidateFieldset = (callbackList: (() => boolean)[]): void => {
+    const adaptedCallbacks = callbacksArrayToMap(callbackList);
+    setValidationCallbacksBuffer((state) => ({ ...state, ...adaptedCallbacks }));
   };
 
   return (
     <form className={cls.join(" ")} onSubmit={handleSubmitForm}>
-      <FieldsetPeriod period={formData.period} onChangePeriod={handleChangePeriod} />
+      <FieldsetPeriod
+        period={formData.period}
+        getValidationCallbacks={handleValidateFieldset}
+        onChangePeriod={handleChangePeriod}
+      />
 
-      <FieldsetIncome income={formData.income} onChangeIncome={handleChangeIncome} />
+      <FieldsetIncome
+        income={formData.income}
+        getValidationCallbacks={handleValidateFieldset}
+        onChangeIncome={handleChangeIncome}
+      />
 
-      <FieldsetPercent percents={formData.percents} onChangePercents={handleChangePercents} />
+      <FieldsetPercent
+        percents={formData.percents}
+        getValidationCallbacks={handleValidateFieldset}
+        onChangePercents={handleChangePercents}
+      />
 
+      {/*todo: fix disabled styles for second button*/}
       <BaseButton className={"mt-auto"} type={"submit"} secondary fullWith>
         Save
       </BaseButton>

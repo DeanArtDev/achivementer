@@ -3,4 +3,6 @@ export type LocationState = {
   location?: Location<LocationState>;
 };
 
-export type ExtractKeysOfValueType<T> = { [I in keyof T]: T[I] }[keyof T]
+export type ExtractKeysOfValueType<T> = T[keyof T];
+
+export type Predicate = () => boolean;
