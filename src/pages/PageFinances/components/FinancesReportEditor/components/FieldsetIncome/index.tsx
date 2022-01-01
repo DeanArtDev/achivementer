@@ -2,7 +2,7 @@ import React from "react";
 import { ValidatingCallbacks } from "../../types";
 import { numericToStringAdapter } from "utils/adapters";
 import { isNumericOrVoid } from "utils/predicats";
-import BaseInput from "components/UI/BaseInput";
+import BaseInput from "UI/BaseInput";
 import useController from "./useController";
 
 import "./style.scss";

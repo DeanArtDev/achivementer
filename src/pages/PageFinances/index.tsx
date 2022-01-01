@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FinancialReport } from "./types";
-import BasePage from "components/UI/BasePage";
-import BaseButton from "components/UI/BaseButton";
+import BasePage from "UI/BasePage";
+import BaseButton from "UI/BaseButton";
 import FinancialReportItem from "./components/FinancialReportItem";
 import FinancesReportEditor from "./components/FinancesReportEditor";
 

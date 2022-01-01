@@ -4,7 +4,7 @@ import { ReactComponent as PrevIcon } from "../../assets/images/icons/left-arrow
 import React from "react";
 import { Card } from "../../providers/api/CardProvider/CardProvider";
 import StudyCard from "./components/StudyCard";
-import BaseButton from "../UI/BaseButton/index";
+import BaseButton from "UI/BaseButton/index";
 import useController from "./controller";
 import "./style.scss";
 

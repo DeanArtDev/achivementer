@@ -3,7 +3,7 @@ import { FinancialPercents, FinancialPercentsValue } from "../../../../types";
 import { ValidatingCallbacks } from "../../types";
 import { isNumericOrVoid } from "utils/predicats";
 import { numericToStringAdapter } from "utils/adapters";
-import BaseInput from "components/UI/BaseInput";
+import BaseInput from "UI/BaseInput";
 
 import "./style.scss";
 import useController from "./useController";
