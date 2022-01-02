@@ -1,12 +1,12 @@
-@import "../../style/variables";
+@import "style/variables";
 
 .base-button {
   position: relative;
-  width: 240px;
 
   display: grid;
   justify-items: center;
   align-items: center;
+  width: 240px;
   padding: var(--sp-2) var(--sp-6);
   overflow: hidden;
 
@@ -46,14 +46,19 @@
       opacity: 0.7;
     }
   }
-}
 
-.base-button:disabled {
-  background-color: var(--palette-gray);
-  cursor: not-allowed;
+  &:disabled {
+    color: var(--palette-bg);
 
-  &:hover {
-    opacity: 1;
+    background-color: var(--palette-gray-lighten-5);
+    border-color: transparent;
+    cursor: not-allowed;
+
+    @include landscape-up {
+      &:hover::before {
+        height: 0;
+      }
+    }
   }
 }
 
