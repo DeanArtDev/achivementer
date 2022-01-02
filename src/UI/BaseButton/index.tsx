@@ -15,6 +15,7 @@ interface Props {
   loading?: boolean;
   disabled?: boolean;
   fullWith?: boolean;
+  icon?: boolean;
   className?: string;
   type?: "submit" | "button";
   onClick?: (evt: React.MouseEvent) => void;
@@ -31,14 +32,16 @@ export default function BaseButton({
   disabled,
   className,
   fullWith,
+  icon,
   type = "button",
 }: PropsWithChildren<Props>) {
   const cls = ["base-button"];
   if (className) cls.push(className);
-  if (secondary) cls.push("base-button--secondary");
+  if (secondary) cls.push("__secondary");
+  if (icon) cls.push("__icon");
   if (negative) cls.push("base-button__negative");
   if (positive) cls.push("base-button__positive");
-  if (fullWith) cls.push("base-button--full-width");
+  if (fullWith) cls.push("__full-width");
 
   if (to) {
     return (

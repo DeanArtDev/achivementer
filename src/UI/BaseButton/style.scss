@@ -62,20 +62,12 @@
   }
 }
 
-.base-button--secondary {
+.base-button.__secondary {
   color: var(--palette-bg);
 
   background-color: var(--palette-primary);
 
-  @include landscape-up {
-    &:hover {
-      opacity: 0.7;
-    }
-
-    &:active {
-      opacity: 0.9;
-    }
-  }
+  @include button-hover-desktop-up;
 
   &::before {
     background-image: none;
@@ -97,6 +89,20 @@
   }
 }
 
+.base-button.__icon {
+  width: auto;
+  padding: var(--sp-1);
+
+  background-color: transparent;
+  border: none;
+
+  @include button-hover-desktop-up;
+
+  &::before {
+    background-image: none;
+  }
+}
+
 .base-button__negative {
   background-color: var(--palette-negative);
 
@@ -109,6 +115,6 @@
   background-color: var(--palette-positive);
 }
 
-.base-button--full-width {
+.base-button.__full-width {
   width: 100%;
 }
