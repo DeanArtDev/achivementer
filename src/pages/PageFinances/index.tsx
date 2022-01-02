@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { FinancialReport } from "./types";
 import BasePage from "UI/BasePage";
-import BaseButton from "UI/BaseButton";
-import FinancialReportItem from "./components/FinancialReportItem";
+import FinancialControl from "./components/FinancialControl";
 import FinancesReportEditor from "./components/FinancesReportEditor";
+import FinancialReportItem from "./components/FinancialReportItem";
 
 import "./style.scss";
 
@@ -18,13 +18,11 @@ export default function PageFinances() {
 
   return (
     <BasePage className={"page-finances container-narrow"}>
-      <ul className={"finance-control px-4 py-2 mb-4"}>
-        <li className={"finance-control__item"}>
-          <BaseButton className={"fw-light ml-auto"} disabled={isEditMode} onClick={() => setIsEditMode(true)}>
-            Add month
-          </BaseButton>
-        </li>
-      </ul>
+      <FinancialControl
+        isEditMode={isEditMode}
+        onAddClick={() => setIsEditMode(true)}
+        onBackClick={() => setIsEditMode(false)}
+      />
 
       <div className={"page-finances__content pa-4"}>
         {isEditMode && <FinancesReportEditor onEditReport={handleReportEdit} />}
