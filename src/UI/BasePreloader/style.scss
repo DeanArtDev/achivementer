@@ -1,0 +1,12 @@
+$baseColor: #e74c3c;
+$fontColor: #ffffff;
+
+.preloader {
+  position: relative;
+
+  display: grid;
+  width: 100%;
+  height: 100%;
+
+  place-items: center;
+}

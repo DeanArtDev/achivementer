@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route, useLocation } from "react-router-dom";
 import { LocationState } from "../../type";
-import BaseHeader from "../../components/BaseHeader";
+import BaseHeader from "../../UI/BaseHeader";
 import PageFinances from "../../pages/PageFinances";
 
 export default function FinanceRouter() {

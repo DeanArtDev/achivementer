@@ -1,10 +1,10 @@
-import { ReactComponent as EditIcon } from "../../../../images/icons/edit.svg";
+import { ReactComponent as EditIcon } from "../../../../assets/images/icons/edit.svg";
 
 import React from "react";
 import { useState } from "react";
 import { ROUTE } from "../../../../router/consts";
 import useModalLink from "../../../../hooks/useModalLocation";
-import BaseButton from "../../../BaseButton";
+import BaseButton from "UI/BaseButton";
 import "./style.scss";
 
 interface Props {
