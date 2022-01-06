@@ -1,11 +1,12 @@
 import React, { FormEvent } from "react";
 import {
-  FinancialReport,
   FinancialPercents,
   FinancialPeriod,
   FinancialPercentsValue,
   FinancialPeriodValue,
-} from "../../types";
+  InputFinancialReport,
+  FinancialReport,
+} from "providers/api/FinancialRequestProvider/types";
 import useController from "./useController";
 import BaseButton from "UI/BaseButton";
 import FieldsetPeriod from "./components/FieldsetPeriod";
@@ -16,25 +17,27 @@ import "./style.scss";
 
 type Props = {
   className?: string;
-  onEditReport: (report: FinancialReport) => void;
+  editedReport?: FinancialReport;
+  onEditReport: (reportFormData: InputFinancialReport) => void;
 };
 
-export default function FinancesReportEditor({ className, onEditReport }: Props) {
+export default function FinancesReportEditor({ className, editedReport, onEditReport }: Props) {
   const cls = ["finance-report-editor"];
   if (className) cls.push(className);
 
-  const [formData, setFormData, isFieldsValid, callbacksArrayToMap, setValidationCallbacksBuffer] = useController();
+  const [formData, setFormData, isFieldsValid, callbacksArrayToMap, setValidationCallbacksBuffer] =
+    useController(editedReport);
 
   const handleChangePercents = (name: keyof FinancialPercents, value: FinancialPercentsValue): void => {
-    setFormData({ ...formData, percents: { ...formData.percents, [name]: value } });
+    setFormData((state) => ({ ...state, percents: { ...state.percents, [name]: value } }));
   };
 
   const handleChangeIncome = (income: number): void => {
-    setFormData({ ...formData, income: Number(income) });
+    setFormData((state) => ({ ...state, income: Number(income) }));
   };
 
   const handleChangePeriod = (name: keyof FinancialPeriod, value: FinancialPeriodValue) => {
-    setFormData({ ...formData, period: { ...formData.period, [name]: value } });
+    setFormData((state) => ({ ...state, period: { ...state.period, [name]: value } }));
   };
 
   const handleSubmitForm = (evt: FormEvent<HTMLFormElement>): void => {
@@ -68,7 +71,6 @@ export default function FinancesReportEditor({ className, onEditReport }: Props)
         onChangePercents={handleChangePercents}
       />
 
-      {/*todo: fix disabled styles for second button*/}
       <BaseButton className={"mt-auto"} type={"submit"} secondary fullWith>
         Save
       </BaseButton>

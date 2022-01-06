@@ -1,4 +1,4 @@
-import { FinancialPeriod } from "../../../../types";
+import { FinancialPeriod } from "../../../../../../providers/api/FinancialRequestProvider/types";
 import { ValidatingCallbacks } from "../../types";
 import useFieldValidation from "hooks/useFieldValidation";
 import { useEffect } from "react";

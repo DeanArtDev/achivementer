@@ -1,5 +1,5 @@
 import React from "react";
-import { FinancialReport } from "../../types";
+import { FinancialReport } from "providers/api/FinancialRequestProvider/types";
 import useViewController from "./useViewController";
 
 import "./style.scss";
@@ -25,11 +25,9 @@ export default function FinancialReportItem({ className, report }: Props) {
       <table className={"finance-report__table"}>
         <tbody className={"finance-report__table-body"}>
           <tr className={"finance-report__table-row __columned"}>
-            <th className={"finance-report__table-head fw-bold"}>{`${report.percents.commonPercent}%`}</th>
-            <th
-              className={"finance-report__table-head __separator fw-bold"}
-            >{`${report.percents.piggyBankPercent}%`}</th>
-            <th className={"finance-report__table-head fw-bold"}>{`${report.percents.freePercent}%`}</th>
+            <th className={"finance-report__table-head fw-bold"}>{`${report.percents.common}%`}</th>
+            <th className={"finance-report__table-head __separator fw-bold"}>{`${report.percents.piggyBank}%`}</th>
+            <th className={"finance-report__table-head fw-bold"}>{`${report.percents.free}%`}</th>
           </tr>
 
           {periods.map((period, index) => (

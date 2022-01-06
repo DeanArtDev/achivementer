@@ -1,7 +1,7 @@
-import CardProvider from "./api/CardProvider";
+import FinancialRequestProvider from "./api/FinancialRequestProvider";
 
 const providers = {
-  CardProvider,
+  FinancialRequestProvider,
 };
 
 export default providers;

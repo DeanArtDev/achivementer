@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { FinancialPercents } from "../../../../types";
+import { FinancialPercents } from "../../../../../../providers/api/FinancialRequestProvider/types";
 import { ValidatingCallbacks } from "../../types";
 import useFieldValidation from "hooks/useFieldValidation";
 
 type ValidatedFieldset = {
-  commonPercent: boolean;
-  piggyBankPercent: boolean;
-  freePercent: boolean;
+  common: boolean;
+  piggyBank: boolean;
+  free: boolean;
 };
 
 export default function useController(
@@ -14,11 +14,11 @@ export default function useController(
   getCallbacks?: ValidatingCallbacks
 ): ValidatedFieldset {
   const [isFieldValid, getValidatingCallbacks] = useFieldValidation<ValidatedFieldset>(
-    { commonPercent: true, piggyBankPercent: true, freePercent: true },
+    { common: true, piggyBank: true, free: true },
     {
-      commonPercent: () => !!percents.commonPercent,
-      piggyBankPercent: () => !!percents.piggyBankPercent,
-      freePercent: () => !!percents.freePercent,
+      common: () => !!percents.common,
+      piggyBank: () => !!percents.piggyBank,
+      free: () => !!percents.free,
     },
     "percent"
   );
