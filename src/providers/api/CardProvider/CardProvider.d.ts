@@ -21,7 +21,7 @@ export type CreateCardDataInput = {
   prompt?: string;
 };
 
-export interface CardProviderInterface {
+export type CardProviderInterface = {
   getAll: () => Promise<Card[]>;
   create: (data: CreateCardDataInput) => Promise<Card>;
   update: (urlId: string, data: UpdateCardDataInput) => Promise<Card>;
