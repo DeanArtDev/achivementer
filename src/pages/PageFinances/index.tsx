@@ -15,15 +15,22 @@ export default function PageFinances() {
 
   const handleReportEdit = async (reportFormData: InputFinancialReport): Promise<void> => {
     try {
-      const newReport = await providers.FinancialRequestProvider.createReport(reportFormData);
+      const newReport = await providers.FinancialRequestProvider.create(reportFormData);
       setReports([...reports, newReport]);
     } finally {
       setIsEditMode(false);
     }
   };
 
+  const handleDeleteReport = async (id: string) => {
+    const isDelete = await providers.FinancialRequestProvider.delete(id);
+    if (isDelete) {
+      setReports(reports.filter((i) => i.id !== id));
+    }
+  };
+
   useEffectOnce(() => {
-    providers.FinancialRequestProvider.getAllReports().then((res) => setReports(res));
+    providers.FinancialRequestProvider.getAll().then((res) => setReports(res));
   });
 
   return (
@@ -38,9 +45,9 @@ export default function PageFinances() {
         {isEditMode && <FinancesReportEditor onEditReport={handleReportEdit} />}
 
         {!isEditMode &&
-          reports.map((r) => {
-            return <FinancialReportItem className={"mb-4"} report={r} key={r.id} />;
-          })}
+          reports.map((r) => (
+            <FinancialReportItem className={"mb-4"} report={r} key={r.id} onDelete={handleDeleteReport} />
+          ))}
       </div>
     </BasePage>
   );

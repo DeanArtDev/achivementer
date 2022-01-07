@@ -82,7 +82,7 @@ $classListNegative: (
 @mixin button-hover-desktop-up {
   @include landscape-up {
     &:hover {
-      opacity: 0.7;
+      opacity: 0.6;
     }
 
     &:active {
