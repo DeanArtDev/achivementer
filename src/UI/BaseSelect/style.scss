@@ -17,6 +17,7 @@
   border: 1px solid var(--palette-primary);
   border-radius: 10px;
 
+  color: var(--palette-primary);
   appearance: none;
   @include cursor-pointer-desktop-up;
 
@@ -40,9 +41,9 @@
 
 .base-select.__placeholder select {
   color: var(--palette-gray-lighten-3);
-
 }
-.base-select__option[value=""][disabled] {
+.base-select__option[value="-1"][disabled],
+.base-select__option[value="-1"][hidden] {
   display: none;
 }
 
@@ -55,5 +56,13 @@
 
   .base-select__icon {
     fill: var(--palette-negative);
+  }
+}
+
+.base-select.__empty {
+  select {
+    @include landscape-up {
+      cursor: not-allowed;
+    }
   }
 }
