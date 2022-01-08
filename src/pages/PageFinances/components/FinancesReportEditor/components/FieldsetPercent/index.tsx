@@ -1,12 +1,12 @@
 import React from "react";
-import { FinancialPercents, FinancialPercentsValue } from "../../../../types";
+import { FinancialPercents, FinancialPercentsValue } from "providers/api/FinancialRequestProvider/types";
 import { ValidatingCallbacks } from "../../types";
 import { isNumericOrVoid } from "utils/predicats";
 import { numericToStringAdapter } from "utils/adapters";
+import useController from "./useController";
 import BaseInput from "UI/BaseInput";
 
 import "./style.scss";
-import useController from "./useController";
 
 type Props = {
   className?: string;
@@ -38,26 +38,26 @@ export default function FieldsetPercent({ percents, className, getValidationCall
           className={"fieldset-percent__input pa-3"}
           name="common-percent"
           placeholder={"50"}
-          value={numericToStringAdapter(percents.commonPercent)}
-          valid={valid.commonPercent}
-          onChange={(v) => handleChangeInput("commonPercent", v)}
+          value={numericToStringAdapter(percents.common)}
+          valid={valid.common}
+          onChange={(v) => handleChangeInput("common", v)}
         />
 
         <BaseInput
           className={"fieldset-percent__input pa-3"}
           name="piggy-bank-percent"
           placeholder={"20"}
-          value={numericToStringAdapter(percents.piggyBankPercent)}
-          valid={valid.piggyBankPercent}
-          onChange={(v) => handleChangeInput("piggyBankPercent", v)}
+          value={numericToStringAdapter(percents.piggyBank)}
+          valid={valid.piggyBank}
+          onChange={(v) => handleChangeInput("piggyBank", v)}
         />
         <BaseInput
           className={"fieldset-percent__input pa-3"}
           name="free-percent"
           placeholder={"30"}
-          value={numericToStringAdapter(percents.freePercent)}
-          valid={valid.freePercent}
-          onChange={(v) => handleChangeInput("freePercent", v)}
+          value={numericToStringAdapter(percents.free)}
+          valid={valid.free}
+          onChange={(v) => handleChangeInput("free", v)}
         />
       </div>
     </fieldset>

@@ -1,13 +1,14 @@
 import { ExtractKeysOfValueType } from "type";
 
 export type FinancialPercents = {
-  commonPercent: number;
-  piggyBankPercent: number;
-  freePercent: number;
+  common: number;
+  piggyBank: number;
+  free: number;
 };
 
 export type FinancialReport = {
-  period: FinancialPeriod
+  id: string;
+  period: FinancialPeriod;
   income: number;
   percents: FinancialPercents;
 };
@@ -15,7 +16,10 @@ export type FinancialReport = {
 export type FinancialPeriod = {
   month: string;
   part: number;
-}
+};
 
 export type FinancialPercentsValue = ExtractKeysOfValueType<FinancialPercents>;
-export type FinancialPeriodValue = ExtractKeysOfValueType<FinancialPeriod>
+
+export type FinancialPeriodValue = ExtractKeysOfValueType<FinancialPeriod>;
+
+export type InputFinancialReport = Omit<FinancialReport, "id">;

@@ -1,5 +1,5 @@
 import React from "react";
-import { FinancialPeriod, FinancialPeriodValue } from "../../../../types";
+import { FinancialPeriod, FinancialPeriodValue } from "providers/api/FinancialRequestProvider/types";
 import { ValidatingCallbacks } from "../../types";
 import { PARTS_LIMIT } from "../../consts";
 import { numericToStringAdapter } from "utils/adapters";

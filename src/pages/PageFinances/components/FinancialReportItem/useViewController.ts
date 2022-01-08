@@ -1,4 +1,4 @@
-import { FinancialPercents, FinancialReport } from "../../types";
+import { FinancialPercents, FinancialReport } from "providers/api/FinancialRequestProvider/types";
 import { ReportPart } from "./types";
 import { useState } from "react";
 import { Month, Period } from "consts";
@@ -15,9 +15,9 @@ const getReportPartAmounts = (percentageOfIncome: Percentage, parts: FinancialRe
 
 const getPercentageOfIncome = (income: number, percents: FinancialPercents): Percentage => {
   return {
-    commonAmount: Number(((income / 10) * (percents.commonPercent / 10)).toFixed(3)),
-    piggyBakAmount: Number(((income / 10) * (percents.piggyBankPercent / 10)).toFixed(3)),
-    freeAmount: Number(((income / 10) * (percents.freePercent / 10)).toFixed(3)),
+    commonAmount: Number(((income / 10) * (percents.common / 10)).toFixed(3)),
+    piggyBakAmount: Number(((income / 10) * (percents.piggyBank / 10)).toFixed(3)),
+    freeAmount: Number(((income / 10) * (percents.free / 10)).toFixed(3)),
   };
 };
 

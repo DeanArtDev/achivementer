@@ -1,6 +1,5 @@
 const config = {
-  appBackendUrl: process.env.REACT_APP_BACKEND_URL || "/api",
-  maxRequestTimeout: 10000,
+  appBackendUrl: `${process.env.REACT_APP_BACKEND_URL}:${process.env.REACT_APP_BACKEND_PORT}` || "/api",
 };
 
 export default config;

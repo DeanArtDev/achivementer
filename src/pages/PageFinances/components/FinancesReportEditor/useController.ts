@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import { Predicate } from "type";
-import { FinancialReport } from "../../types";
+import { FinancialReport, InputFinancialReport } from "providers/api/FinancialRequestProvider/types";
 import { numericToZeroStringAdapter } from "utils/adapters";
 import { values } from "lodash-es";
 
 type PredicateCallbackMap = Record<Predicate["name"], Predicate>;
 
 type FinancesPeriodEditorController = [
-  FinancialReport,
-  React.Dispatch<React.SetStateAction<FinancialReport>>,
+  InputFinancialReport,
+  Dispatch<SetStateAction<InputFinancialReport>>,
   Predicate,
   (arr: Predicate[]) => PredicateCallbackMap,
-  React.Dispatch<React.SetStateAction<PredicateCallbackMap>>
+  Dispatch<SetStateAction<PredicateCallbackMap>>
 ];
 
 export function callbacksArrayToMap(arr: Predicate[]): PredicateCallbackMap {
@@ -27,19 +27,21 @@ const getInitialPeriodMonthValue = (): string => {
   return `${data.getFullYear()}-${month}`;
 };
 
-export default function useController(): FinancesPeriodEditorController {
-  const [formData, setFormData] = useState<FinancialReport>({
-    period: {
-      month: getInitialPeriodMonthValue(),
-      part: 0,
-    },
-    income: 0,
-    percents: {
-      commonPercent: 0,
-      piggyBankPercent: 0,
-      freePercent: 0,
-    },
-  });
+export default function useController(initialFormData?: FinancialReport): FinancesPeriodEditorController {
+  const [formData, setFormData] = useState<InputFinancialReport | FinancialReport>(
+    initialFormData || {
+      period: {
+        month: getInitialPeriodMonthValue(),
+        part: 0,
+      },
+      income: 0,
+      percents: {
+        common: 0,
+        piggyBank: 0,
+        free: 0,
+      },
+    }
+  );
 
   const [validationCallbacksBuffer, setValidationCallbacksBuffer] = useState<PredicateCallbackMap>({});
 
