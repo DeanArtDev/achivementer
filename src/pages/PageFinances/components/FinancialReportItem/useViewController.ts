@@ -26,7 +26,7 @@ export default function useViewController(report: FinancialReport): [string, Rep
     ...getPercentageOfIncome(report.income, report.percents),
   });
 
-  const title = `The ${Month[Number(report.period.month.slice(report.period.month.length - 2))]} report`;
+  const title = `The ${Month[report.period.month]} report`;
 
   const periods: ReportPart[] = new Array(report.period.part).fill("").map((_, index) => {
     return {

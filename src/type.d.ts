@@ -6,3 +6,8 @@ export type LocationState = {
 export type ExtractKeysOfValueType<T> = T[keyof T];
 
 export type Predicate = () => boolean;
+
+export type BaseOption<T = string> = {
+  value: T;
+  text: string;
+};

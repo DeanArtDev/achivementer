@@ -14,7 +14,7 @@ export type FinancialReport = {
 };
 
 export type FinancialPeriod = {
-  month: string;
+  month: number;
   part: number;
 };
 

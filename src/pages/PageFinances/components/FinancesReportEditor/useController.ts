@@ -1,7 +1,6 @@
 import { useState, Dispatch, SetStateAction } from "react";
 import { Predicate } from "type";
 import { FinancialReport, InputFinancialReport } from "providers/api/FinancialRequestProvider/types";
-import { numericToZeroStringAdapter } from "utils/adapters";
 import { values } from "lodash-es";
 
 type PredicateCallbackMap = Record<Predicate["name"], Predicate>;
@@ -21,17 +20,11 @@ export function callbacksArrayToMap(arr: Predicate[]): PredicateCallbackMap {
   }, {});
 }
 
-const getInitialPeriodMonthValue = (): string => {
-  const data = new Date();
-  const month = numericToZeroStringAdapter(data.getMonth() + 1);
-  return `${data.getFullYear()}-${month}`;
-};
-
 export default function useController(initialFormData?: FinancialReport): FinancesPeriodEditorController {
   const [formData, setFormData] = useState<InputFinancialReport | FinancialReport>(
     initialFormData || {
       period: {
-        month: getInitialPeriodMonthValue(),
+        month: new Date().getMonth(),
         part: 0,
       },
       income: 0,
