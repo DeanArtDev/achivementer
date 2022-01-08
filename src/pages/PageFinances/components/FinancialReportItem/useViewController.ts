@@ -1,4 +1,4 @@
-import { FinancialPercents, FinancialReport } from "../../../../providers/api/FinancialRequestProvider/types";
+import { FinancialPercents, FinancialReport } from "providers/api/FinancialRequestProvider/types";
 import { ReportPart } from "./types";
 import { useState } from "react";
 import { Month, Period } from "consts";
