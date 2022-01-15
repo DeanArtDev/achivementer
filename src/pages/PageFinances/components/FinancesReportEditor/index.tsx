@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React, { MouseEvent, useState } from "react";
 import {
   FinancialPercents,
   FinancialPeriod,
@@ -7,11 +7,11 @@ import {
   InputFinancialReport,
   FinancialReport,
 } from "providers/api/FinancialRequestProvider/types";
+import { Predicate } from "type";
 import useController from "./useController";
 import BaseButton from "UI/BaseButton";
 import FieldsetPeriod from "./components/FieldsetPeriod";
-import FieldsetIncome from "./components/FieldsetIncome";
-import FieldsetPercent from "./components/FieldsetPercent";
+import FinancePartFieldset from "./components/FinancePartFieldset";
 
 import "./style.scss";
 
@@ -25,10 +25,9 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
   const cls = ["finance-report-editor"];
   if (className) cls.push(className);
 
-  const [formData, setFormData, isFieldsValid, callbacksArrayToMap, setValidationCallbacksBuffer] =
-    useController(editedReport);
+  const [formData, setFormData] = useController(editedReport);
 
-  const handleChangePercents = (name: keyof FinancialPercents, value: FinancialPercentsValue): void => {
+  const handleChangePercent = (name: keyof FinancialPercents, value: FinancialPercentsValue): void => {
     setFormData((state) => ({ ...state, percents: { ...state.percents, [name]: value } }));
   };
 
@@ -40,38 +39,37 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
     setFormData((state) => ({ ...state, period: { ...state.period, [name]: value } }));
   };
 
-  const handleSubmitForm = (evt: FormEvent<HTMLFormElement>): void => {
-    evt.preventDefault();
-    //todo: доработать через Context что бы не было постоянных пересобираний callbacks а делалось это дин раз в момент нажатия submit
-    if (isFieldsValid()) onEditReport(formData);
+  const [validationCallbacks, setValidationCallbacks] = useState({});
+  const handleValidationCallback = (predicate: Predicate) => {
+    setValidationCallbacks((state) => ({ ...state, [predicate.name]: predicate }));
   };
 
-  const handleValidateFieldset = (callbackList: (() => boolean)[]): void => {
-    const adaptedCallbacks = callbacksArrayToMap(callbackList);
-    setValidationCallbacksBuffer((state) => ({ ...state, ...adaptedCallbacks }));
+  const handleSubmitForm = (evt: MouseEvent): void => {
+    evt.preventDefault();
+    if (isFieldsValid()) {
+      onEditReport(formData);
+    }
+  };
+
+  const isFieldsValid = (): boolean => {
+    return Object.values<Predicate>(validationCallbacks)
+      .map((cb) => cb())
+      .every((r) => r);
   };
 
   return (
-    <form className={cls.join(" ")} onSubmit={handleSubmitForm}>
-      <FieldsetPeriod
-        period={formData.period}
-        getValidationCallbacks={handleValidateFieldset}
-        onChangePeriod={handleChangePeriod}
-      />
+    <form className={cls.join(" ")}>
+      <FieldsetPeriod period={formData.period} onChangePeriod={handleChangePeriod} />
 
-      <FieldsetIncome
+      <FinancePartFieldset
         income={formData.income}
-        getValidationCallbacks={handleValidateFieldset}
-        onChangeIncome={handleChangeIncome}
-      />
-
-      <FieldsetPercent
         percents={formData.percents}
-        getValidationCallbacks={handleValidateFieldset}
-        onChangePercents={handleChangePercents}
+        onChangePercent={handleChangePercent}
+        onChaneIncome={handleChangeIncome}
+        setValidationCallback={handleValidationCallback}
       />
 
-      <BaseButton className={"mt-auto"} type={"submit"} secondary fullWith>
+      <BaseButton className={"mt-auto"} type={"submit"} secondary fullWith onClick={handleSubmitForm}>
         Save
       </BaseButton>
     </form>
