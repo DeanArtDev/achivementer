@@ -14,3 +14,9 @@ export type BaseOption<T = string> = {
   disabled?: boolean;
   selected?: boolean;
 };
+
+export type InputValidationOptions = {
+  regexp?: string;
+  initialValue?: boolean;
+  require?: boolean;
+};
