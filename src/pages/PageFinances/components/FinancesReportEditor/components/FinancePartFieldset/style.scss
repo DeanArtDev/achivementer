@@ -1,6 +1,6 @@
 @import "style/_variables";
 
-.fieldset-percent__wrapper {
+.fieldset-part__wrapper {
   display: grid;
   justify-content: space-between;
 
@@ -12,7 +12,7 @@
   }
 }
 
-.fieldset-percent__input {
+.fieldset-part__input {
   text-align: center;
 
   @include mobile-up {
