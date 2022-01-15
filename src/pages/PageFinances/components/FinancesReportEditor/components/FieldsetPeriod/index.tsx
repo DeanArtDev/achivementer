@@ -14,11 +14,11 @@ type Props = {
   getValidationCallbacks?: ValidatingCallbacks;
 };
 
-export default function FieldsetPeriod({ className, period, getValidationCallbacks, onChangePeriod }: Props) {
+export default function FieldsetPeriod({ className, onChangePeriod }: Props) {
   const cls = ["fieldset-period"];
   if (className) cls.push(className);
 
-  const [valid, periodOptions, partOptions] = useController(period, getValidationCallbacks);
+  const [periodOptions, partOptions] = useController();
 
   const handlePeriodChange = (name: keyof FinancialPeriod, value: FinancialPeriodValue): void => {
     if (value <= PARTS_LIMIT || name === "month") {
@@ -36,7 +36,6 @@ export default function FieldsetPeriod({ className, period, getValidationCallbac
 
           <BaseSelect
             options={periodOptions}
-            valid={valid.month}
             onChange={(v) => handlePeriodChange("month", Number(v))}
           />
         </label>
@@ -48,7 +47,6 @@ export default function FieldsetPeriod({ className, period, getValidationCallbac
             className={"fieldset-period__part"}
             options={partOptions}
             placeholder={`1 - ${PARTS_LIMIT}`}
-            valid={valid.part}
             onChange={(v) => handlePeriodChange("part", Number(v))}
           />
         </label>
