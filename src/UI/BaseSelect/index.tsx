@@ -21,23 +21,22 @@ const defaultPlaceholder = (placeholder: string) => {
   return { value: PLACEHOLDER_VALUE, hidden: true, disabled: true, text: placeholder };
 };
 
-
 export default function BaseSelect({
   size,
   name,
   options,
   className,
-  placeholder = "Empty",
   valid = true,
+  placeholder = "Empty",
   onChange,
 }: Props) {
   const cls = ["base-select"];
   if (className) cls.push(className);
   if (!valid) cls.push("__invalid");
 
-  const [modifiedOptions] = useState<BaseOption<number>[]>([defaultPlaceholder(placeholder), ...options]);
-  const [isPlaceholderShowed, setPlaceholder] = useState(true);
+  const [withPlaceholderOptions] = useState<BaseOption<number>[]>([defaultPlaceholder(placeholder), ...options]);
 
+  const [isPlaceholderShowed, setPlaceholder] = useState(true);
   if (isPlaceholderShowed) cls.push("__placeholder");
   const handeSelectChange = (evt: ChangeEvent<HTMLSelectElement>) => {
     const target = evt.target;
@@ -55,7 +54,7 @@ export default function BaseSelect({
       <BottomArrowIcon className={"base-select__icon"} width={24} height={24} />
 
       <select size={size} name={name} required defaultValue={PLACEHOLDER_VALUE} onChange={handeSelectChange}>
-        {modifiedOptions.map((o) => (
+        {withPlaceholderOptions.map((o) => (
           <option
             className={"base-select__option"}
             key={o.value}
