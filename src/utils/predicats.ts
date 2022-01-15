@@ -1,5 +1,5 @@
-const NUMERIC_REGEXP = /^\d+$/;
+import { Regexp } from "consts";
 
 export function isNumericOrVoid(value: string | number) {
-  return typeof value === "number" || value === "" || NUMERIC_REGEXP.test(value);
+  return typeof value === "number" || value === "" || new RegExp(Regexp.NUMERIC).test(value);
 }
