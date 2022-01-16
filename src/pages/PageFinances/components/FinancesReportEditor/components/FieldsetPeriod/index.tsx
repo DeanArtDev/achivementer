@@ -1,7 +1,7 @@
 import React from "react";
 import { FinancialPeriod, FinancialPeriodValue } from "providers/api/FinancialRequestProvider/types";
-import { ValidatingCallbacks } from "../../types";
 import { PARTS_LIMIT } from "../../consts";
+import { Predicate } from "type";
 import BaseSelect from "UI/BaseSelect";
 import useController from "./useController";
 
@@ -11,10 +11,10 @@ type Props = {
   className?: string;
   period: FinancialPeriod;
   onChangePeriod: (name: keyof FinancialPeriod, value: FinancialPeriodValue) => void;
-  getValidationCallbacks?: ValidatingCallbacks;
+  setValidationCallback: (predicate: Predicate) => void;
 };
 
-export default function FieldsetPeriod({ className, onChangePeriod }: Props) {
+export default function FieldsetPeriod({ className, onChangePeriod, setValidationCallback }: Props) {
   const cls = ["fieldset-period"];
   if (className) cls.push(className);
 
@@ -35,7 +35,10 @@ export default function FieldsetPeriod({ className, onChangePeriod }: Props) {
           <span className={"fieldset-period__text mb-2"}>Month</span>
 
           <BaseSelect
+            name={"month"}
             options={periodOptions}
+            setValidationCallback={setValidationCallback}
+            required
             onChange={(v) => handlePeriodChange("month", Number(v))}
           />
         </label>
@@ -45,8 +48,11 @@ export default function FieldsetPeriod({ className, onChangePeriod }: Props) {
 
           <BaseSelect
             className={"fieldset-period__part"}
+            name={"period"}
             options={partOptions}
             placeholder={`1 - ${PARTS_LIMIT}`}
+            required
+            setValidationCallback={setValidationCallback}
             onChange={(v) => handlePeriodChange("part", Number(v))}
           />
         </label>

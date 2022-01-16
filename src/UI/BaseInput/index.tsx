@@ -4,10 +4,6 @@ import useInputValidate from "./hooks/useInputValidate";
 
 import "./style.scss";
 
-const getNamedCallback = (name: string, cb: Predicate) => {
-  return Object.defineProperty(cb, "name", { value: name, writable: true });
-};
-
 type Props = {
   className?: string;
   id?: string;
@@ -31,7 +27,11 @@ export default function BaseInput({
   ...props
 }: Props) {
   const cls = ["base-input"];
-  const [isValid, isShowError, isCanChangeField, validatingCallback] = useInputValidate(value, inputValidateOptions);
+  const [isValid, isShowError, isCanChangeField, validatingCallback] = useInputValidate(
+    value,
+    name,
+    inputValidateOptions
+  );
 
   if (className) cls.push(className);
   if (isShowError) cls.push("__invalid");
@@ -45,9 +45,8 @@ export default function BaseInput({
   };
 
   useEffect(() => {
-    setValidationCallback && setValidationCallback(getNamedCallback(name, validatingCallback));
+    setValidationCallback && setValidationCallback(validatingCallback);
   }, [isValid]);
-
 
   return (
     <input className={cls.join(" ")} type={type} value={value} name={name} {...props} onChange={handleChangeInput} />

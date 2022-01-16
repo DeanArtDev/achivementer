@@ -1,21 +1,22 @@
-import React, { ChangeEvent, useState } from "react";
-import { BaseOption } from "type";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { BaseOption, Predicate } from "type";
 import { ReactComponent as BottomArrowIcon } from "assets/images/icons/bottom-arrow.svg";
+import { PLACEHOLDER_VALUE } from "./consts";
+import useSelectValidation from "./useSelectValidation";
 
 import "./style.scss";
 
 type Props = {
-  name?: string;
+  name: string;
   className?: string;
   required?: boolean;
-  options: BaseOption<number>[];
+  options: BaseOption[];
   valid?: boolean;
   size?: number;
   placeholder?: string;
   onChange: (value: string) => void;
+  setValidationCallback?: (predicate: Predicate) => void;
 };
-
-const PLACEHOLDER_VALUE = -1;
 
 const defaultPlaceholder = (placeholder: string) => {
   return { value: PLACEHOLDER_VALUE, hidden: true, disabled: true, text: placeholder };
@@ -26,21 +27,24 @@ export default function BaseSelect({
   name,
   options,
   className,
-  valid = true,
+  required = false,
   placeholder = "Empty",
   onChange,
+  setValidationCallback,
 }: Props) {
+  const [isValid, isShowError, validate, validatingCallback] = useSelectValidation(name, required);
+
   const cls = ["base-select"];
   if (className) cls.push(className);
-  if (!valid) cls.push("__invalid");
+  if (isShowError) cls.push("__invalid");
 
-  const [withPlaceholderOptions] = useState<BaseOption<number>[]>([defaultPlaceholder(placeholder), ...options]);
+  const [withPlaceholderOptions] = useState<BaseOption[]>([defaultPlaceholder(placeholder), ...options]);
 
   const [isPlaceholderShowed, setPlaceholder] = useState(true);
   if (isPlaceholderShowed) cls.push("__placeholder");
   const handeSelectChange = (evt: ChangeEvent<HTMLSelectElement>) => {
     const target = evt.target;
-    if (Number(target.value) !== PLACEHOLDER_VALUE) {
+    if (validate(target.value)) {
       setPlaceholder(false);
       onChange(target.value);
     }
@@ -48,6 +52,10 @@ export default function BaseSelect({
 
   const isEmpty = options.length === 0;
   if (isEmpty) cls.push("__empty");
+
+  useEffect(() => {
+    setValidationCallback && setValidationCallback(validatingCallback);
+  }, [isValid]);
 
   return (
     <div className={cls.join(" ")}>

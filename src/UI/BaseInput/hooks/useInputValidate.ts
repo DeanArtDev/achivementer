@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { InputValidationOptions } from "type";
+import { InputValidationOptions, Predicate } from "type";
 import { useEffectOnce } from "react-use";
+import changeFunctionName from "utils/changeFunctionName";
 
 type UseInputValidate = [boolean, boolean, (value: string) => boolean, () => boolean];
 
@@ -11,6 +12,7 @@ const checkByRegExp = (value: string, regexp: string): boolean => {
 
 export default function useInputValidate(
   value: string,
+  name: string,
   inputValidateOptions?: InputValidationOptions
 ): UseInputValidate {
   const { regexp, initialValue, require } = inputValidateOptions ?? {};
@@ -47,8 +49,11 @@ export default function useInputValidate(
   };
 
   const validatingCallback = () => {
-    setIsShowError(!isValid);
-    return isValid;
+    if (require) {
+      setIsShowError(!isValid);
+      return isValid;
+    }
+    return true;
   };
 
   useEffect(() => {
@@ -75,5 +80,5 @@ export default function useInputValidate(
     if (value.trim() !== "") validate(value.trim());
   });
 
-  return [isValid, isShowError, isCanChangeField, validatingCallback];
+  return [isValid, isShowError, isCanChangeField, changeFunctionName<Predicate>(name, validatingCallback)];
 }

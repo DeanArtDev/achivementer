@@ -46,9 +46,7 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
 
   const handleSubmitForm = (evt: MouseEvent): void => {
     evt.preventDefault();
-    if (isFieldsValid()) {
-      onEditReport(formData);
-    }
+    if (isFieldsValid()) onEditReport(formData);
   };
 
   const isFieldsValid = (): boolean => {
@@ -59,7 +57,11 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
 
   return (
     <form className={cls.join(" ")}>
-      <FieldsetPeriod period={formData.period} onChangePeriod={handleChangePeriod} />
+      <FieldsetPeriod
+        period={formData.period}
+        onChangePeriod={handleChangePeriod}
+        setValidationCallback={handleValidationCallback}
+      />
 
       <FinancePartFieldset
         income={formData.income}
