@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FinancialPart } from "providers/api/FinancialReportProvider/types";
-import { Predicate } from "type";
+import { Predicate, ToMap } from "type";
+import { pickBy } from "lodash-es";
 import { Period } from "consts";
 import FieldsetPart from "./components/FieldsetPart";
 
@@ -10,12 +11,34 @@ type Props = {
   className?: string;
   parts: FinancialPart[];
   onChangePart: (part: FinancialPart) => void;
-  setValidationCallback: (predicate: Predicate) => void;
+  setValidationCallbacks: (predicatesMap: ToMap<Predicate>) => void;
 };
 
-export default function FinancePartList({ className, parts, onChangePart, setValidationCallback }: Props) {
+export default function FinancePartList({ className, parts, onChangePart, setValidationCallbacks }: Props) {
   const cls = ["finance-part-list"];
   if (className) cls.push(className);
+
+  const filterUnusedPredicates = (state: ToMap<Predicate>): ToMap<Predicate> => {
+    return pickBy(state, (_, predicateName) => {
+      return parts.some((p) => predicateName.includes(p.id));
+    });
+  };
+
+  const [validationCallbacksMap, setValidationCallbacksMap] = useState<ToMap<Predicate>>({});
+  const handleValidationCallback = (predicate: Predicate): void => {
+    setValidationCallbacksMap((state) => {
+      const updatedState = { ...state, [predicate.name]: predicate };
+      return filterUnusedPredicates(updatedState);
+    });
+  };
+
+  useEffect(() => {
+    setValidationCallbacks(validationCallbacksMap);
+  }, [validationCallbacksMap]);
+
+  useEffect(() => {
+    setValidationCallbacksMap((state) => filterUnusedPredicates(state));
+  }, [parts]);
 
   return (
     <ul className={cls.join(" ")}>
@@ -27,7 +50,7 @@ export default function FinancePartList({ className, parts, onChangePart, setVal
           key={part.id}
           tagName={"li"}
           onChangePart={onChangePart}
-          setValidationCallback={setValidationCallback}
+          setValidationCallback={handleValidationCallback}
         />
       ))}
     </ul>

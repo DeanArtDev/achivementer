@@ -1,77 +1,90 @@
-import React, { MouseEvent, useState } from "react";
+import React, { MouseEvent } from "react";
 import {
-  FinancialPercents,
+  FinancialPart,
   FinancialPeriod,
-  FinancialPercentsValue,
   FinancialPeriodValue,
-  InputFinancialReport,
-  FinancialReport,
-} from "providers/api/FinancialRequestProvider/types";
-import { Predicate } from "type";
+  FinancialReportFormData,
+} from "providers/api/FinancialReportProvider/types";
+import { Predicate, ToMap } from "type";
+import findByIndexInArray from "utils/findByIndex";
 import useController from "./useController";
 import BaseButton from "UI/BaseButton";
 import FieldsetPeriod from "./components/FieldsetPeriod";
-import FinancePartFieldset from "./components/FinancePartFieldset";
+import FinancePartList from "./components/FinancePartList";
 
 import "./style.scss";
 
 type Props = {
   className?: string;
-  editedReport?: FinancialReport;
-  onEditReport: (reportFormData: InputFinancialReport) => void;
+  onEditReport: (reportFormData: FinancialReportFormData) => void;
 };
 
-export default function FinancesReportEditor({ className, editedReport, onEditReport }: Props) {
+const setPart = (part: FinancialPart, state: FinancialReportFormData): FinancialPart[] => {
+  const result = findByIndexInArray(part.id, state.parts, (index, arr) => {
+    return [...arr.slice(0, index), part, ...arr.slice(index + 1)];
+  });
+
+  if (!result) {
+    return [part];
+  }
+
+  return result;
+};
+
+export default function FinancesReportEditor({ className, onEditReport }: Props) {
   const cls = ["finance-report-editor"];
   if (className) cls.push(className);
 
-  const [formData, setFormData] = useController(editedReport);
+  const [formData, setFormData, shapeParts, validationPartsCallbacks, validationPeriodCallbacks, isFieldsValid] =
+    useController();
 
-  const handleChangePercent = (name: keyof FinancialPercents, value: FinancialPercentsValue): void => {
-    setFormData((state) => ({ ...state, percents: { ...state.percents, [name]: value } }));
+  const handleChangePart = (part: FinancialPart): void => {
+    setFormData((state) => ({ ...state, parts: setPart(part, state) }));
   };
 
-  const handleChangeIncome = (income: number): void => {
-    setFormData((state) => ({ ...state, income: Number(income) }));
-  };
-
-  const handleChangePeriod = (name: keyof FinancialPeriod, value: FinancialPeriodValue) => {
+  const handleChangePeriod = async (name: keyof FinancialPeriod, value: FinancialPeriodValue) => {
+    if (name === "partCount") {
+      setFormData((state) => ({
+        ...state,
+        period: { ...state.period, [name]: value },
+        parts: shapeParts(value, state.parts),
+      }));
+      return;
+    }
     setFormData((state) => ({ ...state, period: { ...state.period, [name]: value } }));
   };
 
-  const [validationCallbacks, setValidationCallbacks] = useState({});
-  const handleValidationCallback = (predicate: Predicate) => {
-    setValidationCallbacks((state) => ({ ...state, [predicate.name]: predicate }));
+  const handlePeriodValidationCallback = (predicate: Predicate) => {
+    validationPeriodCallbacks.current = { ...validationPeriodCallbacks.current, [predicate.name]: predicate };
   };
 
-  const handleSubmitForm = (evt: MouseEvent): void => {
+  const handlePartsValidationCallbacks = (predicatesMap: ToMap<Predicate>) => {
+    validationPartsCallbacks.current = predicatesMap;
+  };
+
+  const handleSubmitForm = (evt: MouseEvent<HTMLFormElement>): void => {
     evt.preventDefault();
-    if (isFieldsValid()) onEditReport(formData);
-  };
-
-  const isFieldsValid = (): boolean => {
-    return Object.values<Predicate>(validationCallbacks)
-      .map((cb) => cb())
-      .every((r) => r);
+    if (isFieldsValid()) {
+      onEditReport(formData);
+    }
   };
 
   return (
-    <form className={cls.join(" ")}>
+    <form className={cls.join(" ")} onSubmit={handleSubmitForm}>
       <FieldsetPeriod
         period={formData.period}
         onChangePeriod={handleChangePeriod}
-        setValidationCallback={handleValidationCallback}
+        setValidationCallback={handlePeriodValidationCallback}
       />
 
-      <FinancePartFieldset
-        income={formData.income}
-        percents={formData.percents}
-        onChangePercent={handleChangePercent}
-        onChaneIncome={handleChangeIncome}
-        setValidationCallback={handleValidationCallback}
+      <FinancePartList
+        className={"mb-5"}
+        parts={formData.parts}
+        onChangePart={handleChangePart}
+        setValidationCallbacks={handlePartsValidationCallbacks}
       />
 
-      <BaseButton className={"mt-auto"} type={"submit"} secondary fullWith onClick={handleSubmitForm}>
+      <BaseButton className={"mt-auto"} type={"submit"} secondary fullWith>
         Save
       </BaseButton>
     </form>

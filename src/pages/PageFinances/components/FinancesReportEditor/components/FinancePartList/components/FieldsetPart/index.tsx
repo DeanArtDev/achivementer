@@ -57,7 +57,7 @@ export default function FieldsetPart({
       </fieldset>
 
       <fieldset>
-        {/* todo: если после циры идет буква краснит input*/}
+        {/* todo: если после цифры идет буква краснит input*/}
         <legend>Percents &quot;%&quot;:</legend>
 
         <div className={"fieldset-part__wrapper"}>
@@ -67,7 +67,7 @@ export default function FieldsetPart({
             placeholder={"50"}
             inputValidateOptions={getPercentsValidationOptions(id)}
             value={numericToStringAdapter(part.common)}
-            setValidationCallback={(cb) => setValidationCallback(cb)}
+            setValidationCallback={setValidationCallback}
             onChange={(v) => handleChangePercent("common", v)}
           />
 
@@ -77,7 +77,7 @@ export default function FieldsetPart({
             placeholder={"20"}
             inputValidateOptions={getPercentsValidationOptions(id)}
             value={numericToStringAdapter(part.piggyBank)}
-            setValidationCallback={(cb) => setValidationCallback(cb)}
+            setValidationCallback={setValidationCallback}
             onChange={(v) => handleChangePercent("piggyBank", v)}
           />
 
@@ -87,7 +87,7 @@ export default function FieldsetPart({
             placeholder={"30"}
             inputValidateOptions={getPercentsValidationOptions(id)}
             value={numericToStringAdapter(part.free)}
-            setValidationCallback={(cb) => setValidationCallback(cb)}
+            setValidationCallback={setValidationCallback}
             onChange={(v) => handleChangePercent("free", v)}
           />
         </div>

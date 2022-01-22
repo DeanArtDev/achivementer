@@ -2,6 +2,7 @@ import React from "react";
 import { FinancialPeriod, FinancialPeriodValue } from "providers/api/FinancialReportProvider/types";
 import { PARTS_LIMIT } from "../../consts";
 import { Predicate } from "type";
+import { numericToStringAdapter } from "utils/adapters";
 import BaseSelect from "UI/BaseSelect";
 import useController from "./useController";
 
@@ -51,7 +52,7 @@ export default function FieldsetPeriod({ className, period, onChangePeriod, setV
             className={"fieldset-period__part"}
             name={"part-count"}
             options={partOptions}
-            value={String(period.partCount)}
+            value={numericToStringAdapter(period.partCount)}
             placeholder={`1 - ${PARTS_LIMIT}`}
             required
             setValidationCallback={setValidationCallback}

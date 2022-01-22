@@ -22,3 +22,5 @@ export type InputValidationOptions = {
   initialValue?: boolean;
   require?: boolean;
 };
+
+export type ToMap<T extends { id: string } | { name: string }> = Record<T["id"] | T["name"], T>;

@@ -42,10 +42,6 @@
 .base-select.__placeholder select {
   color: var(--palette-gray-lighten-3);
 }
-.base-select__option[value="-1"][disabled],
-.base-select__option[value="-1"][hidden] {
-  display: none;
-}
 
 .base-select.__invalid {
   select {

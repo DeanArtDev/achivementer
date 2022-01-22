@@ -20,7 +20,7 @@ type Props = {
 };
 
 const defaultPlaceholder = (placeholder: string) => {
-  return { value: PLACEHOLDER_VALUE, hidden: true, disabled: true, text: placeholder };
+  return { value: PLACEHOLDER_VALUE, disabled: true, text: placeholder };
 };
 
 export default function BaseSelect({
