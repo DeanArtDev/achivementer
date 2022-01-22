@@ -24,7 +24,8 @@
     "react-scripts": "4.0.3",
     "react-transition-group": "^4.4.1",
     "react-use": "^17.3.2",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.2",
+    "uuid": "^8.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -53,6 +54,7 @@
   "devDependencies": {
     "@types/lodash-es": "^4.17.5",
     "@types/react-transition-group": "^4.4.1",
+    "@types/uuid": "^8.3.4",
     "csscomb": "^4.3.0",
     "node-sass": "^6.0.0",
     "prettier": "^2.3.1"
