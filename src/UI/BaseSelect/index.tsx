@@ -11,6 +11,7 @@ type Props = {
   className?: string;
   required?: boolean;
   options: BaseOption[];
+  value?: BaseOption["value"];
   valid?: boolean;
   size?: number;
   placeholder?: string;
@@ -25,6 +26,7 @@ const defaultPlaceholder = (placeholder: string) => {
 export default function BaseSelect({
   size,
   name,
+  value,
   options,
   className,
   required = false,
@@ -32,7 +34,7 @@ export default function BaseSelect({
   onChange,
   setValidationCallback,
 }: Props) {
-  const [isValid, isShowError, validate, validatingCallback] = useSelectValidation(name, required);
+  const [isValid, isShowError, validate, validatingCallback] = useSelectValidation(name, options, required);
 
   const cls = ["base-select"];
   if (className) cls.push(className);
@@ -41,7 +43,8 @@ export default function BaseSelect({
   const [withPlaceholderOptions] = useState<BaseOption[]>([defaultPlaceholder(placeholder), ...options]);
 
   const [isPlaceholderShowed, setPlaceholder] = useState(true);
-  if (isPlaceholderShowed) cls.push("__placeholder");
+  if (isPlaceholderShowed && !isValid) cls.push("__placeholder");
+
   const handeSelectChange = (evt: ChangeEvent<HTMLSelectElement>) => {
     const target = evt.target;
     if (validate(target.value)) {
@@ -57,11 +60,22 @@ export default function BaseSelect({
     setValidationCallback && setValidationCallback(validatingCallback);
   }, [isValid]);
 
+  useEffect(() => {
+    value && validate(value)
+  }, [value])
+
   return (
     <div className={cls.join(" ")}>
       <BottomArrowIcon className={"base-select__icon"} width={24} height={24} />
 
-      <select size={size} name={name} required defaultValue={PLACEHOLDER_VALUE} onChange={handeSelectChange}>
+      <select
+        size={size}
+        name={name}
+        value={isValid ? value : undefined}
+        required
+        defaultValue={!isValid ? PLACEHOLDER_VALUE : undefined}
+        onChange={handeSelectChange}
+      >
         {withPlaceholderOptions.map((o) => (
           <option
             className={"base-select__option"}

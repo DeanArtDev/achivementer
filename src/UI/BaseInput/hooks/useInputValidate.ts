@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { InputValidationOptions, Predicate } from "type";
 import { useEffectOnce } from "react-use";
+import { InputValidationOptions, Predicate } from "type";
 import changeFunctionName from "utils/changeFunctionName";
 
 type UseInputValidate = [boolean, boolean, (value: string) => boolean, () => boolean];
@@ -21,7 +21,7 @@ export default function useInputValidate(
   const isFirstChange = useRef(false);
 
   const validate = (newValue: string): boolean => {
-    const value = newValue.trim();
+    const value = newValue;
     if (value === "") {
       setIsValid(false);
       return false;
@@ -41,7 +41,7 @@ export default function useInputValidate(
     isFirstChange.current = true;
     const valid = validate(newValue);
 
-    if (!valid && newValue.trim() === "") {
+    if (!valid && newValue === "") {
       return true;
     }
 
@@ -57,7 +57,7 @@ export default function useInputValidate(
   };
 
   useEffect(() => {
-    const trimmedValue = value.trim();
+    const trimmedValue = value;
     if ((trimmedValue === "" && isValid) || !isFirstChange.current) {
       setIsShowError(false);
       return;
@@ -77,8 +77,13 @@ export default function useInputValidate(
   }, [isValid]);
 
   useEffectOnce(() => {
-    if (value.trim() !== "") validate(value.trim());
+    if (value !== "") validate(value);
   });
 
-  return [isValid, isShowError, isCanChangeField, changeFunctionName<Predicate>(name, validatingCallback)];
+  return [
+    isValid,
+    isShowError,
+    isCanChangeField,
+    changeFunctionName<Predicate>(`${name}${inputValidateOptions?.predicateNameSpace ?? ""}`.trim(), validatingCallback),
+  ];
 }

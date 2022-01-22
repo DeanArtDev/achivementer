@@ -1,3 +1,4 @@
+export type UnicId = string;
 export type LocationState = {
   notification?: string;
   location?: Location<LocationState>;
@@ -16,6 +17,7 @@ export type BaseOption = {
 };
 
 export type InputValidationOptions = {
+  predicateNameSpace: string;
   regexp?: string;
   initialValue?: boolean;
   require?: boolean;

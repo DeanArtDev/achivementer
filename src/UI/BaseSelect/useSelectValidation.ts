@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { PLACEHOLDER_VALUE } from "./consts";
-import { Predicate } from "type";
+import { BaseOption, Predicate } from "type";
 import { UseSelectValidation } from "./types";
 import changeFunctionName from "utils/changeFunctionName";
 
-export default function useSelectValidation(name: string, required: boolean): UseSelectValidation {
+export default function useSelectValidation(
+  name: string,
+  options: BaseOption[],
+  required: boolean
+): UseSelectValidation {
   const [isValid, setIsValid] = useState(false);
   const [isShowError, setIsShowError] = useState(false);
   const isFirstChange = useRef(false);
@@ -12,6 +16,10 @@ export default function useSelectValidation(name: string, required: boolean): Us
   const validate = (value: string) => {
     isFirstChange.current = true;
     if (value === PLACEHOLDER_VALUE) {
+      setIsValid(false);
+      return false;
+    }
+    if (options.every(o => o.value !== value)) {
       setIsValid(false);
       return false;
     }

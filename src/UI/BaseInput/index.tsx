@@ -38,7 +38,7 @@ export default function BaseInput({
   if (type === "number") cls.push("base-input--number");
 
   const handleChangeInput = (evt: ChangeEvent<HTMLInputElement>) => {
-    const value = evt.target.value;
+    const value = evt.target.value.trim();
     if (isCanChangeField(value)) {
       onChange && onChange(value);
     }
