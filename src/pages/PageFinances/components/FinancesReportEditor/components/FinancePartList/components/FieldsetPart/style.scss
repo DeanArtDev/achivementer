@@ -1,5 +1,12 @@
 @import "style/_variables";
 
+
+.fieldset-part {
+  padding: var(--sp-2);
+  border: 1px solid var(--palette-gray-lighten-3);
+  border-radius: 10px;
+}
+
 .fieldset-part__wrapper {
   display: grid;
   justify-content: space-between;
@@ -18,4 +25,10 @@
   @include mobile-up {
     width: 105px;
   }
+}
+
+.fieldset-part__title {
+  margin-top: 0;
+  margin-bottom: var(--sp-2);
+  font-size: 20px;
 }
