@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FinancialReport, InputFinancialReport } from "providers/api/FinancialRequestProvider/types";
+import { FinancialReport, InputFinancialReport } from "providers/api/FinancialReportProvider/types";
 import providers from "providers";
 import BasePage from "UI/BasePage";
 import { useEffectOnce } from "react-use";
@@ -15,7 +15,7 @@ export default function PageFinances() {
 
   const handleReportEdit = async (reportFormData: InputFinancialReport): Promise<void> => {
     try {
-      const newReport = await providers.FinancialRequestProvider.create(reportFormData);
+      const newReport = await providers.FinancialReportProvider.create(reportFormData);
       setReports([...reports, newReport]);
     } finally {
       setIsEditMode(false);
@@ -23,14 +23,14 @@ export default function PageFinances() {
   };
 
   const handleDeleteReport = async (id: string) => {
-    const isDelete = await providers.FinancialRequestProvider.delete(id);
+    const isDelete = await providers.FinancialReportProvider.delete(id);
     if (isDelete) {
       setReports(reports.filter((i) => i.id !== id));
     }
   };
 
   useEffectOnce(() => {
-    providers.FinancialRequestProvider.getAll().then((res) => setReports(res));
+    providers.FinancialReportProvider.getAll().then(console.log);
   });
 
   return (
