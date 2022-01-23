@@ -19,8 +19,6 @@ export type FinancialPeriod = {
   partCount: number;
 };
 
-export type FinancialPercentsValue = ExtractKeysOfValueType<FinancialPart>;
-
 export type FinancialPeriodValue = ExtractKeysOfValueType<FinancialPeriod>;
 
 export type InputFinancialReport = Omit<FinancialReport, "id">;
