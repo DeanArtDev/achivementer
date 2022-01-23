@@ -1,6 +1,6 @@
 import { useState, Dispatch, SetStateAction, useRef, MutableRefObject } from "react";
 import { FinancialPart, FinancialReportFormData } from "providers/api/FinancialReportProvider/types";
-import { Predicate, ToMap } from "type";
+import { Predicate, PredicateMap } from "type";
 import { v1 as uuidv1 } from "uuid";
 import { dropRight } from "lodash-es";
 
@@ -8,8 +8,8 @@ type FinancesPeriodEditorController = [
   FinancialReportFormData,
   Dispatch<SetStateAction<FinancialReportFormData>>,
   (partCount: number, parts: FinancialPart[]) => FinancialPart[],
-  MutableRefObject<ToMap<Predicate>>,
-  MutableRefObject<ToMap<Predicate>>,
+  MutableRefObject<PredicateMap>,
+  MutableRefObject<PredicateMap>,
   Predicate
 ];
 
@@ -22,8 +22,8 @@ export default function useController(): FinancesPeriodEditorController {
     parts: [],
   });
 
-  const validationPeriodCallbacks = useRef<ToMap<Predicate>>({});
-  const validationPartsCallbacks = useRef<ToMap<Predicate>>({});
+  const validationPeriodCallbacks = useRef<PredicateMap>({});
+  const validationPartsCallbacks = useRef<PredicateMap>({});
   const isFieldsValid = (): boolean => {
     return Object.values<Predicate>({ ...validationPartsCallbacks.current, ...validationPeriodCallbacks.current })
       .map((cb) => cb())

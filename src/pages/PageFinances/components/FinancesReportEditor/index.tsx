@@ -5,7 +5,7 @@ import {
   FinancialPeriodValue,
   FinancialReportFormData,
 } from "providers/api/FinancialReportProvider/types";
-import { Predicate, ToMap } from "type";
+import { Predicate, PredicateMap } from "type";
 import findByIndexInArray from "utils/findByIndex";
 import useController from "./useController";
 import BaseButton from "UI/BaseButton";
@@ -58,7 +58,7 @@ export default function FinancesReportEditor({ className, onEditReport }: Props)
     validationPeriodCallbacks.current = { ...validationPeriodCallbacks.current, [predicate.name]: predicate };
   };
 
-  const handlePartsValidationCallbacks = (predicatesMap: ToMap<Predicate>) => {
+  const handlePartsValidationCallbacks = (predicatesMap: PredicateMap) => {
     validationPartsCallbacks.current = predicatesMap;
   };
 
