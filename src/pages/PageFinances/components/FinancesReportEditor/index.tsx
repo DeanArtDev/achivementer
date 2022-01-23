@@ -84,7 +84,7 @@ export default function FinancesReportEditor({ className, onEditReport }: Props)
         setValidationCallbacks={handlePartsValidationCallbacks}
       />
 
-      <BaseButton className={"mt-auto"} type={"submit"} secondary fullWith>
+      <BaseButton className={"mt-auto"} type={"submit"} disabled={formData.parts.length === 0} secondary fullWith>
         Save
       </BaseButton>
     </form>
