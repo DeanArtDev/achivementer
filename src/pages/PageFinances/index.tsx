@@ -30,7 +30,8 @@ export default function PageFinances() {
   };
 
   useEffectOnce(() => {
-    providers.FinancialReportProvider.getAll().then(console.log);
+    //todo: add the pagination
+    providers.FinancialReportProvider.getAll().then(setReports);
   });
 
   return (
