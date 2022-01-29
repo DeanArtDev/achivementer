@@ -1,10 +1,9 @@
 import React from "react";
-import { FinancialPeriod, FinancialPeriodValue } from "providers/api/FinancialRequestProvider/types";
-import { ValidatingCallbacks } from "../../types";
+import { FinancialPeriod, FinancialPeriodValue } from "providers/api/FinancialReportProvider/types";
 import { PARTS_LIMIT } from "../../consts";
+import { Predicate } from "type";
 import { numericToStringAdapter } from "utils/adapters";
-import BaseInput from "UI/BaseInput";
-import { isNumericOrVoid } from "utils/predicats";
+import BaseSelect from "UI/BaseSelect";
 import useController from "./useController";
 
 import "./style.scss";
@@ -13,20 +12,18 @@ type Props = {
   className?: string;
   period: FinancialPeriod;
   onChangePeriod: (name: keyof FinancialPeriod, value: FinancialPeriodValue) => void;
-  getValidationCallbacks?: ValidatingCallbacks;
+  setValidationCallback: (predicate: Predicate) => void;
 };
 
-export default function FieldsetPeriod({ className, period, getValidationCallbacks, onChangePeriod }: Props) {
+export default function FieldsetPeriod({ className, period, onChangePeriod, setValidationCallback }: Props) {
   const cls = ["fieldset-period"];
   if (className) cls.push(className);
 
-  const valid = useController(period, getValidationCallbacks);
+  const [periodOptions, partOptions] = useController();
 
-  const handlePeriodChange = (name: keyof FinancialPeriod, value: string): void => {
-    const typedValue = name === "month" ? value : Number(value);
-    //todo: when it is replaced a select tag you should have a look at name === month
-    if ((isNumericOrVoid(value) && Number(value) <= PARTS_LIMIT) || name === "month") {
-      onChangePeriod(name, typedValue);
+  const handlePeriodChange = (name: keyof FinancialPeriod, value: FinancialPeriodValue): void => {
+    if (value <= PARTS_LIMIT || name === "month") {
+      onChangePeriod(name, value);
     }
   };
 
@@ -38,28 +35,28 @@ export default function FieldsetPeriod({ className, period, getValidationCallbac
         <label className={"fieldset-period__label"} htmlFor={"period"}>
           <span className={"fieldset-period__text mb-2"}>Month</span>
 
-          <BaseInput
-            className={"fieldset-period__type pa-3"}
-            id={"period"}
-            name={"period"}
-            type={"month"}
-            value={period.month}
-            valid={valid.month}
-            onChange={(v) => handlePeriodChange("month", v)}
+          <BaseSelect
+            name={"month"}
+            options={periodOptions}
+            value={String(period.month)}
+            setValidationCallback={setValidationCallback}
+            required
+            onChange={(v) => handlePeriodChange("month", Number(v))}
           />
         </label>
 
         <label className={"fieldset-period__label"} htmlFor={"part"}>
-          <span className={"fieldset-period__text mb-2"}>Part</span>
+          <span className={"fieldset-period__text mb-2"}>Parts</span>
 
-          <BaseInput
-            className={"fieldset-period__part pa-3"}
-            id={"part"}
-            name={"part"}
+          <BaseSelect
+            className={"fieldset-period__part"}
+            name={"part-count"}
+            options={partOptions}
+            value={numericToStringAdapter(period.partCount)}
             placeholder={`1 - ${PARTS_LIMIT}`}
-            value={numericToStringAdapter(period.part)}
-            valid={valid.part}
-            onChange={(v) => handlePeriodChange("part", v)}
+            required
+            setValidationCallback={setValidationCallback}
+            onChange={(v) => handlePeriodChange("partCount", Number(v))}
           />
         </label>
       </div>

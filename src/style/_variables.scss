@@ -91,6 +91,12 @@ $classListNegative: (
   }
 }
 
+@mixin cursor-pointer-desktop-up {
+  @include landscape-up {
+    cursor: pointer;
+  }
+}
+
 @mixin add-font-face($font-family, $file-path, $weight: normal, $style: normal, $font-display: auto) {
   @font-face {
     font-style: $style;

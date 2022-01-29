@@ -28,6 +28,20 @@
   display: grid;
 }
 
+.d-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.d-flex.__column {
+  flex-direction: column;
+}
+
+.d-flex.__center {
+  justify-content: center;
+  align-items: center;
+}
+
 .visually-hidden:not(:focus):not(:active),
 input[type="checkbox"].visually-hidden,
 input[type="radio"].visually-hidden {

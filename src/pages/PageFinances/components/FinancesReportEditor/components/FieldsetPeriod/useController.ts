@@ -1,26 +1,23 @@
-import { FinancialPeriod } from "providers/api/FinancialRequestProvider/types";
-import { ValidatingCallbacks } from "../../types";
-import useFieldValidation from "hooks/useFieldValidation";
-import { useEffect } from "react";
+import { useMemo } from "react";
+import { BaseOption } from "type";
+import { Month } from "consts";
+import { PARTS_LIMIT } from "../../consts";
 
-type ValidatedFieldset = { [I in keyof FinancialPeriod]: boolean };
+type FieldsetPeriodController = [BaseOption[], BaseOption[]];
 
-export default function useController(period: FinancialPeriod, getCallbacks?: ValidatingCallbacks): ValidatedFieldset {
-  const [isFieldValid, getValidatingCallbacks] = useFieldValidation<ValidatedFieldset>(
-    {
-      part: true,
-      month: true,
-    },
-    {
-      part: () => !!period.part,
-      month: () => !!period.month,
-    },
-    "period"
-  );
+export default function useController(): FieldsetPeriodController {
+  const periodOptions = useMemo(() => {
+    return Object.values(Month).reduce<BaseOption[]>((acc, i) => {
+      if (typeof i === "number") {
+        acc.push({ value: String(i), text: Month[i] });
+      }
+      return acc;
+    }, []);
+  }, []);
 
-  useEffect(() => {
-    getCallbacks && getCallbacks(getValidatingCallbacks());
-  }, [period]);
+  const partOptions = new Array(PARTS_LIMIT)
+    .fill("")
+    .map<BaseOption>((_, i) => ({ value: String(i), text: String(i) }));
 
-  return isFieldValid;
+  return [periodOptions, partOptions];
 }

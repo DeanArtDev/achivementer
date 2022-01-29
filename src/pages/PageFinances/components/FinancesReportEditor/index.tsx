@@ -1,77 +1,90 @@
-import React, { FormEvent } from "react";
+import React, { MouseEvent } from "react";
 import {
-  FinancialPercents,
+  FinancialPart,
   FinancialPeriod,
-  FinancialPercentsValue,
   FinancialPeriodValue,
+  FinancialReportFormData,
   InputFinancialReport,
-  FinancialReport,
-} from "providers/api/FinancialRequestProvider/types";
+} from "providers/api/FinancialReportProvider/types";
+import findByIndexInArray from "utils/findByIndex";
 import useController from "./useController";
+import useViewController from "./useViewController";
 import BaseButton from "UI/BaseButton";
 import FieldsetPeriod from "./components/FieldsetPeriod";
-import FieldsetIncome from "./components/FieldsetIncome";
-import FieldsetPercent from "./components/FieldsetPercent";
+import FinancialFieldsetPartList from "./components/FinancialFieldsetPartList";
 
 import "./style.scss";
 
 type Props = {
   className?: string;
-  editedReport?: FinancialReport;
   onEditReport: (reportFormData: InputFinancialReport) => void;
 };
 
-export default function FinancesReportEditor({ className, editedReport, onEditReport }: Props) {
+const setPart = (part: FinancialPart, state: FinancialReportFormData): FinancialPart[] => {
+  const result = findByIndexInArray(part.id, state.parts, (index, arr) => {
+    return [...arr.slice(0, index), part, ...arr.slice(index + 1)];
+  });
+
+  if (!result) {
+    return [part];
+  }
+
+  return result;
+};
+
+const removeIdsFromParts = (parts: InputFinancialReport["parts"]) => {
+  return parts.map((item) => {
+    const newItem = { ...item };
+    delete newItem.id;
+    return newItem;
+  });
+};
+
+export default function FinancesReportEditor({ className, onEditReport }: Props) {
   const cls = ["finance-report-editor"];
   if (className) cls.push(className);
 
-  const [formData, setFormData, isFieldsValid, callbacksArrayToMap, setValidationCallbacksBuffer] =
-    useController(editedReport);
+  const [formData, setFormData, shapeParts] = useController();
+  const [setValidationPartsCallbacks, setValidationPeriodCallbacks, isFieldsValid] = useViewController();
 
-  const handleChangePercents = (name: keyof FinancialPercents, value: FinancialPercentsValue): void => {
-    setFormData((state) => ({ ...state, percents: { ...state.percents, [name]: value } }));
+  const handleChangePart = (part: FinancialPart): void => {
+    setFormData((state) => ({ ...state, parts: setPart(part, state) }));
   };
 
-  const handleChangeIncome = (income: number): void => {
-    setFormData((state) => ({ ...state, income: Number(income) }));
-  };
-
-  const handleChangePeriod = (name: keyof FinancialPeriod, value: FinancialPeriodValue) => {
+  const handleChangePeriod = async (name: keyof FinancialPeriod, value: FinancialPeriodValue) => {
+    if (name === "partCount") {
+      setFormData((state) => ({
+        ...state,
+        period: { ...state.period, [name]: value },
+        parts: shapeParts(value, state.parts),
+      }));
+      return;
+    }
     setFormData((state) => ({ ...state, period: { ...state.period, [name]: value } }));
   };
 
-  const handleSubmitForm = (evt: FormEvent<HTMLFormElement>): void => {
+  const handleSubmitForm = (evt: MouseEvent<HTMLFormElement>): void => {
     evt.preventDefault();
-    //todo: доработать через Context что бы не было постоянных пересобираний callbacks а делалось это дин раз в момент нажатия submit
-    if (isFieldsValid()) onEditReport(formData);
-  };
-
-  const handleValidateFieldset = (callbackList: (() => boolean)[]): void => {
-    const adaptedCallbacks = callbacksArrayToMap(callbackList);
-    setValidationCallbacksBuffer((state) => ({ ...state, ...adaptedCallbacks }));
+    if (isFieldsValid()) {
+      onEditReport({ ...formData, parts: removeIdsFromParts(formData.parts) });
+    }
   };
 
   return (
     <form className={cls.join(" ")} onSubmit={handleSubmitForm}>
       <FieldsetPeriod
         period={formData.period}
-        getValidationCallbacks={handleValidateFieldset}
         onChangePeriod={handleChangePeriod}
+        setValidationCallback={setValidationPeriodCallbacks}
       />
 
-      <FieldsetIncome
-        income={formData.income}
-        getValidationCallbacks={handleValidateFieldset}
-        onChangeIncome={handleChangeIncome}
+      <FinancialFieldsetPartList
+        parts={formData.parts}
+        onChangePart={handleChangePart}
+        setValidationCallbacks={setValidationPartsCallbacks}
       />
 
-      <FieldsetPercent
-        percents={formData.percents}
-        getValidationCallbacks={handleValidateFieldset}
-        onChangePercents={handleChangePercents}
-      />
-
-      <BaseButton className={"mt-auto"} type={"submit"} secondary fullWith>
+      <BaseButton className={"mt-auto"} type={"submit"} disabled={formData.parts.length === 0} secondary fullWith>
         Save
       </BaseButton>
     </form>

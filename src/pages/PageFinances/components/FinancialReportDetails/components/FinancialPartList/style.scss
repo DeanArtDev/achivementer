@@ -1,0 +1,11 @@
+.part-list__table {
+  display: block;
+  margin-top: -2px;
+}
+
+.part-list__table-body {
+  display: grid;
+
+  border: 1px solid var(--palette-gray-lighten-3);
+  border-top: none;
+}

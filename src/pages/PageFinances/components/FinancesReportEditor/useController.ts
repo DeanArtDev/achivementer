@@ -1,54 +1,47 @@
 import { useState, Dispatch, SetStateAction } from "react";
-import { Predicate } from "type";
-import { FinancialReport, InputFinancialReport } from "providers/api/FinancialRequestProvider/types";
-import { numericToZeroStringAdapter } from "utils/adapters";
-import { values } from "lodash-es";
-
-type PredicateCallbackMap = Record<Predicate["name"], Predicate>;
+import { FinancialPart, FinancialReportFormData } from "providers/api/FinancialReportProvider/types";
+import { v1 as uuidv1 } from "uuid";
+import { dropRight } from "lodash-es";
 
 type FinancesPeriodEditorController = [
-  InputFinancialReport,
-  Dispatch<SetStateAction<InputFinancialReport>>,
-  Predicate,
-  (arr: Predicate[]) => PredicateCallbackMap,
-  Dispatch<SetStateAction<PredicateCallbackMap>>
+  FinancialReportFormData,
+  Dispatch<SetStateAction<FinancialReportFormData>>,
+  (partCount: FinancialReportFormData["period"]["partCount"], parts: FinancialPart[]) => FinancialPart[]
 ];
 
-export function callbacksArrayToMap(arr: Predicate[]): PredicateCallbackMap {
-  return arr.reduce<PredicateCallbackMap>((acc, i) => {
-    acc[i["name"]] = i;
-    return acc;
-  }, {});
-}
+export default function useController(): FinancesPeriodEditorController {
+  const [formData, setFormData] = useState<FinancialReportFormData>({
+    period: {
+      month: new Date().getMonth() + 1,
+      partCount: 0,
+    },
+    parts: [],
+  });
 
-const getInitialPeriodMonthValue = (): string => {
-  const data = new Date();
-  const month = numericToZeroStringAdapter(data.getMonth() + 1);
-  return `${data.getFullYear()}-${month}`;
-};
-
-export default function useController(initialFormData?: FinancialReport): FinancesPeriodEditorController {
-  const [formData, setFormData] = useState<InputFinancialReport | FinancialReport>(
-    initialFormData || {
-      period: {
-        month: getInitialPeriodMonthValue(),
-        part: 0,
-      },
+  const addNewParts = (count: number): FinancialPart[] => {
+    return new Array(count).fill("").map(() => ({
+      id: uuidv1(),
       income: 0,
-      percents: {
-        common: 0,
-        piggyBank: 0,
-        free: 0,
-      },
+      common: 0,
+      piggyBank: 0,
+      free: 0,
+    }));
+  };
+  const shapeParts = (partCount: number, parts: FinancialPart[]): FinancialPart[] => {
+    if (parts.length === 0) {
+      return addNewParts(partCount);
     }
-  );
 
-  const [validationCallbacksBuffer, setValidationCallbacksBuffer] = useState<PredicateCallbackMap>({});
+    const offset = parts.length - partCount;
+    if (offset > 0) {
+      return dropRight(parts, offset);
+    }
+    if (offset < 0) {
+      return [...parts, ...addNewParts(Math.abs(offset))];
+    }
 
-  const isFieldsValid = (): boolean => {
-    const callbacksList = values(validationCallbacksBuffer).filter((cb) => !cb());
-    return callbacksList.length === 0;
+    return [];
   };
 
-  return [formData, setFormData, isFieldsValid, callbacksArrayToMap, setValidationCallbacksBuffer];
+  return [formData, setFormData, shapeParts];
 }

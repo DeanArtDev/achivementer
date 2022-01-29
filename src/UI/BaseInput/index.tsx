@@ -1,4 +1,6 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect } from "react";
+import { InputValidationOptions, Predicate } from "type";
+import useInputValidate from "./hooks/useInputValidate";
 
 import "./style.scss";
 
@@ -6,23 +8,47 @@ type Props = {
   className?: string;
   id?: string;
   type?: string;
-  name?: string;
+  name: string;
   value?: string;
   placeholder?: string;
-  valid?: boolean;
+  inputValidateOptions?: InputValidationOptions;
   onChange?: (value: string) => void;
+  setValidationCallback?: (predicate: Predicate) => void;
 };
 
-export default function BaseInput({ className, type = "text", valid = true, onChange, ...props }: Props) {
+export default function BaseInput({
+  className,
+  name,
+  value = "",
+  type = "text",
+  inputValidateOptions,
+  setValidationCallback,
+  onChange,
+  ...props
+}: Props) {
   const cls = ["base-input"];
-  if (className) cls.push(className);
-  if (!valid) cls.push("__invalid");
+  const [isValid, isShowError, isCanChangeField, validatingCallback] = useInputValidate(
+    value,
+    name,
+    inputValidateOptions
+  );
 
+  if (className) cls.push(className);
+  if (isShowError) cls.push("__invalid");
   if (type === "number") cls.push("base-input--number");
 
   const handleChangeInput = (evt: ChangeEvent<HTMLInputElement>) => {
-    onChange && onChange(evt.target.value);
+    const value = evt.target.value.trim();
+    if (isCanChangeField(value)) {
+      onChange && onChange(value);
+    }
   };
 
-  return <input className={cls.join(" ")} type={type} {...props} onChange={handleChangeInput} />;
+  useEffect(() => {
+    setValidationCallback && setValidationCallback(validatingCallback);
+  }, [isValid]);
+
+  return (
+    <input className={cls.join(" ")} type={type} value={value} name={name} {...props} onChange={handleChangeInput} />
+  );
 }

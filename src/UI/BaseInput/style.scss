@@ -9,6 +9,8 @@
   outline: none;
 
   &.__invalid {
+    color: var(--palette-negative);
+
     border: 1px solid var(--palette-negative);
     &::placeholder {
       color: var(--palette-negative);

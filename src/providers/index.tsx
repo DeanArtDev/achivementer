@@ -1,7 +1,7 @@
-import FinancialRequestProvider from "./api/FinancialRequestProvider";
+import FinancialReportProvider from "./api/FinancialReportProvider";
 
 const providers = {
-  FinancialRequestProvider,
+  FinancialReportProvider,
 };
 
 export default providers;

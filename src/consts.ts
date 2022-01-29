@@ -29,3 +29,8 @@ export enum Period {
   "Third",
   "Fourth",
 }
+
+export enum Regexp {
+  "PERCENT" = "^[1-9][0-9]?$|^100$",
+  "NUMERIC" = "^\\d+$"
+}

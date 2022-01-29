@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { LocationDescriptor } from "history";
 import { LocationState } from "../../type";
@@ -18,7 +18,7 @@ interface Props {
   icon?: boolean;
   className?: string;
   type?: "submit" | "button";
-  onClick?: (evt: React.MouseEvent) => void;
+  onClick?: (evt: MouseEvent) => void;
 }
 
 export default function BaseButton({

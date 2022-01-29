@@ -8,7 +8,7 @@
   grid-row-gap: var(--sp-1);
   @include mobile-up {
     grid-column-gap: var(--sp-2);
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 4fr 2fr;
   }
 }
 
@@ -24,7 +24,6 @@
   color: var(--palette-gray);
 }
 
-.fieldset-period__wrapper .fieldset-period__part {
+.fieldset-period__part select {
   text-align: center;
-  padding: var(--sp-1);
 }
