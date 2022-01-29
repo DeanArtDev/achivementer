@@ -10,7 +10,7 @@ type FinancesPeriodEditorController = [
 ];
 
 export default function useController(editedReport?: FinancialReport): FinancesPeriodEditorController {
-  const [formData, setFormData] = useState<FinancialReportFormData>(
+  const [formData, setFormData] = useState<FinancialReportFormData | FinancialReport>(
     editedReport || {
       period: {
         month: new Date().getMonth() + 1,

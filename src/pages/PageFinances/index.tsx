@@ -33,7 +33,7 @@ export default function PageFinances() {
         return [...arr.slice(0, index), editedReport, ...arr.slice(index + 1)];
       });
 
-      return !result ? [...state] : result;
+      return result || [...state];
     });
   };
 
