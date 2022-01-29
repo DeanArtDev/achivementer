@@ -14,8 +14,8 @@ class Provider {
     return response.data;
   }
 
-  protected async abstractUpdate<T, U extends { id: string }>(data: U, option?: AxiosRequestConfig): Promise<T> {
-    const response = await api.put<T>(this.getUrlWithId(data.id), data, option);
+  protected async abstractUpdate<T, U>(data: U, option?: AxiosRequestConfig): Promise<T> {
+    const response = await api.put<T>(this.path, data, option);
     return response.data;
   }
 

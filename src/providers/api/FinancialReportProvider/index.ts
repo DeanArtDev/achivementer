@@ -18,6 +18,10 @@ class FinancialReportProvider extends Provider {
     return await super.abstractDelete(id);
   }
 
+  public async update(data: FinancialReport, options?: AxiosRequestConfig): Promise<FinancialReport> {
+    return await super.abstractUpdate<FinancialReport, FinancialReport>(data, options);
+  }
+
   public async createPart(id: string): Promise<FinancialPart> {
     return await api.post(`${this.path}/part`, id);
   }

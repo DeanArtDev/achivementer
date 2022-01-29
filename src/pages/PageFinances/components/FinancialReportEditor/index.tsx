@@ -3,6 +3,7 @@ import {
   FinancialPart,
   FinancialPeriod,
   FinancialPeriodValue,
+  FinancialReport,
   FinancialReportFormData,
   InputFinancialReport,
 } from "providers/api/FinancialReportProvider/types";
@@ -17,6 +18,7 @@ import "./style.scss";
 
 type Props = {
   className?: string;
+  editedReport?: FinancialReport;
   onEditReport: (reportFormData: InputFinancialReport) => void;
 };
 
@@ -32,19 +34,11 @@ const setPart = (part: FinancialPart, state: FinancialReportFormData): Financial
   return result;
 };
 
-const removeIdsFromParts = (parts: InputFinancialReport["parts"]) => {
-  return parts.map((item) => {
-    const newItem = { ...item };
-    delete newItem.id;
-    return newItem;
-  });
-};
-
-export default function FinancesReportEditor({ className, onEditReport }: Props) {
+export default function FinancesReportEditor({ className, editedReport, onEditReport }: Props) {
   const cls = ["finance-report-editor"];
   if (className) cls.push(className);
 
-  const [formData, setFormData, shapeParts] = useController();
+  const [formData, setFormData, shapeParts] = useController(editedReport);
   const [setValidationPartsCallbacks, setValidationPeriodCallbacks, isFieldsValid] = useViewController();
 
   const handleChangePart = (part: FinancialPart): void => {
@@ -66,7 +60,7 @@ export default function FinancesReportEditor({ className, onEditReport }: Props)
   const handleSubmitForm = (evt: MouseEvent<HTMLFormElement>): void => {
     evt.preventDefault();
     if (isFieldsValid()) {
-      onEditReport({ ...formData, parts: removeIdsFromParts(formData.parts) });
+      onEditReport({ ...formData, parts: formData.parts });
     }
   };
 

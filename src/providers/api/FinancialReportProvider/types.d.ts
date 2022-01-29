@@ -28,6 +28,6 @@ export type InputFinancialReport = {
   parts: InputPart[];
 };
 
-export interface FinancialReportFormData extends InputFinancialReport {
+export type FinancialReportFormData = InputFinancialReport & {
   parts: FinancialPart[];
 }
