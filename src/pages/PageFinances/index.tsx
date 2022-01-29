@@ -1,28 +1,60 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { FinancialReport, InputFinancialReport } from "providers/api/FinancialReportProvider/types";
 import providers from "providers";
 import BasePage from "UI/BasePage";
 import { useEffectOnce } from "react-use";
+import oneOfGuard from "utils/oneOfGuard";
+import findByIndexInArray from "utils/findByIndex";
 import FinancialControl from "./components/FinancialControl";
 import FinancesReportEditor from "./components/FinancialReportEditor";
 import FinancialReportDetails from "./components/FinancialReportDetails";
 
 import "./style.scss";
 
+const removeIdsFromParts = (parts: InputFinancialReport["parts"]) => {
+  return parts.map((item) => {
+    const newItem = { ...item };
+    delete newItem.id;
+    return newItem;
+  });
+};
+
 export default function PageFinances() {
   const [reports, setReports] = useState<FinancialReport[]>([]);
   const [isEditMode, setIsEditMode] = useState(false);
 
+  const replaceReport = (editedReport: FinancialReport): void => {
+    setReports((state) => {
+      if (state.length === 1) {
+        return [editedReport];
+      }
+
+      const result = findByIndexInArray(editedReport.id, state, (index, arr) => {
+        return [...arr.slice(0, index), editedReport, ...arr.slice(index + 1)];
+      });
+
+      return !result ? [...state] : result;
+    });
+  };
+
+  const reset = () => {
+    editedReport.current = undefined;
+    setIsEditMode(false);
+  };
+
   //todo: сделать сплитинг parts of month, а не создавать новый в базе
-  const handleReportEdit = async (reportFormData: InputFinancialReport): Promise<void> => {
-    try {
-      const newReport = await providers.FinancialReportProvider.create(reportFormData);
-      setReports([...reports, newReport]);
-      setIsEditMode(false);
-    } catch (e) {
+  const handleReportEdit = async (report: FinancialReport | InputFinancialReport): Promise<void> => {
+    if (oneOfGuard<FinancialReport, InputFinancialReport>("id", report)) {
+      const updatedReport = await providers.FinancialReportProvider.update(report);
+      replaceReport(updatedReport);
+    } else {
       //todo: сделать вменяемую обработку ошибок
-      console.error(e);
+      const reportWithoutPartsIds = { ...report, parts: removeIdsFromParts(report.parts) };
+      const newReport = await providers.FinancialReportProvider.create(reportWithoutPartsIds);
+      setReports([...reports, newReport]);
     }
+
+    reset();
   };
 
   //todo: add a confirmation of deleting
@@ -33,6 +65,16 @@ export default function PageFinances() {
     }
   };
 
+  const editedReport = useRef<FinancialReport>();
+  const handleEditReport = (id: FinancialReport["id"]): void => {
+    const report = reports.find((r) => r.id === id);
+
+    if (report) {
+      editedReport.current = report;
+      setIsEditMode(true);
+    }
+  };
+
   useEffectOnce(() => {
     //todo: add the pagination
     providers.FinancialReportProvider.getAll().then(setReports);
@@ -40,18 +82,20 @@ export default function PageFinances() {
 
   return (
     <BasePage className={"page-finances container-narrow"}>
-      <FinancialControl
-        isEditMode={isEditMode}
-        onAddClick={() => setIsEditMode(true)}
-        onBackClick={() => setIsEditMode(false)}
-      />
+      <FinancialControl isEditMode={isEditMode} onAddClick={() => setIsEditMode(true)} onBackClick={reset} />
 
       <div className={"page-finances__content pa-4"}>
-        {isEditMode && <FinancesReportEditor onEditReport={handleReportEdit} />}
+        {isEditMode && <FinancesReportEditor editedReport={editedReport.current} onEditReport={handleReportEdit} />}
 
         {!isEditMode &&
           reports.map((r) => (
-            <FinancialReportDetails className={"mb-4"} report={r} key={r.id} onDelete={handleDeleteReport} />
+            <FinancialReportDetails
+              className={"mb-4"}
+              report={r}
+              key={r.id}
+              onEdit={handleEditReport}
+              onDelete={handleDeleteReport}
+            />
           ))}
       </div>
     </BasePage>

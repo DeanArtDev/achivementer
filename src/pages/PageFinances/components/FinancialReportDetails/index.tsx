@@ -12,16 +12,22 @@ import "./style.scss";
 type Props = {
   className?: string;
   report: FinancialReport;
+  onEdit: (id: string) => void;
   onDelete: (id: string) => void;
 };
 
-export default function FinancialReportDetails({ className, onDelete, report }: Props) {
+export default function FinancialReportDetails({ className, onEdit, onDelete, report }: Props) {
   const cls = ["finance-report-details-details"];
   if (className) cls.push(className);
 
   const [title, totalAmount] = useViewController(report);
 
   const [isShowDetails, setIsShowDetails] = useState(false);
+
+  const handleEditReport = (callBack: () => void): void => {
+    callBack();
+    onEdit(report.id);
+  }
 
   return (
     <div className={cls.join(" ")}>
@@ -31,6 +37,7 @@ export default function FinancialReportDetails({ className, onDelete, report }: 
         <FinancialReportManageMenu
           className={"finance-report-details__menu pa-2 ml-auto"}
           onDelete={() => onDelete(report.id)}
+          onEdit={handleEditReport}
         />
 
         <span className={"finance-report-details__total-income mr-auto"}>
