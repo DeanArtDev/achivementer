@@ -4,7 +4,7 @@ import providers from "providers";
 import BasePage from "UI/BasePage";
 import { useEffectOnce } from "react-use";
 import FinancialControl from "./components/FinancialControl";
-import FinancesReportEditor from "./components/FinancesReportEditor";
+import FinancesReportEditor from "./components/FinancialReportEditor";
 import FinancialReportDetails from "./components/FinancialReportDetails";
 
 import "./style.scss";
