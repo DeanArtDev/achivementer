@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ReactComponent as DotsIcon } from "assets/images/icons/dots-vertical.svg";
-import { ReactComponent as CrossIcon } from "assets/images/icons/cross.svg";
+import { ReactComponent as CrossIcon } from "assets/images/icons/close-cross.svg";
 import { ReactComponent as DeleteIcon } from "assets/images/icons/delete.svg";
 import BaseButton from "UI/BaseButton";
 
@@ -21,10 +21,11 @@ export default function FinancialReportManageMenu({ className, onDelete }: Props
     onDelete(() => setShow(false));
   };
 
+  //todo: добавить скрытие report-manage-menu__content после потери фокуса.
   return (
     <div className={cls.join(" ")}>
       <BaseButton className={"pa-0"} icon onClick={() => setShow(!show)}>
-        {show ? <CrossIcon /> : <DotsIcon height={22} width={22} />}
+        {show ? <CrossIcon height={22} width={22} /> : <DotsIcon height={22} width={22} />}
       </BaseButton>
 
       {show && (

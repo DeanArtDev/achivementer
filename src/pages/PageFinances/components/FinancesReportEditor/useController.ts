@@ -1,34 +1,22 @@
-import { useState, Dispatch, SetStateAction, useRef, MutableRefObject } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import { FinancialPart, FinancialReportFormData } from "providers/api/FinancialReportProvider/types";
-import { Predicate, PredicateMap } from "type";
 import { v1 as uuidv1 } from "uuid";
 import { dropRight } from "lodash-es";
 
 type FinancesPeriodEditorController = [
   FinancialReportFormData,
   Dispatch<SetStateAction<FinancialReportFormData>>,
-  (partCount: number, parts: FinancialPart[]) => FinancialPart[],
-  MutableRefObject<PredicateMap>,
-  MutableRefObject<PredicateMap>,
-  Predicate
+  (partCount: FinancialReportFormData["period"]["partCount"], parts: FinancialPart[]) => FinancialPart[]
 ];
 
 export default function useController(): FinancesPeriodEditorController {
   const [formData, setFormData] = useState<FinancialReportFormData>({
     period: {
-      month: new Date().getMonth(),
+      month: new Date().getMonth() + 1,
       partCount: 0,
     },
     parts: [],
   });
-
-  const validationPeriodCallbacks = useRef<PredicateMap>({});
-  const validationPartsCallbacks = useRef<PredicateMap>({});
-  const isFieldsValid = (): boolean => {
-    return Object.values<Predicate>({ ...validationPartsCallbacks.current, ...validationPeriodCallbacks.current })
-      .map((cb) => cb())
-      .every((r) => r);
-  };
 
   const addNewParts = (count: number): FinancialPart[] => {
     return new Array(count).fill("").map(() => ({
@@ -55,5 +43,5 @@ export default function useController(): FinancesPeriodEditorController {
     return [];
   };
 
-  return [formData, setFormData, shapeParts, validationPartsCallbacks, validationPeriodCallbacks, isFieldsValid];
+  return [formData, setFormData, shapeParts];
 }

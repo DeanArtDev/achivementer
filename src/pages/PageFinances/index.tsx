@@ -5,7 +5,7 @@ import BasePage from "UI/BasePage";
 import { useEffectOnce } from "react-use";
 import FinancialControl from "./components/FinancialControl";
 import FinancesReportEditor from "./components/FinancesReportEditor";
-import FinancialReportItem from "./components/FinancialReportItem";
+import FinancialReportDetails from "./components/FinancialReportDetails";
 
 import "./style.scss";
 
@@ -13,15 +13,19 @@ export default function PageFinances() {
   const [reports, setReports] = useState<FinancialReport[]>([]);
   const [isEditMode, setIsEditMode] = useState(false);
 
+  //todo: сделать сплитинг parts of month, а не создавать новый в базе
   const handleReportEdit = async (reportFormData: InputFinancialReport): Promise<void> => {
     try {
       const newReport = await providers.FinancialReportProvider.create(reportFormData);
       setReports([...reports, newReport]);
-    } finally {
       setIsEditMode(false);
+    } catch (e) {
+      //todo: сделать вменяемую обработку ошибок
+      console.error(e);
     }
   };
 
+  //todo: add a confirmation of deleting
   const handleDeleteReport = async (id: string) => {
     const isDelete = await providers.FinancialReportProvider.delete(id);
     if (isDelete) {
@@ -47,7 +51,7 @@ export default function PageFinances() {
 
         {!isEditMode &&
           reports.map((r) => (
-            <FinancialReportItem className={"mb-4"} report={r} key={r.id} onDelete={handleDeleteReport} />
+            <FinancialReportDetails className={"mb-4"} report={r} key={r.id} onDelete={handleDeleteReport} />
           ))}
       </div>
     </BasePage>

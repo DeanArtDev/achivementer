@@ -8,6 +8,8 @@ export type FinancialPart = {
   free: number;
 };
 
+export type InputPart = Omit<FinancialPart, "id"> & Partial<Pick<FinancialPart, "id">>;
+
 export type FinancialReport = {
   id: UnicId;
   period: FinancialPeriod;
@@ -21,7 +23,10 @@ export type FinancialPeriod = {
 
 export type FinancialPeriodValue = ExtractKeysOfValueType<FinancialPeriod>;
 
-export type InputFinancialReport = Omit<FinancialReport, "id">;
+export type InputFinancialReport = {
+  period: FinancialPeriod;
+  parts: InputPart[];
+};
 
 export interface FinancialReportFormData extends InputFinancialReport {
   parts: FinancialPart[];

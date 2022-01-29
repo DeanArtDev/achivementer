@@ -1,3 +1,6 @@
+export type ToMap<U extends string, T> = Record<U, T>;
+export type ToNewType<T, U, D> = { [I in keyof T]: I extends U ? D : T[I] };
+
 export type UnicId = string;
 export type LocationState = {
   notification?: string;
@@ -7,7 +10,7 @@ export type LocationState = {
 export type ExtractKeysOfValueType<T> = T[keyof T];
 
 export type Predicate = () => boolean;
-export type PredicateMap = ToMap<Predicate["name"],Predicate>;
+export type PredicateMap = ToMap<Predicate["name"], Predicate>;
 
 export type BaseOption = {
   value: string;
@@ -23,5 +26,3 @@ export type InputValidationOptions = {
   initialValue?: boolean;
   require?: boolean;
 };
-
-export type ToMap<U extends string, T> = Record<U, T>;

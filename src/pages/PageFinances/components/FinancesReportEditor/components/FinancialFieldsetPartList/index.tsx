@@ -14,7 +14,7 @@ type Props = {
   setValidationCallbacks: (predicatesMap: PredicateMap) => void;
 };
 
-export default function FinancePartList({ className, parts, onChangePart, setValidationCallbacks }: Props) {
+export default function FinancialFieldsetPartList({ className, parts, onChangePart, setValidationCallbacks }: Props) {
   const cls = ["finance-part-list"];
   if (className) cls.push(className);
 

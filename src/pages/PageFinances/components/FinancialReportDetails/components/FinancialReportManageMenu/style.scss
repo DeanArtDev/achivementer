@@ -4,10 +4,13 @@ $item-square: 44px;
 .report-manage-menu {
   position: relative;
 
+  width: 42px;
+
   .report-manage-menu__content {
     position: absolute;
     top: 100%;
     right: 0;
+    z-index: 1;
 
     display: flex;
     height: $content-height;

@@ -1,0 +1,36 @@
+.finance-report-details__header {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+
+  border: 1px solid var(--palette-gray-lighten-3);
+  border-radius: 15px;
+
+  grid-template-columns: 5fr 1fr;
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.finance-report-details__title {
+  margin: 0;
+
+  font-size: 20px;
+}
+
+.finance-report-details__total-income span {
+  color: var(--palette-positive);
+}
+
+.finance-report-details__show-btn {
+  transform: rotate(-90deg);
+
+  &.__active {
+    transform: rotate(90deg);
+  }
+}
+
+.finance-report-details__table-data {
+  padding: var(--sp-1);
+
+  text-align: center;
+  word-break: break-word;
+}

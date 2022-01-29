@@ -4,19 +4,20 @@ import {
   FinancialPeriod,
   FinancialPeriodValue,
   FinancialReportFormData,
+  InputFinancialReport,
 } from "providers/api/FinancialReportProvider/types";
-import { Predicate, PredicateMap } from "type";
 import findByIndexInArray from "utils/findByIndex";
 import useController from "./useController";
+import useViewController from "./useViewController";
 import BaseButton from "UI/BaseButton";
 import FieldsetPeriod from "./components/FieldsetPeriod";
-import FinancePartList from "./components/FinancePartList";
+import FinancialFieldsetPartList from "./components/FinancialFieldsetPartList";
 
 import "./style.scss";
 
 type Props = {
   className?: string;
-  onEditReport: (reportFormData: FinancialReportFormData) => void;
+  onEditReport: (reportFormData: InputFinancialReport) => void;
 };
 
 const setPart = (part: FinancialPart, state: FinancialReportFormData): FinancialPart[] => {
@@ -31,12 +32,20 @@ const setPart = (part: FinancialPart, state: FinancialReportFormData): Financial
   return result;
 };
 
+const removeIdsFromParts = (parts: InputFinancialReport["parts"]) => {
+  return parts.map((item) => {
+    const newItem = { ...item };
+    delete newItem.id;
+    return newItem;
+  });
+};
+
 export default function FinancesReportEditor({ className, onEditReport }: Props) {
   const cls = ["finance-report-editor"];
   if (className) cls.push(className);
 
-  const [formData, setFormData, shapeParts, validationPartsCallbacks, validationPeriodCallbacks, isFieldsValid] =
-    useController();
+  const [formData, setFormData, shapeParts] = useController();
+  const [setValidationPartsCallbacks, setValidationPeriodCallbacks, isFieldsValid] = useViewController();
 
   const handleChangePart = (part: FinancialPart): void => {
     setFormData((state) => ({ ...state, parts: setPart(part, state) }));
@@ -54,18 +63,10 @@ export default function FinancesReportEditor({ className, onEditReport }: Props)
     setFormData((state) => ({ ...state, period: { ...state.period, [name]: value } }));
   };
 
-  const handlePeriodValidationCallback = (predicate: Predicate) => {
-    validationPeriodCallbacks.current = { ...validationPeriodCallbacks.current, [predicate.name]: predicate };
-  };
-
-  const handlePartsValidationCallbacks = (predicatesMap: PredicateMap) => {
-    validationPartsCallbacks.current = predicatesMap;
-  };
-
   const handleSubmitForm = (evt: MouseEvent<HTMLFormElement>): void => {
     evt.preventDefault();
     if (isFieldsValid()) {
-      onEditReport(formData);
+      onEditReport({ ...formData, parts: removeIdsFromParts(formData.parts) });
     }
   };
 
@@ -74,14 +75,13 @@ export default function FinancesReportEditor({ className, onEditReport }: Props)
       <FieldsetPeriod
         period={formData.period}
         onChangePeriod={handleChangePeriod}
-        setValidationCallback={handlePeriodValidationCallback}
+        setValidationCallback={setValidationPeriodCallbacks}
       />
 
-      <FinancePartList
-        className={"mb-5"}
+      <FinancialFieldsetPartList
         parts={formData.parts}
         onChangePart={handleChangePart}
-        setValidationCallbacks={handlePartsValidationCallbacks}
+        setValidationCallbacks={setValidationPartsCallbacks}
       />
 
       <BaseButton className={"mt-auto"} type={"submit"} disabled={formData.parts.length === 0} secondary fullWith>
