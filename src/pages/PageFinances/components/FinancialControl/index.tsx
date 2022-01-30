@@ -12,7 +12,7 @@ type Props = {
 
 export default function FinancialControl({ isEditMode, onAddClick, onBackClick }: Props) {
   return (
-    <ul className={"finance-control pr-4 py-2 mb-4"}>
+    <ul className={"finance-control pr-4 py-2"}>
       <li className={"finance-control__item mr-auto"}>
         {isEditMode && (
           <BaseButton className={"py-2 px-4"} icon disabled={!isEditMode} onClick={onBackClick}>

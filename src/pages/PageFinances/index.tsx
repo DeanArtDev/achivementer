@@ -1,10 +1,11 @@
 import React, { useRef, useState } from "react";
 import { FinancialReport, InputFinancialReport } from "providers/api/FinancialReportProvider/types";
 import providers from "providers";
-import BasePage from "UI/BasePage";
 import { useEffectOnce } from "react-use";
 import oneOfGuard from "utils/oneOfGuard";
 import findByIndexInArray from "utils/findByIndex";
+import BaseMain from "UI/BasePage";
+import BaseHeader from "UI/BaseHeader";
 import FinancialControl from "./components/FinancialControl";
 import FinancesReportEditor from "./components/FinancialReportEditor";
 import FinancialReportDetails from "./components/FinancialReportDetails";
@@ -81,10 +82,12 @@ export default function PageFinances() {
   });
 
   return (
-    <BasePage className={"page-finances container-narrow"}>
-      <FinancialControl isEditMode={isEditMode} onAddClick={() => setIsEditMode(true)} onBackClick={reset} />
+    <div className={"page-finances d-flex __column"}>
+      <BaseHeader className={"page-finances__header container-narrow mb-4"}>
+        <FinancialControl isEditMode={isEditMode} onAddClick={() => setIsEditMode(true)} onBackClick={reset} />
+      </BaseHeader>
 
-      <div className={"page-finances__content pa-4"}>
+      <BaseMain className={"page-finances__main container-narrow pa-4"}>
         {isEditMode && <FinancesReportEditor editedReport={editedReport.current} onEditReport={handleReportEdit} />}
 
         {!isEditMode &&
@@ -97,7 +100,7 @@ export default function PageFinances() {
               onDelete={handleDeleteReport}
             />
           ))}
-      </div>
-    </BasePage>
+      </BaseMain>
+    </div>
   );
 }
