@@ -4,7 +4,7 @@ import "./style.scss";
 interface Props {
   className?: string;
 }
-export default function BasePage({ children, className }: PropsWithChildren<Props>) {
+export default function BaseMain({ children, className }: PropsWithChildren<Props>) {
   const cls = ["base-page"];
   if (className) cls.push(className);
 

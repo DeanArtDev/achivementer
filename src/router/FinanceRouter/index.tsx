@@ -1,7 +1,6 @@
 import React from "react";
-import { Switch, Route, useLocation } from "react-router-dom";
+import { Switch, Route, useLocation, Link } from "react-router-dom";
 import { LocationState } from "type";
-import BaseHeader from "UI/BaseHeader";
 import PageFinances from "pages/PageFinances";
 
 export default function FinanceRouter() {
@@ -21,10 +20,11 @@ export default function FinanceRouter() {
 
   return (
     <React.Fragment>
-      <BaseHeader className={"container-narrow"} />
-
       <Switch location={backgroundLocation || location}>
         <Route exact path={"/"}>
+          <Link to={"/finances"}>GO!</Link>
+        </Route>
+        <Route exact path={"/finances"}>
           <PageFinances />
         </Route>
       </Switch>

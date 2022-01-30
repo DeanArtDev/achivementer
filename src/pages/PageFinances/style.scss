@@ -1,13 +1,17 @@
 @import "style/_variables";
 
 .page-finances {
-  display: grid;
   height: 100%;
-
-  grid-template-rows: min-content 1fr;
 }
 
-.page-finances__content {
+.page-finances__header {
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  overflow: hidden;
+}
+
+.page-finances__main {
+  flex-grow: 1;
   background-color: var(--palette-bg);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
