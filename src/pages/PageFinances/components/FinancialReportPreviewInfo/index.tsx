@@ -16,7 +16,7 @@ type Props = {
   onDelete: (id: string) => void;
 };
 
-export default function FinancialReportDetails({ className, onEdit, onDelete, report }: Props) {
+export default function FinancialReportPreviewInfo({ className, onEdit, onDelete, report }: Props) {
   const cls = ["finance-report-details-details"];
   if (className) cls.push(className);
 

@@ -8,7 +8,7 @@ import BaseMain from "UI/BasePage";
 import BaseHeader from "UI/BaseHeader";
 import FinancialControl from "./components/FinancialControl";
 import FinancesReportEditor from "./components/FinancialReportEditor";
-import FinancialReportDetails from "./components/FinancialReportDetails";
+import FinancialReportPreviewInfo from "./components/FinancialReportPreviewInfo";
 
 import "./style.scss";
 
@@ -92,7 +92,7 @@ export default function PageFinances() {
 
         {!isEditMode &&
           reports.map((r) => (
-            <FinancialReportDetails
+            <FinancialReportPreviewInfo
               className={"mb-4"}
               report={r}
               key={r.id}
