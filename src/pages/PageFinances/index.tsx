@@ -2,13 +2,16 @@ import React, { useRef, useState } from "react";
 import { FinancialReport, InputFinancialReport } from "providers/api/FinancialReportProvider/types";
 import providers from "providers";
 import { useEffectOnce } from "react-use";
+import { useHistory } from "react-router-dom";
 import oneOfGuard from "utils/oneOfGuard";
 import findByIndexInArray from "utils/findByIndex";
+import { financialRoute } from "router/FinancialRouter/consts";
+import useModalLink from "hooks/useModalLocation";
 import BaseMain from "UI/BasePage";
 import BaseHeader from "UI/BaseHeader";
 import FinancialControl from "./components/FinancialControl";
 import FinancesReportEditor from "./components/FinancialReportEditor";
-import FinancialReportDetails from "./components/FinancialReportDetails";
+import FinancialReportPreviewInfo from "./components/FinancialReportPreviewInfo";
 
 import "./style.scss";
 
@@ -76,8 +79,15 @@ export default function PageFinances() {
     }
   };
 
+  const history = useHistory();
+  const { getLocation } = useModalLink();
+  const handleCorrectReport = (id: string): void => {
+    history.push(getLocation(`${financialRoute.FINANCIAL_CORRECTOR}/${id}`));
+  };
+
   useEffectOnce(() => {
     //todo: add the pagination
+    //todo: add loader
     providers.FinancialReportProvider.getAll().then(setReports);
   });
 
@@ -92,12 +102,13 @@ export default function PageFinances() {
 
         {!isEditMode &&
           reports.map((r) => (
-            <FinancialReportDetails
+            <FinancialReportPreviewInfo
               className={"mb-4"}
               report={r}
               key={r.id}
               onEdit={handleEditReport}
               onDelete={handleDeleteReport}
+              onCorrect={handleCorrectReport}
             />
           ))}
       </BaseMain>

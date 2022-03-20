@@ -1,7 +1,7 @@
-import { ExtractKeysOfValueType, UnicId } from "type";
+import { ExtractKeysOfValueType, UniqID } from "type";
 
 export type FinancialPart = {
-  id: UnicId;
+  id: UniqID;
   income: number;
   common: number;
   piggyBank: number;
@@ -11,7 +11,7 @@ export type FinancialPart = {
 export type InputPart = Omit<FinancialPart, "id"> & Partial<Pick<FinancialPart, "id">>;
 
 export type FinancialReport = {
-  id: UnicId;
+  id: UniqID;
   period: FinancialPeriod;
   parts: FinancialPart[];
 };
