@@ -1,10 +1,9 @@
 import Provider from "../Provider";
-import { FinancialPart, FinancialReport, InputFinancialReport } from "./types";
+import { FinancialReport, InputFinancialReport } from "./types";
 import { AxiosRequestConfig } from "axios";
-import api from "../../api";
 
 class FinancialReportProvider extends Provider {
-  protected readonly path = "/financial-report";
+  override readonly path = "/financial-report";
 
   public async getAll(options?: AxiosRequestConfig): Promise<FinancialReport[]> {
     return await super.abstractGetAll(options);
@@ -20,10 +19,6 @@ class FinancialReportProvider extends Provider {
 
   public async update(data: FinancialReport, options?: AxiosRequestConfig): Promise<FinancialReport> {
     return await super.abstractUpdate<FinancialReport, FinancialReport>(data, options);
-  }
-
-  public async createPart(id: string): Promise<FinancialPart> {
-    return await api.post(`${this.path}/part`, id);
   }
 }
 

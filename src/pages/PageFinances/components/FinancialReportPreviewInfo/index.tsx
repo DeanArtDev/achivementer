@@ -14,9 +14,10 @@ type Props = {
   report: FinancialReport;
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
+  onCorrect: (id: string) => void;
 };
 
-export default function FinancialReportPreviewInfo({ className, onEdit, onDelete, report }: Props) {
+export default function FinancialReportPreviewInfo({ className, report, onEdit, onDelete, onCorrect }: Props) {
   const cls = ["finance-report-details-details"];
   if (className) cls.push(className);
 
@@ -27,12 +28,14 @@ export default function FinancialReportPreviewInfo({ className, onEdit, onDelete
   const handleEditReport = (callBack: () => void): void => {
     callBack();
     onEdit(report.id);
-  }
+  };
 
   return (
     <div className={cls.join(" ")}>
       <div className={"finance-report-details__header px-3"}>
-        <h3 className={"finance-report-details__title mr-auto"}>{title}</h3>
+        <h3 className={"finance-report-details__title mr-auto"} onClick={() => onCorrect(report.id)}>
+          {title}
+        </h3>
 
         <FinancialReportManageMenu
           className={"finance-report-details__menu pa-2 ml-auto"}

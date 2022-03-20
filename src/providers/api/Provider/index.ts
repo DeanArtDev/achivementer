@@ -1,7 +1,7 @@
 import api from "../../api";
 import { AxiosRequestConfig } from "axios";
 
-class Provider {
+export default abstract class Provider {
   protected path = "";
 
   protected async abstractGetAll<T>(option?: AxiosRequestConfig): Promise<T[]> {
@@ -28,5 +28,3 @@ class Provider {
     return this.path + "/" + id;
   }
 }
-
-export default Provider;

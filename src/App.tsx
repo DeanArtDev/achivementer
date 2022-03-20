@@ -1,11 +1,11 @@
 import React from "react";
-import FinanceRouter from "./router/FinanceRouter";
+import FinancialRouter from "./router/FinancialRouter";
 import { BrowserRouter as Router } from "react-router-dom";
 
 export default function App() {
   return (
     <Router>
-      <FinanceRouter />
+      <FinancialRouter />
       {/*<PushManager />*/}
     </Router>
   );
