@@ -1,0 +1,64 @@
+@import "style/variables";
+
+.base-select {
+  position: relative;
+
+  width: 100%;
+}
+
+.base-select select {
+  position: relative;
+
+  width: 100%;
+  min-height: 55px;
+  padding: var(--sp-1) 40px var(--sp-1) var(--sp-3);
+
+  background-color: transparent;
+  border: 1px solid var(--palette-primary);
+  border-radius: 10px;
+
+  color: var(--palette-primary);
+  appearance: none;
+  @include cursor-pointer-desktop-up;
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.base-select__icon {
+  position: absolute;
+  top: 50%;
+  right: 0;
+
+  width: 40px;
+
+  transform: translateY(-50%);
+
+  @include cursor-pointer-desktop-up;
+}
+
+.base-select.__placeholder select {
+  color: var(--palette-gray-lighten-3);
+}
+
+.base-select.__invalid {
+  select {
+    color: var(--palette-negative);
+
+    border: 1px solid var(--palette-negative);
+  }
+
+  .base-select__icon {
+    fill: var(--palette-negative);
+  }
+}
+
+.base-select.__empty {
+  select {
+    @include landscape-up {
+      cursor: not-allowed;
+    }
+  }
+}

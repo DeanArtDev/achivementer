@@ -1,0 +1,11 @@
+.finance-control {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  background-color: var(--palette-bg);
+}

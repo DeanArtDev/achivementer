@@ -1,0 +1,61 @@
+@import "./_variables";
+
+.container {
+  width: 100%;
+  max-width: $container;
+}
+.container-narrow {
+  width: 100%;
+  max-width: $container-narrow;
+}
+
+.header-1 {
+  font-size: 24px;
+}
+.header-2 {
+  font-size: 20px;
+}
+.header-3 {
+  font-size: 16px;
+}
+
+.fw-light {
+  font-weight: 300;
+}
+.fw-bold {
+  font-weight: 700;
+}
+
+.d-grid {
+  display: grid;
+}
+
+.d-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.d-flex.__column {
+  flex-direction: column;
+}
+
+.d-flex.__center {
+  justify-content: center;
+  align-items: center;
+}
+
+.visually-hidden:not(:focus):not(:active),
+input[type="checkbox"].visually-hidden,
+input[type="radio"].visually-hidden {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+
+  border: 0;
+
+  clip: rect(0 0 0 0);
+}

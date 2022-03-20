@@ -1,0 +1,25 @@
+.financial-corrector {
+  height: 100%;
+}
+
+.financial-corrector__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
+  min-height: 70px;
+}
+
+.financial-corrector__title {
+  font-size: 20px;
+}
+
+.financial-corrector__main {
+  flex-grow: 1;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  background-color: var(--palette-bg);
+}

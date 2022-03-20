@@ -1,11 +1,9 @@
 $offset: 5;
-$base-page-width: 1040px;
-$header-width: 56px;
-
+$container: 1040px;
+$container-narrow: 600px;
+$min-header-height: 56px;
 $retina-dpi: 144dpi;
 $retina-dppx: 1.5dppx;
-
-
 $classList: (
   ma: margin,
   my: margin-top margin-bottom,
@@ -64,6 +62,11 @@ $classListNegative: (
   }
 }
 
+@mixin container-narrow-up {
+  @media screen and (min-width: $container-narrow) {
+    @content;
+  }
+}
 @mixin landscape-up {
   @media screen and (min-width: 1000px) {
     @content;
@@ -76,13 +79,31 @@ $classListNegative: (
   }
 }
 
+@mixin button-hover-desktop-up {
+  @include landscape-up {
+    &:hover {
+      opacity: 0.6;
+    }
+
+    &:active {
+      opacity: 0.9;
+    }
+  }
+}
+
+@mixin cursor-pointer-desktop-up {
+  @include landscape-up {
+    cursor: pointer;
+  }
+}
+
 @mixin add-font-face($font-family, $file-path, $weight: normal, $style: normal, $font-display: auto) {
   @font-face {
-    font-family: $font-family;
-    font-weight: $weight;
     font-style: $style;
-    font-display: $font-display;
+    font-weight: $weight;
+    font-family: $font-family;
 
+    font-display: $font-display;
     src: local("Roboto"),
     url("#{$file-path}.woff") format("woff"),
     url("#{$file-path}.woff2") format("woff2");
