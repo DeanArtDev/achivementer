@@ -4,8 +4,8 @@ RUN npm install
 ADD . .
 RUN npm run build
 
-FROM nginx:1.13
+FROM nginx:1.21.6-alpine
 COPY --from=node ./build /usr/share/nginx/html
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+EXPOSE 3000
