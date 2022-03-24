@@ -1,9 +1,21 @@
 .finance-report-editor {
   display: grid;
   height: 100%;
+  overflow-x: scroll;
 
   font-size: 20px;
 
   grid-row-gap: var(--sp-4);
-  grid-template-rows: repeat(2, min-content) 1fr;
+  grid-template-rows: repeat(2, min-content);
+
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.finance-report-editor__submit-btn {
+  height: 60px;
+  position: sticky;
+  bottom: 0;
 }
