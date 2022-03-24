@@ -1,6 +1,5 @@
 import React, { MouseEvent } from "react";
 import { FinancialPart, FinancialPeriodValue, FinancialReport } from "providers/api/FinancialReportProvider/types";
-import { ToOptionalID } from "../../../../types";
 import { InputFinancialPeriod } from "./types";
 import findByIndexInArray from "utils/findByIndex";
 import useController from "./useController";
@@ -14,10 +13,10 @@ import "./style.scss";
 type Props = {
   className?: string;
   editedReport?: FinancialReport;
-  onEditReport: (reportFormData: ToOptionalID<FinancialReport> | FinancialReport) => void;
+  onEditReport: (reportFormData: Omit<FinancialReport, "id"> | FinancialReport) => void;
 };
 
-const setPart = (part: FinancialPart, state: ToOptionalID<FinancialReport>): FinancialPart[] => {
+const setPart = (part: FinancialPart, state: Omit<FinancialReport, "id">): FinancialPart[] => {
   const result = findByIndexInArray(part.id, state.parts, (index, arr) => {
     return [...arr.slice(0, index), part, ...arr.slice(index + 1)];
   });

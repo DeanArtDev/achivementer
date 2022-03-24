@@ -3,8 +3,8 @@ import { FinancialReport, InputFinancialReport } from "providers/api/FinancialRe
 import providers from "providers";
 import { useEffectOnce } from "react-use";
 import { useHistory } from "react-router-dom";
-import oneOfGuard from "utils/oneOfGuard";
 import findByIndexInArray from "utils/findByIndex";
+import { guardOneOf } from "utils/typeGuards";
 import { financialRoute } from "router/FinancialRouter/consts";
 import useModalLink from "hooks/useModalLocation";
 import BaseMain from "UI/BasePage";
@@ -14,7 +14,6 @@ import FinancesReportEditor from "./components/FinancialReportEditor";
 import FinancialReportPreviewInfo from "./components/FinancialReportPreviewInfo";
 
 import "./style.scss";
-import {ToOptionalID} from "../../types";
 
 const removeIdsFromParts = (parts: InputFinancialReport["parts"]) => {
   return parts.map((item) => {
@@ -48,8 +47,8 @@ export default function PageFinances() {
   };
 
   //todo: сделать сплитинг parts of month, а не создавать новый в базе
-  const handleReportEdit = async (report: FinancialReport | ToOptionalID<FinancialReport>): Promise<void> => {
-    if (oneOfGuard<FinancialReport, ToOptionalID<FinancialReport>>(report, "id")) {
+  const handleReportEdit = async (report: FinancialReport | Omit<FinancialReport, "id">): Promise<void> => {
+    if (guardOneOf<FinancialReport>(report, "id")) {
       const updatedReport = await providers.FinancialReportProvider.update(report);
       replaceReport(updatedReport);
     } else {
