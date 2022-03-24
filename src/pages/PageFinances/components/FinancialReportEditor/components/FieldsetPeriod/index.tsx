@@ -1,5 +1,5 @@
 import React from "react";
-import { FinancialPeriod, FinancialPeriodValue } from "providers/api/FinancialReportProvider/types";
+import { FinancialPeriodValue } from "providers/api/FinancialReportProvider/types";
 import { PARTS_LIMIT } from "../../consts";
 import { Predicate } from "type";
 import { numericToStringAdapter } from "utils/adapters";
@@ -10,18 +10,19 @@ import "./style.scss";
 
 type Props = {
   className?: string;
-  period: FinancialPeriod;
-  onChangePeriod: (name: keyof FinancialPeriod, value: FinancialPeriodValue) => void;
+  partCount: number;
+  month: number;
+  onChangePeriod: (name: "month" | "partCount", value: FinancialPeriodValue) => void;
   setValidationCallback: (predicate: Predicate) => void;
 };
 
-export default function FieldsetPeriod({ className, period, onChangePeriod, setValidationCallback }: Props) {
+export default function FieldsetPeriod({ className, month, partCount, onChangePeriod, setValidationCallback }: Props) {
   const cls = ["fieldset-period"];
   if (className) cls.push(className);
 
   const [periodOptions, partOptions] = useController();
 
-  const handlePeriodChange = (name: keyof FinancialPeriod, value: FinancialPeriodValue): void => {
+  const handlePeriodChange = (name: "month" | "partCount", value: FinancialPeriodValue): void => {
     if (value <= PARTS_LIMIT || name === "month") {
       onChangePeriod(name, value);
     }
@@ -38,7 +39,7 @@ export default function FieldsetPeriod({ className, period, onChangePeriod, setV
           <BaseSelect
             name={"month"}
             options={periodOptions}
-            value={String(period.month)}
+            value={String(month)}
             setValidationCallback={setValidationCallback}
             required
             onChange={(v) => handlePeriodChange("month", Number(v))}
@@ -52,7 +53,7 @@ export default function FieldsetPeriod({ className, period, onChangePeriod, setV
             className={"fieldset-period__part"}
             name={"part-count"}
             options={partOptions}
-            value={numericToStringAdapter(period.partCount)}
+            value={numericToStringAdapter(partCount)}
             placeholder={`1 - ${PARTS_LIMIT}`}
             required
             setValidationCallback={setValidationCallback}

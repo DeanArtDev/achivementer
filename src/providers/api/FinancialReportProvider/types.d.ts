@@ -1,4 +1,4 @@
-import { ExtractKeysOfValueType, UniqID } from "type";
+import { ToOptionalID, UniqID } from "type";
 
 export type FinancialPart = {
   id: UniqID;
@@ -8,26 +8,16 @@ export type FinancialPart = {
   free: number;
 };
 
-export type InputPart = Omit<FinancialPart, "id"> & Partial<Pick<FinancialPart, "id">>;
-
 export type FinancialReport = {
   id: UniqID;
-  period: FinancialPeriod;
-  parts: FinancialPart[];
-};
-
-export type FinancialPeriod = {
   month: number;
+  year: number;
   partCount: number;
-};
-
-export type FinancialPeriodValue = ExtractKeysOfValueType<FinancialPeriod>;
-
-export type InputFinancialReport = {
-  period: FinancialPeriod;
-  parts: InputPart[];
-};
-
-export type FinancialReportFormData = InputFinancialReport & {
   parts: FinancialPart[];
-}
+};
+
+export type FinancialPeriodValue = FinancialReport["month"] | FinancialReport["year"];
+
+export type InputFinancialReport = Omit<FinancialReport, "id" | "parts"> & {
+  parts: ToOptionalID<FinancialPart>[];
+};

@@ -15,6 +15,7 @@ export default function useController(): FieldsetPeriodController {
     }, []);
   }, []);
 
+  //todo: переписаь на reduce 1 проходка
   const partOptions = new Array(PARTS_LIMIT)
     .fill("")
     .map<BaseOption>((_, i) => ({ value: String(i), text: String(i) }));

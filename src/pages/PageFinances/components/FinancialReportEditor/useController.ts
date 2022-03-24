@@ -1,21 +1,23 @@
 import { useState, Dispatch, SetStateAction } from "react";
-import { FinancialPart, FinancialReport, FinancialReportFormData } from "providers/api/FinancialReportProvider/types";
+import { FinancialPart, FinancialReport } from "providers/api/FinancialReportProvider/types";
+import { ToOptionalID } from "../../../../type";
 import { v1 as uuidv1 } from "uuid";
 import { dropRight } from "lodash-es";
+
+type FinancialReportFormData = ToOptionalID<FinancialReport>;
 
 type FinancesPeriodEditorController = [
   FinancialReportFormData,
   Dispatch<SetStateAction<FinancialReportFormData>>,
-  (partCount: FinancialReportFormData["period"]["partCount"], parts: FinancialPart[]) => FinancialPart[]
+  (partCount: FinancialReportFormData["partCount"], parts: FinancialPart[]) => FinancialPart[]
 ];
 
 export default function useController(editedReport?: FinancialReport): FinancesPeriodEditorController {
   const [formData, setFormData] = useState<FinancialReportFormData | FinancialReport>(
     editedReport || {
-      period: {
-        month: new Date().getMonth() + 1,
-        partCount: 0,
-      },
+      month: new Date().getMonth() + 1,
+      year: new Date().getFullYear(),
+      partCount: 0,
       parts: [],
     }
   );

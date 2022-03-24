@@ -1,3 +1,3 @@
-export default function oneOfGuard<T, U>(value: string, abstract: T | U): abstract is T {
-  return value in abstract;
+export default function oneOfGuard<T, U>(entity: T | U, value: string): entity is T {
+  return value in entity;
 }

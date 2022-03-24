@@ -1,12 +1,6 @@
 import React, { MouseEvent } from "react";
-import {
-  FinancialPart,
-  FinancialPeriod,
-  FinancialPeriodValue,
-  FinancialReport,
-  FinancialReportFormData,
-  InputFinancialReport,
-} from "providers/api/FinancialReportProvider/types";
+import { FinancialPart, FinancialPeriodValue, FinancialReport } from "providers/api/FinancialReportProvider/types";
+import { ToOptionalID } from "../../../../type";
 import findByIndexInArray from "utils/findByIndex";
 import useController from "./useController";
 import useViewController from "./useViewController";
@@ -19,17 +13,15 @@ import "./style.scss";
 type Props = {
   className?: string;
   editedReport?: FinancialReport;
-  onEditReport: (reportFormData: InputFinancialReport) => void;
+  onEditReport: (reportFormData: ToOptionalID<FinancialReport> | FinancialReport) => void;
 };
 
-const setPart = (part: FinancialPart, state: FinancialReportFormData): FinancialPart[] => {
+const setPart = (part: FinancialPart, state: ToOptionalID<FinancialReport>): FinancialPart[] => {
   const result = findByIndexInArray(part.id, state.parts, (index, arr) => {
     return [...arr.slice(0, index), part, ...arr.slice(index + 1)];
   });
 
-  if (!result) {
-    return [part];
-  }
+  if (!result) return [part];
 
   return result;
 };
@@ -45,29 +37,24 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
     setFormData((state) => ({ ...state, parts: setPart(part, state) }));
   };
 
-  const handleChangePeriod = async (name: keyof FinancialPeriod, value: FinancialPeriodValue) => {
+  const handleChangePeriod = (name: "month" | "partCount", value: FinancialPeriodValue): void => {
     if (name === "partCount") {
-      setFormData((state) => ({
-        ...state,
-        period: { ...state.period, [name]: value },
-        parts: shapeParts(value, state.parts),
-      }));
+      setFormData((state) => ({ ...state, [name]: value, parts: shapeParts(value, state.parts) }));
       return;
     }
-    setFormData((state) => ({ ...state, period: { ...state.period, [name]: value } }));
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmitForm = (evt: MouseEvent<HTMLFormElement>): void => {
     evt.preventDefault();
-    if (isFieldsValid()) {
-      onEditReport({ ...formData, parts: formData.parts });
-    }
+    if (isFieldsValid()) onEditReport(formData);
   };
 
   return (
     <form className={cls.join(" ")} onSubmit={handleSubmitForm}>
       <FieldsetPeriod
-        period={formData.period}
+        month={formData.month}
+        partCount={formData.partCount}
         onChangePeriod={handleChangePeriod}
         setValidationCallback={setValidationPeriodCallbacks}
       />

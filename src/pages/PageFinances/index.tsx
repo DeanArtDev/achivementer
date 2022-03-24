@@ -14,6 +14,7 @@ import FinancesReportEditor from "./components/FinancialReportEditor";
 import FinancialReportPreviewInfo from "./components/FinancialReportPreviewInfo";
 
 import "./style.scss";
+import {ToOptionalID} from "../../type";
 
 const removeIdsFromParts = (parts: InputFinancialReport["parts"]) => {
   return parts.map((item) => {
@@ -47,8 +48,8 @@ export default function PageFinances() {
   };
 
   //todo: сделать сплитинг parts of month, а не создавать новый в базе
-  const handleReportEdit = async (report: FinancialReport | InputFinancialReport): Promise<void> => {
-    if (oneOfGuard<FinancialReport, InputFinancialReport>("id", report)) {
+  const handleReportEdit = async (report: FinancialReport | ToOptionalID<FinancialReport>): Promise<void> => {
+    if (oneOfGuard<FinancialReport, ToOptionalID<FinancialReport>>(report, "id")) {
       const updatedReport = await providers.FinancialReportProvider.update(report);
       replaceReport(updatedReport);
     } else {
@@ -72,7 +73,6 @@ export default function PageFinances() {
   const editedReport = useRef<FinancialReport>();
   const handleEditReport = (id: FinancialReport["id"]): void => {
     const report = reports.find((r) => r.id === id);
-
     if (report) {
       editedReport.current = report;
       setIsEditMode(true);
