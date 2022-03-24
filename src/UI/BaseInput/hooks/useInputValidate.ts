@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useEffectOnce } from "react-use";
-import { InputValidationOptions, Predicate } from "type";
+import { InputValidationOptions, Predicate } from "types";
 import changeFunctionName from "utils/changeFunctionName";
 
 type UseInputValidate = [boolean, boolean, (value: string) => boolean, () => boolean];

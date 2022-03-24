@@ -1,6 +1,7 @@
 import React, { MouseEvent } from "react";
 import { FinancialPart, FinancialPeriodValue, FinancialReport } from "providers/api/FinancialReportProvider/types";
-import { ToOptionalID } from "../../../../type";
+import { ToOptionalID } from "../../../../types";
+import { InputFinancialPeriod } from "./types";
 import findByIndexInArray from "utils/findByIndex";
 import useController from "./useController";
 import useViewController from "./useViewController";
@@ -37,7 +38,7 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
     setFormData((state) => ({ ...state, parts: setPart(part, state) }));
   };
 
-  const handleChangePeriod = (name: "month" | "partCount", value: FinancialPeriodValue): void => {
+  const handleChangePeriod = (name: InputFinancialPeriod, value: FinancialPeriodValue): void => {
     if (name === "partCount") {
       setFormData((state) => ({ ...state, [name]: value, parts: shapeParts(value, state.parts) }));
       return;

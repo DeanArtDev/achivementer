@@ -1,7 +1,8 @@
 import React from "react";
 import { FinancialPeriodValue } from "providers/api/FinancialReportProvider/types";
+import { InputFinancialPeriod } from "../../types";
 import { PARTS_LIMIT } from "../../consts";
-import { Predicate } from "type";
+import { Predicate } from "types";
 import { numericToStringAdapter } from "utils/adapters";
 import BaseSelect from "UI/BaseSelect";
 import useController from "./useController";
@@ -12,7 +13,7 @@ type Props = {
   className?: string;
   partCount: number;
   month: number;
-  onChangePeriod: (name: "month" | "partCount", value: FinancialPeriodValue) => void;
+  onChangePeriod: (name: InputFinancialPeriod, value: FinancialPeriodValue) => void;
   setValidationCallback: (predicate: Predicate) => void;
 };
 
@@ -22,7 +23,7 @@ export default function FieldsetPeriod({ className, month, partCount, onChangePe
 
   const [periodOptions, partOptions] = useController();
 
-  const handlePeriodChange = (name: "month" | "partCount", value: FinancialPeriodValue): void => {
+  const handlePeriodChange = (name: InputFinancialPeriod, value: FinancialPeriodValue): void => {
     if (value <= PARTS_LIMIT || name === "month") {
       onChangePeriod(name, value);
     }

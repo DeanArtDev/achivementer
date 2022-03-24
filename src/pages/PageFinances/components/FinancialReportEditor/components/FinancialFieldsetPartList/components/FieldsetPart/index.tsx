@@ -1,6 +1,6 @@
 import React from "react";
 import { FinancialPart } from "providers/api/FinancialReportProvider/types";
-import { InputValidationOptions, Predicate } from "type";
+import { InputValidationOptions, Predicate } from "types";
 import { numericToStringAdapter } from "utils/adapters";
 import { Regexp } from "consts";
 import CustomTag from "components/CustomTag";

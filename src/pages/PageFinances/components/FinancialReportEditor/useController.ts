@@ -1,6 +1,6 @@
 import { useState, Dispatch, SetStateAction } from "react";
 import { FinancialPart, FinancialReport } from "providers/api/FinancialReportProvider/types";
-import { ToOptionalID } from "../../../../type";
+import { ToOptionalID } from "../../../../types";
 import { v1 as uuidv1 } from "uuid";
 import { dropRight } from "lodash-es";
 

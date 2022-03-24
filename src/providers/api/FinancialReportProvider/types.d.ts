@@ -1,4 +1,4 @@
-import { ToOptionalID, UniqID } from "type";
+import { ToOptionalID, UniqID } from "types";
 
 export type FinancialPart = {
   id: UniqID;

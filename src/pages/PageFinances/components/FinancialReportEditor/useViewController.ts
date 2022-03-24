@@ -1,4 +1,4 @@
-import { Predicate, PredicateMap } from "type";
+import { Predicate, PredicateMap } from "types";
 import { useRef } from "react";
 
 export default function useViewController(): [

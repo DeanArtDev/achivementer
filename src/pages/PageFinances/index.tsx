@@ -14,7 +14,7 @@ import FinancesReportEditor from "./components/FinancialReportEditor";
 import FinancialReportPreviewInfo from "./components/FinancialReportPreviewInfo";
 
 import "./style.scss";
-import {ToOptionalID} from "../../type";
+import {ToOptionalID} from "../../types";
 
 const removeIdsFromParts = (parts: InputFinancialReport["parts"]) => {
   return parts.map((item) => {
