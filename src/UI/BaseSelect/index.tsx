@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { BaseOption, Predicate } from "type";
+import { BaseOption, Predicate } from "types";
 import { ReactComponent as BottomArrowIcon } from "assets/images/icons/bottom-arrow.svg";
 import { PLACEHOLDER_VALUE } from "./consts";
 import useSelectValidation from "./useSelectValidation";

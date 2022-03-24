@@ -1,6 +1,6 @@
 import React from "react";
 import {Switch, Route, useLocation, Link, Redirect} from "react-router-dom";
-import { LocationState } from "type";
+import { LocationState } from "types";
 import { financialRoute } from "./consts";
 import PageFinances from "pages/PageFinances";
 import PageFinancialCorrector from "pages/PageFinancialCorrector";

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FinancialPart } from "providers/api/FinancialReportProvider/types";
-import { Predicate, PredicateMap, ToMap } from "type";
+import { Predicate, PredicateMap, ToMap } from "types";
 import { pickBy } from "lodash-es";
 import { Period } from "consts";
 import FieldsetPart from "./components/FieldsetPart";

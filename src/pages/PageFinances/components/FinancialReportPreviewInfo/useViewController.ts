@@ -2,7 +2,7 @@ import { FinancialReport } from "providers/api/FinancialReportProvider/types";
 import { Month } from "consts";
 
 export default function useViewController(report: FinancialReport): [string, number] {
-  const title = `${Month[report.period.month]}`;
+  const title = `${Month[report.month]}`;
 
   const totalAmount = (): number => {
     if (report.parts.length === 1) {

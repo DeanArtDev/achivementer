@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { PLACEHOLDER_VALUE } from "./consts";
-import { BaseOption, Predicate } from "type";
+import { BaseOption, Predicate } from "types";
 import { UseSelectValidation } from "./types";
 import changeFunctionName from "utils/changeFunctionName";
 

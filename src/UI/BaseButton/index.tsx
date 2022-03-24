@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { LocationDescriptor } from "history";
-import { LocationState } from "../../type";
+import { LocationState } from "../../types";
 import BasePreloader from "../BasePreloader";
 
 import "./style.scss";

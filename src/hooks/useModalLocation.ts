@@ -1,6 +1,6 @@
 import { useLocation } from "react-router";
 import { LocationDescriptor } from "history";
-import { LocationState } from "../type";
+import { LocationState } from "../types";
 
 export type ModalLocationFactory = (
   pathname: string,

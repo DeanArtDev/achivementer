@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { BaseOption } from "type";
+import { BaseOption } from "types";
 import { Month } from "consts";
 import { PARTS_LIMIT } from "../../consts";
 

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect } from "react";
-import { InputValidationOptions, Predicate } from "type";
+import { InputValidationOptions, Predicate } from "types";
 import useInputValidate from "./hooks/useInputValidate";
 
 import "./style.scss";
