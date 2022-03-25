@@ -1,23 +1,21 @@
 @import "style/_variables";
 
 .page-finances__header {
+  grid-row: header-start / header-end;
   overflow: hidden;
 
   border-bottom-right-radius: 15px;
   border-bottom-left-radius: 15px;
-
-  grid-row: header-start / header-end;
 }
 
 .page-finances__main {
+  grid-row: body-start / footer-end;
   height: 100%;
   padding: var(--sp-2);
 
   background-color: var(--palette-bg);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-
-  grid-row: body-start / footer-end;
 
   @include mobile-large-up {
     padding: var(--sp-4);
