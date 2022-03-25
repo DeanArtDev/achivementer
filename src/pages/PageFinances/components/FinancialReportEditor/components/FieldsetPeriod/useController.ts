@@ -17,7 +17,7 @@ export default function useController(): FieldsetPeriodController {
 
   const partOptions = new Array(PARTS_LIMIT)
     .fill("")
-    .map<BaseOption>((_, i) => ({ value: String(i), text: String(i) }));
+    .map<BaseOption>((_, i) => ({ value: String(i + 1), text: String(i + 1) }));
 
   return [periodOptions, partOptions];
 }

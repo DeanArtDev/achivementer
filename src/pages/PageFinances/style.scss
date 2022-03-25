@@ -1,18 +1,23 @@
 @import "style/_variables";
 
-.page-finances {
-  height: 100%;
-}
-
 .page-finances__header {
+  grid-row: header-start / header-end;
+  overflow: hidden;
+
   border-bottom-right-radius: 15px;
   border-bottom-left-radius: 15px;
-  overflow: hidden;
 }
 
 .page-finances__main {
-  flex-grow: 1;
+  grid-row: body-start / footer-end;
+  height: 100%;
+  padding: var(--sp-2);
+
   background-color: var(--palette-bg);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+
+  @include mobile-large-up {
+    padding: var(--sp-4);
+  }
 }

@@ -7,8 +7,9 @@ import findByIndexInArray from "utils/findByIndex";
 import { guardOneOf } from "utils/typeGuards";
 import { financialRoute } from "router/FinancialRouter/consts";
 import useModalLink from "hooks/useModalLocation";
-import BaseMain from "UI/BasePage";
+import BaseMain from "UI/BaseMain";
 import BaseHeader from "UI/BaseHeader";
+import BasePage from "UI/BasePage";
 import FinancialControl from "./components/FinancialControl";
 import FinancesReportEditor from "./components/FinancialReportEditor";
 import FinancialReportPreviewInfo from "./components/FinancialReportPreviewInfo";
@@ -91,12 +92,12 @@ export default function PageFinances() {
   });
 
   return (
-    <div className={"page-finances d-flex __column"}>
+    <BasePage className={"page-finances"}>
       <BaseHeader className={"page-finances__header container-narrow mb-4"}>
         <FinancialControl isEditMode={isEditMode} onAddClick={() => setIsEditMode(true)} onBackClick={reset} />
       </BaseHeader>
 
-      <BaseMain className={"page-finances__main container-narrow pa-4"}>
+      <BaseMain className={"page-finances__main container-narrow"}>
         {isEditMode && <FinancesReportEditor editedReport={editedReport.current} onEditReport={handleReportEdit} />}
 
         {!isEditMode &&
@@ -111,6 +112,6 @@ export default function PageFinances() {
             />
           ))}
       </BaseMain>
-    </div>
+    </BasePage>
   );
 }

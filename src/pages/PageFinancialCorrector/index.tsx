@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { ReactComponent as LeftArrowIcon } from "assets/images/icons/left-arrow.svg";
 import BaseHeader from "UI/BaseHeader";
-import BaseMain from "UI/BasePage";
+import BaseMain from "UI/BaseMain";
 import BaseButton from "UI/BaseButton";
 
 import "./style.scss";

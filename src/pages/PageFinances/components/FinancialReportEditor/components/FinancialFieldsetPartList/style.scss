@@ -1,7 +1,9 @@
 .finance-part-list {
   display: grid;
-  grid-row-gap: var(--sp-3);
-  list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  grid-row-gap: var(--sp-3);
 }

@@ -1,1 +1,1 @@
-export const PARTS_LIMIT = 4;
+export const PARTS_LIMIT = 3;

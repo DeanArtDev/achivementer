@@ -65,7 +65,13 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
         setValidationCallbacks={setValidationPartsCallbacks}
       />
 
-      <BaseButton className={"mt-auto"} type={"submit"} disabled={formData.parts.length === 0} secondary fullWith>
+      <BaseButton
+        className={"finance-report-editor__submit-btn mt-auto"}
+        type={"submit"}
+        disabled={formData.parts.length === 0}
+        secondary
+        fullWith
+      >
         Save
       </BaseButton>
     </form>
