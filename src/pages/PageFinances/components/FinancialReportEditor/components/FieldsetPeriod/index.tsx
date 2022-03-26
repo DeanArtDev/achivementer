@@ -5,7 +5,7 @@ import { PARTS_LIMIT } from "../../consts";
 import { Predicate } from "types";
 import { numericToStringAdapter } from "utils/adapters";
 import BaseSelect from "UI/BaseSelect";
-import useController from "./useController";
+import useController from "./controller";
 
 import "./style.scss";
 
