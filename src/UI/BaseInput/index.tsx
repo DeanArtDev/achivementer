@@ -1,15 +1,17 @@
 import React, { ChangeEvent, useEffect } from "react";
 import { InputValidationOptions, Predicate } from "types";
+import { ButtonTypes } from "./types";
 import useInputValidate from "./hooks/useInputValidate";
 
 import "./style.scss";
 
 type Props = {
-  className?: string;
   id?: string;
-  type?: string;
   name: string;
   value?: string;
+  disabled?: boolean;
+  className?: string;
+  type?: ButtonTypes;
   placeholder?: string;
   inputValidateOptions?: InputValidationOptions;
   onChange?: (value: string) => void;
@@ -23,6 +25,7 @@ export default function BaseInput({
   type = "text",
   inputValidateOptions,
   setValidationCallback,
+  disabled,
   onChange,
   ...props
 }: Props) {
@@ -36,6 +39,7 @@ export default function BaseInput({
   if (className) cls.push(className);
   if (isShowError) cls.push("__invalid");
   if (type === "number") cls.push("base-input--number");
+  if (disabled) cls.push("__disabled");
 
   const handleChangeInput = (evt: ChangeEvent<HTMLInputElement>) => {
     const value = evt.target.value.trim();
@@ -44,11 +48,20 @@ export default function BaseInput({
     }
   };
 
+  // todo: переписать логику валидации инпутов через проброс на верх значения а не callback
   useEffect(() => {
     setValidationCallback && setValidationCallback(validatingCallback);
   }, [isValid]);
 
   return (
-    <input className={cls.join(" ")} type={type} value={value} name={name} {...props} onChange={handleChangeInput} />
+    <input
+      className={cls.join(" ")}
+      type={type}
+      name={name}
+      value={value}
+      disabled={disabled}
+      {...props}
+      onChange={handleChangeInput}
+    />
   );
 }

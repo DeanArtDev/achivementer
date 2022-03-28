@@ -3,10 +3,13 @@ import "./style.scss";
 
 interface Props {
   className?: string;
+  onClick?: () => void;
 }
-export default function BasePage({ children, className }: PropsWithChildren<Props>) {
+export default function BasePage({ children, className, onClick }: PropsWithChildren<Props>) {
   const cls = ["base-page"];
   if (className) cls.push(className);
 
-  return <div className={cls.join(" ")}>{children}</div>;
+  const handlePageClick = () => onClick && onClick();
+
+  return <div className={cls.join(" ")} onClick={handlePageClick}>{children}</div>;
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FinancialReport } from "providers/api/FinancialReportProvider/types";
 import { ReactComponent as LeftArrowIcon } from "assets/images/icons/left-arrow.svg";
 import { classes } from "utils/templateHelpers";
-import useViewController from "./useViewController";
+import useViewController from "./viewController";
 import BaseButton from "UI/BaseButton";
 import FinancialPartList from "./components/FinancialPartList";
 import FinancialReportManageMenu from "./components/FinancialReportManageMenu";

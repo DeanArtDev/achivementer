@@ -1,13 +1,11 @@
 import React, { PropsWithChildren, MouseEvent } from "react";
 import { Link } from "react-router-dom";
-import { LocationDescriptor } from "history";
-import { LocationState } from "../../types";
+import { Location } from "history";
 import BasePreloader from "../BasePreloader";
-
 import "./style.scss";
 
 interface Props {
-  to?: LocationDescriptor<LocationState>;
+  to?: Location;
   secondary?: boolean;
   transparent?: boolean;
   negative?: boolean;
@@ -42,6 +40,8 @@ export default function BaseButton({
   if (negative) cls.push("base-button__negative");
   if (positive) cls.push("base-button__positive");
   if (fullWith) cls.push("__full-width");
+  if (loading) cls.push("__loading");
+
 
   if (to) {
     return (
@@ -60,7 +60,7 @@ export default function BaseButton({
   };
 
   return (
-    <button className={cls.join(" ")} type={type} disabled={disabled} onClick={onClickHandler}>
+    <button className={cls.join(" ")} type={type} disabled={disabled || loading} onClick={onClickHandler}>
       {loading && <BasePreloader size={24} color={preloaderColor} />}
       {!loading && children}
     </button>

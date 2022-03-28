@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import findByIndexInArray from "utils/findByIndex";
 import { guardOneOf } from "utils/typeGuards";
 import { financialRoute } from "router/FinancialRouter/consts";
-import useModalLink from "hooks/useModalLocation";
+import useRouterHistory from "hooks/useRouterHistory";
 import BaseMain from "UI/BaseMain";
 import BaseHeader from "UI/BaseHeader";
 import BasePage from "UI/BasePage";
@@ -80,7 +80,7 @@ export default function PageFinances() {
   };
 
   const history = useHistory();
-  const { getLocation } = useModalLink();
+  const { getLocation } = useRouterHistory();
   const handleCorrectReport = (id: string): void => {
     history.push(getLocation(`${financialRoute.FINANCIAL_CORRECTOR}/${id}`));
   };

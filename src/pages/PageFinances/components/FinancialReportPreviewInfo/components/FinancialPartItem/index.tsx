@@ -31,8 +31,8 @@ export default function FinancialPartItem({ part, title }: Props) {
 
       <tr className={"financial-part__table-row __tripled-columned mb-4"}>
         <td className={"financial-part__table-data pb-4"}>{common}%</td>
-        <td className={"financial-part__table-data pb-4"}>{piggyBank}%</td>
         <td className={"financial-part__table-data pb-4"}>{free}%</td>
+        <td className={"financial-part__table-data pb-4"}>{piggyBank}%</td>
         <td className={"financial-part__table-data __red"}>{calculatePercentageOfIncome(income, common)}</td>
         <td className={"financial-part__table-data __green"}>{calculatePercentageOfIncome(income, free)}</td>
         <td className={"financial-part__table-data __yellow"}>{calculatePercentageOfIncome(income, piggyBank)}</td>

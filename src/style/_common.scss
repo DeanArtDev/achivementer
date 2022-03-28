@@ -3,10 +3,31 @@
 .container {
   width: 100%;
   max-width: $container;
+
+  &.__x-padding {
+    padding-right: var(--sp-3);
+    padding-left: var(--sp-3);
+
+    @include mobile-large-up {
+      padding-right: var(--sp-5);
+      padding-left: var(--sp-5);
+    }
+  }
 }
+
 .container-narrow {
   width: 100%;
   max-width: $container-narrow;
+
+  &.__x-padding {
+    padding-right: var(--sp-3);
+    padding-left: var(--sp-3);
+
+    @include mobile-large-up {
+      padding-right: var(--sp-5);
+      padding-left: var(--sp-5);
+    }
+  }
 }
 
 .header-1 {
