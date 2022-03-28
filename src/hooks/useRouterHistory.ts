@@ -2,13 +2,13 @@ import { useLocation } from "react-router";
 import { Location } from "history";
 import { LocationState } from "types";
 
-type UseTRouterHistoryPathReturn = {
+type UseRouterHistoryReturn = {
   fromPath: string | null;
   getLocation: (pathname: string, state?: LocationState) => Location<LocationState>;
   notification: LocationState["notification"];
 };
 
-export default function useRouterHistory(): UseTRouterHistoryPathReturn {
+export default function useRouterHistory(): UseRouterHistoryReturn {
   const location = useLocation<LocationState>();
   const fromPath = location?.state?.from?.pathname ?? null;
 

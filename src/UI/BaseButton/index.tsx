@@ -1,14 +1,11 @@
 import React, { PropsWithChildren, MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { Location } from "history";
-import { LocationState } from "types";
 import BasePreloader from "../BasePreloader";
-
 import "./style.scss";
-import useRouterHistory from "../../hooks/useRouterHistory";
 
 interface Props {
-  to?: Location<LocationState>;
+  to?: Location;
   secondary?: boolean;
   transparent?: boolean;
   negative?: boolean;
@@ -45,11 +42,10 @@ export default function BaseButton({
   if (fullWith) cls.push("__full-width");
   if (loading) cls.push("__loading");
 
-  const { getLocation } = useRouterHistory();
 
   if (to) {
     return (
-      <Link className={cls.join(" ")} to={getLocation(to.pathname)}>
+      <Link className={cls.join(" ")} to={to}>
         {children}
       </Link>
     );

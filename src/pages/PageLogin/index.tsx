@@ -3,18 +3,22 @@ import { useHistory } from "react-router-dom";
 import { InputLogin } from "providers/api/LoginProvider/types";
 import {KeysValuesType, LocationState} from "types";
 import useRouterHistory from "hooks/useRouterHistory";
+import { route } from "router/consts";
+import useController from "./controller";
 import BasePage from "UI/BasePage";
 import BaseMain from "UI/BaseMain";
 import BaseInput from "UI/BaseInput";
 import BaseButton from "UI/BaseButton";
-import useController from "./controller";
 import "./style.scss";
-import {route} from "../../router/consts";
 
 type Props = {
   className?: string;
 };
 
+/* todo:
+ *  [-] добавить вылидацию email
+ *  [-] добавить глобальную обработку ошибок
+ *  */
 export default function PageLogin({ className }: Props) {
   const cls = ["page-login"];
   if (className) cls.push(className);
@@ -31,7 +35,6 @@ export default function PageLogin({ className }: Props) {
     try {
       setLoading(true);
       await login();
-
       history.replace(getLocation(fromPath || route.DEFAULT));
     } catch (e) {
       setLoading(false);

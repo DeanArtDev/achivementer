@@ -39,8 +39,7 @@ export default abstract class Provider {
   private shapeOptions(options?: AxiosRequestConfig, isPrivate = false): AxiosRequestConfig {
     if (!options && !isPrivate) return {};
     if (options && !isPrivate) return options;
-    const headers = isPrivate ? { headers: this.addPrivateHeaders } : {};
-    return merge(options, headers);
+    return merge(options, { headers: this.addPrivateHeaders });
   }
 
   private get addPrivateHeaders(): { Authorization: string } {
