@@ -1,12 +1,11 @@
+import AuthUserContext from "context/AuthUserContext/AuthUserContext";
 import React from "react";
-import FinancialRouter from "./router/FinancialRouter";
-import { BrowserRouter as Router } from "react-router-dom";
+import MainRouter from "./router";
 
 export default function App() {
   return (
-    <Router>
-      <FinancialRouter />
-      {/*<PushManager />*/}
-    </Router>
+    <AuthUserContext>
+      <MainRouter />
+    </AuthUserContext>
   );
 }

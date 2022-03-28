@@ -1,5 +1,6 @@
 import api from "../../api";
 import { AxiosRequestConfig } from "axios";
+import { LoginData } from "types";
 import { LocalStorageKey } from "consts";
 import StorageManager from "utils/StorageManager";
 import { merge } from "lodash-es";
@@ -43,8 +44,8 @@ export default abstract class Provider {
   }
 
   private get addPrivateHeaders(): { Authorization: string } {
-    const token = StorageManager.getItem(LocalStorageKey.TOKEN);
-    if (!token) return { Authorization: "" };
-    return { Authorization: `Bearer ${token}` };
+    const loginData = StorageManager.getItem<LoginData>(LocalStorageKey.USER_LOGIN_DATA);
+    if (!loginData) return { Authorization: "" };
+    return { Authorization: `Bearer ${loginData.token}` };
   }
 }

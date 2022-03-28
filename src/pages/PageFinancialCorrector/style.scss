@@ -1,3 +1,5 @@
+@import "style/_variables";
+
 .financial-corrector {
   height: 100%;
 }
@@ -6,11 +8,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-height: 70px;
   overflow: hidden;
 
   border-bottom-right-radius: 15px;
   border-bottom-left-radius: 15px;
-  min-height: 70px;
+
+  padding-right: var(--sp-3);
+
+  @include mobile-large-up {
+    padding-right: var(--sp-5);
+  }
 }
 
 .financial-corrector__title {
@@ -19,7 +27,8 @@
 
 .financial-corrector__main {
   flex-grow: 1;
-  border-top-right-radius: 15px;
-  border-top-left-radius: 15px;
+
   background-color: var(--palette-bg);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }

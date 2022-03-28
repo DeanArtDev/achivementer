@@ -1,13 +1,15 @@
 import React, { MouseEvent, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { InputLogin } from "providers/api/LoginProvider/types";
-import { KeysValuesType } from "types";
+import {KeysValuesType, LocationState} from "types";
+import useRouterHistory from "hooks/useRouterHistory";
 import BasePage from "UI/BasePage";
 import BaseMain from "UI/BaseMain";
 import BaseInput from "UI/BaseInput";
 import BaseButton from "UI/BaseButton";
 import useController from "./controller";
 import "./style.scss";
+import {route} from "../../router/consts";
 
 type Props = {
   className?: string;
@@ -17,9 +19,10 @@ export default function PageLogin({ className }: Props) {
   const cls = ["page-login"];
   if (className) cls.push(className);
 
+  const { getLocation, fromPath } = useRouterHistory();
   const [login, loginErrorMessage, setLoginErrorMessage, loginFormData, setLoginFormData] = useController();
 
-  const history = useHistory();
+  const history = useHistory<LocationState>();
   const [loading, setLoading] = useState(false);
   const handleSubmitForm = async (evt: MouseEvent<HTMLFormElement>): Promise<void> => {
     evt.preventDefault();
@@ -28,7 +31,8 @@ export default function PageLogin({ className }: Props) {
     try {
       setLoading(true);
       await login();
-      history.replace({ pathname: "/" });
+
+      history.replace(getLocation(fromPath || route.DEFAULT));
     } catch (e) {
       setLoading(false);
     }

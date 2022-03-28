@@ -1,10 +1,16 @@
 class StorageManager {
-  static setItem(key: string, value: string): void {
-    window.localStorage.setItem(key, value);
+  static setItem(key: string, value: unknown): void {
+    if (typeof value === "string") {
+      window.localStorage.setItem(key, value);
+      return;
+    }
+    window.localStorage.setItem(key, JSON.stringify(value));
   }
 
-  static getItem(key: string): string | null {
-    return window.localStorage.getItem(key);
+  static getItem<T = string>(key: string): T | null {
+    const response = window.localStorage.getItem(key);
+    if (!response) return null;
+    return JSON.parse(response);
   }
 
   static removeItem(keys: string[]): void {

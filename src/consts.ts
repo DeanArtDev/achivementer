@@ -36,5 +36,5 @@ export enum Regexp {
 }
 
 export const enum LocalStorageKey {
-  TOKEN = "TOKEN",
+  USER_LOGIN_DATA = "USER_LOGIN_DATA",
 }
