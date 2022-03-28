@@ -32,5 +32,9 @@ export enum Period {
 
 export enum Regexp {
   "PERCENT" = "^[1-9][0-9]?$|^100$",
-  "NUMERIC" = "^\\d+$"
+  "NUMERIC" = "^\\d+$",
+}
+
+export const enum LocalStorageKey {
+  TOKEN = "TOKEN",
 }

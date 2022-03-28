@@ -8,7 +8,7 @@ export type LocationState = {
   location?: Location<LocationState>;
 };
 
-export type ExtractKeysOfValueType<T> = T[keyof T];
+export type KeysValuesType<T> = T[keyof T];
 
 export type Predicate = () => boolean;
 export type PredicateMap = ToMap<Predicate["name"], Predicate>;

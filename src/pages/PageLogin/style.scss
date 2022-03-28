@@ -1,0 +1,32 @@
+.page-login__main {
+  position: relative;
+
+  display: grid;
+  grid-area: body;
+
+  background-color: var(--palette-bg);
+}
+
+.page-login_input {
+  font-size: 20px;
+}
+
+.page-login__form {
+  max-width: 400px;
+}
+
+.page-login__error-message {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  left: 50%;
+
+  width: 280px;
+  height: 180px;
+  border-radius: 14px;
+
+  background-color: var(--palette-gray-lighten-6);
+  transform: translateX(-50%) translateY(-50%);
+}

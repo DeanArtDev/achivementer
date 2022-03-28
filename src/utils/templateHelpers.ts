@@ -1,16 +1,12 @@
 export function classes(classes: string | string[], computedClasses?: Record<string, boolean>): string {
-  if (Array.isArray(classes)) {
-    return classes.join(" ");
-  }
+  const cls: string[] = [];
+  Array.isArray(classes) ? cls.concat(classes) : cls.push(classes);
 
-  const readyClasses = [classes];
   if (computedClasses) {
     Object.entries(computedClasses).forEach(([key, value]) => {
-      if (value) {
-        readyClasses.push(key);
-      }
+      if (value) cls.push(key);
     });
   }
 
-  return readyClasses.join(" ");
+  return cls.join(" ");
 }

@@ -52,11 +52,15 @@
 
     background-color: var(--palette-gray-lighten-5);
     border-color: transparent;
-    cursor: not-allowed;
 
     @include landscape-up {
+      cursor: not-allowed;
       &:hover::before {
         height: 0;
+      }
+
+      &:active {
+        opacity: initial;
       }
     }
   }
@@ -116,4 +120,10 @@
 
 .base-button.__full-width {
   width: 100%;
+}
+
+.base-button.__loading {
+  @include landscape-up {
+    cursor: wait;
+  }
 }

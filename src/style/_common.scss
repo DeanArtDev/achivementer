@@ -7,6 +7,13 @@
 .container-narrow {
   width: 100%;
   max-width: $container-narrow;
+  padding-right: var(--sp-3);
+  padding-left: var(--sp-3);
+
+  @include mobile-large-up {
+    padding-right: var(--sp-5);
+    padding-left: var(--sp-5);
+  }
 }
 
 .header-1 {
