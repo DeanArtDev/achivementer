@@ -1,22 +1,19 @@
-import React, { PropsWithChildren, MouseEvent } from "react";
+import { PropsWithChildren, MouseEvent } from "react";
+import usePortal from "hooks/usePortal";
 import "./style.scss";
 
 type Props = {
-  handleCloseModal: () => void;
+  onCloseModal?: () => void;
 };
 
-export default function BaseModal({ children, handleCloseModal }: PropsWithChildren<Props>) {
-  const cls = ["base-modal fade-animation"];
+export default function BaseModal({ children, onCloseModal }: PropsWithChildren<Props>) {
+  const goToPortal = usePortal();
 
   const handleCurrentTargetCloseModal = (evt: MouseEvent): void => {
     if (evt.target === evt.currentTarget) {
-      handleCloseModal();
+      onCloseModal && onCloseModal();
     }
   };
 
-  return (
-    <div className={"overlay"} onClick={handleCurrentTargetCloseModal}>
-      <div className={cls.join(" ")}>{children}</div>
-    </div>
-  );
+  return goToPortal(children, handleCurrentTargetCloseModal);
 }

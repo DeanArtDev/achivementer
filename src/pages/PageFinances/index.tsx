@@ -13,7 +13,6 @@ import BasePage from "UI/BasePage";
 import FinancialControl from "./components/FinancialControl";
 import FinancesReportEditor from "./components/FinancialReportEditor";
 import FinancialReportPreviewInfo from "./components/FinancialReportPreviewInfo";
-
 import "./style.scss";
 
 const removeIdsFromParts = (parts: InputFinancialReport["parts"]) => {
@@ -62,7 +61,6 @@ export default function PageFinances() {
     reset();
   };
 
-  //todo: add a confirmation of deleting
   const handleDeleteReport = async (id: string) => {
     const isDelete = await providers.FinancialReportProvider.delete(id);
     if (isDelete) {
