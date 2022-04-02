@@ -108,7 +108,15 @@
 }
 
 .base-button__negative {
+  color: var(--palette-bg);
   background-color: var(--palette-negative);
+  border: solid 1px var(--palette-negative);
+
+  @include landscape-up {
+    &::before {
+      background-image: linear-gradient(to top, var(--palette-negative-darken-2) 0%, transparent 55%, transparent 100%);
+    }
+  }
 
   &:active {
     opacity: 0.8;

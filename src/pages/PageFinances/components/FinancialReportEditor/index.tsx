@@ -1,7 +1,6 @@
 import React, { MouseEvent } from "react";
 import { FinancialPart, FinancialPeriodValue, FinancialReport } from "providers/api/FinancialReportProvider/types";
 import { InputFinancialPeriod } from "./types";
-import findByIndexInArray from "utils/findByIndex";
 import useController from "./сontroller";
 import useViewController from "./viewController";
 import BaseButton from "UI/BaseButton";
@@ -16,14 +15,9 @@ type Props = {
   onEditReport: (reportFormData: Omit<FinancialReport, "id"> | FinancialReport) => void;
 };
 
-const setPart = (part: FinancialPart, state: Omit<FinancialReport, "id">): FinancialPart[] => {
-  const result = findByIndexInArray(part.id, state.parts, (index, arr) => {
-    return [...arr.slice(0, index), part, ...arr.slice(index + 1)];
-  });
-
-  if (!result) return [part];
-
-  return result;
+const updateParts = (updatedPart: FinancialPart, state: Omit<FinancialReport, "id">): FinancialPart[] => {
+  if (state.parts.length === 1) return [updatedPart];
+  return state.parts.map((p) => (p.id === updatedPart.id ? updatedPart : p));
 };
 
 export default function FinancesReportEditor({ className, editedReport, onEditReport }: Props) {
@@ -34,7 +28,7 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
   const [setValidationPartsCallbacks, setValidationPeriodCallbacks, isFieldsValid] = useViewController();
 
   const handleChangePart = (part: FinancialPart): void => {
-    setFormData((state) => ({ ...state, parts: setPart(part, state) }));
+    setFormData((state) => ({ ...state, parts: updateParts(part, state) }));
   };
 
   const handleChangePeriod = (name: InputFinancialPeriod, value: FinancialPeriodValue): void => {

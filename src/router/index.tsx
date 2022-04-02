@@ -6,6 +6,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import FinancialRouter from "./FinancialRouter";
 import PathGuard from "./PathGuard";
 
+// todo: переписать через конфиг
 export default function MainRouter() {
   return (
     <PathGuard>
@@ -15,12 +16,14 @@ export default function MainRouter() {
         </Route>
 
         <PrivateRoutes>
-          <Route path={"/finances"}>
-            <FinancialRouter />
-          </Route>
-          <Route path={"*"}>
-            <div>ERROR</div>
-          </Route>
+          <Switch>
+            <Route path={"/finances"}>
+              <FinancialRouter />
+            </Route>
+            <Route path={"*"}>
+              <div>ERROR</div>
+            </Route>
+          </Switch>
         </PrivateRoutes>
       </Switch>
     </PathGuard>

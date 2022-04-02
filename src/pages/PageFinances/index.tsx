@@ -3,17 +3,16 @@ import { FinancialReport, InputFinancialReport } from "providers/api/FinancialRe
 import providers from "providers";
 import { useEffectOnce } from "react-use";
 import { useHistory } from "react-router-dom";
-import findByIndexInArray from "utils/findByIndex";
 import { guardOneOf } from "utils/typeGuards";
 import { financialRoute } from "router/FinancialRouter/consts";
 import useRouterHistory from "hooks/useRouterHistory";
+import useLoading from "hooks/useLoading";
 import BaseMain from "UI/BaseMain";
 import BaseHeader from "UI/BaseHeader";
 import BasePage from "UI/BasePage";
 import FinancialControl from "./components/FinancialControl";
 import FinancesReportEditor from "./components/FinancialReportEditor";
 import FinancialReportPreviewInfo from "./components/FinancialReportPreviewInfo";
-
 import "./style.scss";
 
 const removeIdsFromParts = (parts: InputFinancialReport["parts"]) => {
@@ -27,56 +26,57 @@ const removeIdsFromParts = (parts: InputFinancialReport["parts"]) => {
 export default function PageFinances() {
   const [reports, setReports] = useState<FinancialReport[]>([]);
   const [isEditMode, setIsEditMode] = useState(false);
+  const { loading, setLoading } = useLoading();
 
   const replaceReport = (editedReport: FinancialReport): void => {
     setReports((state) => {
-      if (state.length === 1) {
-        return [editedReport];
-      }
-
-      const result = findByIndexInArray(editedReport.id, state, (index, arr) => {
-        return [...arr.slice(0, index), editedReport, ...arr.slice(index + 1)];
-      });
-
-      return result || [...state];
+      if (state.length === 1) return [editedReport];
+      return state.map((r) => (r.id === editedReport.id ? editedReport : r));
     });
   };
 
-  const reset = () => {
+  const resetEditMode = () => {
     editedReport.current = undefined;
     setIsEditMode(false);
   };
 
-  //todo: сделать сплитинг parts of month, а не создавать новый в базе
+  //todo: один репорт для оддного месяца, частей может быть до 3, но, репорт только один
   const handleReportEdit = async (report: FinancialReport | Omit<FinancialReport, "id">): Promise<void> => {
-    if (guardOneOf<FinancialReport>(report, "id")) {
-      const updatedReport = await providers.FinancialReportProvider.update(report);
-      replaceReport(updatedReport);
-    } else {
-      //todo: сделать вменяемую обработку ошибок
-      const reportWithoutPartsIds = { ...report, parts: removeIdsFromParts(report.parts) };
-      const newReport = await providers.FinancialReportProvider.create(reportWithoutPartsIds);
-      setReports([...reports, newReport]);
+    setLoading(true);
+    try {
+      if (guardOneOf<FinancialReport>(report, "id")) {
+        const updatedReport = await providers.FinancialReportProvider.update(report);
+        replaceReport(updatedReport);
+      } else {
+        //todo: [error exception] сделать вменяемую обработку ошибок
+        const reportWithoutPartsIds = { ...report, parts: removeIdsFromParts(report.parts) };
+        const newReport = await providers.FinancialReportProvider.create(reportWithoutPartsIds);
+        setReports([...reports, newReport]);
+      }
+    } finally {
+      setLoading(false);
     }
-
-    reset();
+    resetEditMode();
   };
 
-  //todo: add a confirmation of deleting
   const handleDeleteReport = async (id: string) => {
-    const isDelete = await providers.FinancialReportProvider.delete(id);
-    if (isDelete) {
+    setLoading(true);
+    try {
+      const isDelete = await providers.FinancialReportProvider.delete(id);
+      //todo: [error exception] если false то показывать плашку, мы не можем удалить этот репорт
+      if (!isDelete) return;
       setReports(reports.filter((i) => i.id !== id));
+    } finally {
+      setLoading(false);
     }
   };
 
   const editedReport = useRef<FinancialReport>();
   const handleEditReport = (id: FinancialReport["id"]): void => {
     const report = reports.find((r) => r.id === id);
-    if (report) {
-      editedReport.current = report;
-      setIsEditMode(true);
-    }
+    if (!report) return;
+    editedReport.current = report;
+    setIsEditMode(true);
   };
 
   const history = useHistory();
@@ -94,7 +94,7 @@ export default function PageFinances() {
   return (
     <BasePage className={"page-finances"}>
       <BaseHeader className={"page-finances__header container-narrow mb-4"}>
-        <FinancialControl isEditMode={isEditMode} onAddClick={() => setIsEditMode(true)} onBackClick={reset} />
+        <FinancialControl isEditMode={isEditMode} onAddClick={() => setIsEditMode(true)} onBackClick={resetEditMode} />
       </BaseHeader>
 
       <BaseMain className={"page-finances__main container-narrow"}>
@@ -104,8 +104,9 @@ export default function PageFinances() {
           reports.map((r) => (
             <FinancialReportPreviewInfo
               className={"mb-4"}
-              report={r}
               key={r.id}
+              report={r}
+              loading={loading}
               onEdit={handleEditReport}
               onDelete={handleDeleteReport}
               onCorrect={handleCorrectReport}

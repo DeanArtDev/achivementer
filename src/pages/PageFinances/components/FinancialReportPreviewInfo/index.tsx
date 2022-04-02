@@ -2,22 +2,29 @@ import React, { useState } from "react";
 import { FinancialReport } from "providers/api/FinancialReportProvider/types";
 import { ReactComponent as LeftArrowIcon } from "assets/images/icons/left-arrow.svg";
 import { classes } from "utils/templateHelpers";
-import useViewController from "./viewController";
 import BaseButton from "UI/BaseButton";
+import useViewController from "./viewController";
 import FinancialPartList from "./components/FinancialPartList";
 import FinancialReportManageMenu from "./components/FinancialReportManageMenu";
-
 import "./style.scss";
 
 type Props = {
   className?: string;
   report: FinancialReport;
+  loading?: boolean;
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onCorrect: (id: string) => void;
 };
 
-export default function FinancialReportPreviewInfo({ className, report, onEdit, onDelete, onCorrect }: Props) {
+export default function FinancialReportPreviewInfo({
+  className,
+  report,
+  loading = false,
+  onEdit,
+  onDelete,
+  onCorrect,
+}: Props) {
   const cls = ["finance-report-details-details"];
   if (className) cls.push(className);
 
@@ -39,6 +46,7 @@ export default function FinancialReportPreviewInfo({ className, report, onEdit, 
 
         <FinancialReportManageMenu
           className={"finance-report-details__menu pa-2 ml-auto"}
+          loading={loading}
           onDelete={() => onDelete(report.id)}
           onEdit={handleEditReport}
         />
