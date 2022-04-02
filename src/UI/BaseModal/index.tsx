@@ -3,17 +3,16 @@ import usePortal from "hooks/usePortal";
 import "./style.scss";
 
 type Props = {
-  onCloseModal?: () => void;
+  className?: string;
+  onCloseModal: () => void;
 };
 
-export default function BaseModal({ children, onCloseModal }: PropsWithChildren<Props>) {
+export default function BaseModal({ children, className, onCloseModal }: PropsWithChildren<Props>) {
   const goToPortal = usePortal();
 
-  const handleCurrentTargetCloseModal = (evt: MouseEvent): void => {
-    if (evt.target === evt.currentTarget) {
-      onCloseModal && onCloseModal();
-    }
+  const handleCurrentTargetCloseModal = ({ target, currentTarget }: MouseEvent): void => {
+    target === currentTarget && onCloseModal();
   };
 
-  return goToPortal(children, handleCurrentTargetCloseModal);
+  return goToPortal({ children, onClick: handleCurrentTargetCloseModal, className });
 }

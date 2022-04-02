@@ -2,17 +2,27 @@ import { createElement as h, MouseEvent, ReactNode, ReactPortal, useRef } from "
 import { v1 as uuidv1 } from "uuid";
 import ReactDOM from "react-dom";
 
-type PortalFunction = (children: ReactNode | ReactNode[], onClick?: (evt: MouseEvent) => void) => ReactPortal | null;
+type PortalFunctionArgs = {
+  children: ReactNode | ReactNode[];
+  onClick?: (evt: MouseEvent) => void;
+  className?: string;
+};
+
+type PortalFunction = (args: PortalFunctionArgs) => ReactPortal | null;
 
 export default function usePortal(): PortalFunction {
   const element = useRef(document.getElementById("portal-target"));
 
-  return (children: ReactNode | ReactNode[], onClick?: (evt: MouseEvent) => void): ReactPortal | null => {
+  //todo: предположительно тут нужно делать анимацию для модлки, она тут хотя бы работает
+  return ({ children, onClick, className }: PortalFunctionArgs): ReactPortal | null => {
+    const cls = ["base-modal"];
+    className && cls.push(className);
+
     return (
       element.current &&
       ReactDOM.createPortal(
         h("div", { className: "overlay", key: uuidv1(), onClick: onClick }, [
-          h("div", { className: "base-modal fade-animation", key: uuidv1() }, [children]),
+          h("div", { className: cls.join(" "), key: uuidv1() }, [children]),
         ]),
         element.current
       )

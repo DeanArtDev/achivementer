@@ -1,9 +1,16 @@
 $offset: 5;
+
 $container: 1040px;
 $container-narrow: 600px;
 $min-header-height: 56px;
+
 $retina-dpi: 144dpi;
 $retina-dppx: 1.5dppx;
+
+$z-index-low-layout: 1;
+$z-index-middle-layout: 2;
+$z-index-high-layout: 3;
+
 $classList: (
   ma: margin,
   my: margin-top margin-bottom,
