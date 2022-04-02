@@ -11,7 +11,7 @@ type PortalFunctionArgs = {
 type PortalFunction = (args: PortalFunctionArgs) => ReactPortal | null;
 
 export default function usePortal(): PortalFunction {
-  const element = useRef(document.getElementById("portal-target"));
+  const targetElement = useRef(document.getElementById("portal-target"));
 
   //todo: предположительно тут нужно делать анимацию для модлки, она тут хотя бы работает
   return ({ children, onClick, className }: PortalFunctionArgs): ReactPortal | null => {
@@ -19,12 +19,12 @@ export default function usePortal(): PortalFunction {
     className && cls.push(className);
 
     return (
-      element.current &&
+      targetElement.current &&
       ReactDOM.createPortal(
         h("div", { className: "overlay", key: uuidv1(), onClick: onClick }, [
           h("div", { className: cls.join(" "), key: uuidv1() }, [children]),
         ]),
-        element.current
+        targetElement.current
       )
     );
   };
