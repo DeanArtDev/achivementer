@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { InputLogin } from "providers/api/LoginProvider/types";
 import {KeysValuesType, LocationState} from "types";
 import useRouterHistory from "hooks/useRouterHistory";
-import { route } from "router/consts";
+import { routePath } from "router/consts";
 import useController from "./controller";
 import BasePage from "UI/BasePage";
 import BaseMain from "UI/BaseMain";
@@ -11,18 +11,11 @@ import BaseInput from "UI/BaseInput";
 import BaseButton from "UI/BaseButton";
 import "./style.scss";
 
-type Props = {
-  className?: string;
-};
-
 /* todo:
  *  [-] добавить вылидацию email
  *  [-] добавить глобальную обработку ошибок
  *  */
-export default function PageLogin({ className }: Props) {
-  const cls = ["page-login"];
-  if (className) cls.push(className);
-
+export default function PageLogin() {
   const { getLocation, fromPath } = useRouterHistory();
   const [login, loginErrorMessage, setLoginErrorMessage, loginFormData, setLoginFormData] = useController();
 
@@ -35,7 +28,7 @@ export default function PageLogin({ className }: Props) {
     try {
       setLoading(true);
       await login();
-      history.replace(getLocation(fromPath || route.DEFAULT));
+      history.replace(getLocation(fromPath || routePath.DEFAULT));
     } catch (e) {
       setLoading(false);
     }
@@ -48,7 +41,7 @@ export default function PageLogin({ className }: Props) {
   };
 
   return (
-    <BasePage className={cls.join(" ")} onClick={handleClickPage}>
+    <BasePage className={"page-login"} onClick={handleClickPage}>
       <BaseMain className={"page-login__main container-narrow"}>
         <form className={"page-login__form ma-auto"} onSubmit={handleSubmitForm}>
           <BaseInput
