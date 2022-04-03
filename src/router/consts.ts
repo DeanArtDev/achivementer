@@ -6,6 +6,7 @@ export const enum financialPathname {
 export const enum routePath {
   DEFAULT = "/finances",
   LOGIN = "/login",
+  REGISTER = "/register",
   FINANCES_CORRECTOR = "/finances/corrector/:id",
   ANY = "*",
 }

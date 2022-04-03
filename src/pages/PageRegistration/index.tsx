@@ -1,10 +1,7 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import { InputLogin } from "providers/api/LoginProvider/types";
-import { LocationState } from "types";
-import useRouterHistory from "hooks/useRouterHistory";
 import useLoginRegister from "hooks/useLoginRegister";
-import { routePath } from "router/consts";
+import useLoading from "hooks/useLoading";
 import EmailPasswordForm from "components/EmailPasswordForm";
 import ErrorMessageModal from "components/ErrorMessage";
 import BasePage from "UI/BasePage";
@@ -15,12 +12,10 @@ import "./style.scss";
  *  [-] добавить вылидацию email
  *  [-] добавить глобальную обработку ошибок
  *  */
-export default function PageLogin() {
-  const { getLocation, fromPath } = useRouterHistory();
-  const { login, errorMessage, setErrorMessage } = useLoginRegister();
+export default function PageRegistration() {
+  const { register, errorMessage, setErrorMessage } = useLoginRegister();
+  const { loading, setLoading } = useLoading();
 
-  const history = useHistory<LocationState>();
-  const [loading, setLoading] = useState(false);
   const handleSubmitForm = async (loginFormData: InputLogin): Promise<void> => {
     if (loading) return;
     if (!loginFormData.email || !loginFormData.password) {
@@ -30,17 +25,21 @@ export default function PageLogin() {
 
     try {
       setLoading(true);
-      await login(loginFormData);
-      history.replace(getLocation(fromPath || routePath.DEFAULT));
+      await register(loginFormData);
     } catch (e) {
       setLoading(false);
     }
   };
 
   return (
-    <BasePage className={"page-login"}>
-      <BaseMain className={"page-login__main container-narrow"}>
-        <EmailPasswordForm className={"ma-auto"} loading={loading} textButton={"Login"} onSubmit={handleSubmitForm} />
+    <BasePage className={"page-register"}>
+      <BaseMain className={"page-register__main container-narrow"}>
+        <EmailPasswordForm
+          className={"ma-auto"}
+          loading={loading}
+          textButton={"Register"}
+          onSubmit={handleSubmitForm}
+        />
 
         {errorMessage && <ErrorMessageModal message={errorMessage} onCloseError={() => setErrorMessage("")} />}
       </BaseMain>
