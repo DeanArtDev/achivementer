@@ -35,7 +35,3 @@ export type LoginData = {
   user: User;
   token: string;
 };
-
-type PathProps = {
-  location: Location<LocationState>;
-};

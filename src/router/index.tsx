@@ -1,31 +1,35 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
-import PageLogin from "pages/PageLogin";
-import { route } from "./consts";
+import { Route } from "react-router-dom";
+import { useLocation } from "react-router";
+import { LocationState } from "../types";
 import PrivateRoutes from "./PrivateRoutes";
-import FinancialRouter from "./FinancialRouter";
 import PathGuard from "./PathGuard";
+import publicRoutes from "./PublicRoutes/config";
+import privateRoutes from "./PrivateRoutes/config";
 
-// todo: переписать через конфиг
+// todo: добавить вложенные пути
 export default function MainRouter() {
-  return (
-    <PathGuard>
-      <Switch>
-        <Route exact path={route.LOGIN}>
-          <PageLogin />
-        </Route>
+  const location = useLocation<LocationState>();
 
-        <PrivateRoutes>
-          <Switch>
-            <Route path={"/finances"}>
-              <FinancialRouter />
+  return (
+    <PathGuard location={location}>
+      {publicRoutes.map(({ path, exact, Component }) => {
+        return (
+          <Route exact={exact} path={path} key={path}>
+            <Component />
+          </Route>
+        );
+      })}
+
+      <PrivateRoutes>
+        {privateRoutes.map(({ path, exact, Component }) => {
+          return (
+            <Route exact={exact} path={path} key={path}>
+              <Component />
             </Route>
-            <Route path={"*"}>
-              <div>ERROR</div>
-            </Route>
-          </Switch>
-        </PrivateRoutes>
-      </Switch>
+          );
+        })}
+      </PrivateRoutes>
     </PathGuard>
   );
 }

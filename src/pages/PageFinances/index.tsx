@@ -4,7 +4,7 @@ import providers from "providers";
 import { useEffectOnce } from "react-use";
 import { useHistory } from "react-router-dom";
 import { guardOneOf } from "utils/typeGuards";
-import { financialRoute } from "router/FinancialRouter/consts";
+import { financialPathname } from "router/consts";
 import useRouterHistory from "hooks/useRouterHistory";
 import useLoading from "hooks/useLoading";
 import BaseMain from "UI/BaseMain";
@@ -82,7 +82,7 @@ export default function PageFinances() {
   const history = useHistory();
   const { getLocation } = useRouterHistory();
   const handleCorrectReport = (id: string): void => {
-    history.push(getLocation(`${financialRoute.FINANCIAL_CORRECTOR}/${id}`));
+    history.push(getLocation(`${financialPathname.FINANCIAL_CORRECTOR}/${id}`));
   };
 
   useEffectOnce(() => {

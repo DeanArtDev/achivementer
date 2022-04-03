@@ -1,26 +1,27 @@
 import React, { PropsWithChildren } from "react";
-import { Redirect, Route } from "react-router-dom";
-import { PathProps } from "types";
+import { Location } from "history";
+import { Redirect, Switch } from "react-router-dom";
 import useAuthUser from "hooks/useAuthUser";
 import useRouterHistory from "hooks/useRouterHistory";
 import useQuery from "hooks/useQuery";
-import { route, routeQuery } from "../consts";
+import { LocationState } from "../../types";
+import { routePath, routeQuery } from "../consts";
 
-export default function PathGuard({ children }: PropsWithChildren<unknown>) {
+type Props = {
+  location: Location<LocationState>;
+};
+
+export default function PathGuard({ children, location }: PropsWithChildren<Props>) {
   const [authUser] = useAuthUser();
   const { getLocation } = useRouterHistory();
   const query = useQuery();
 
-  const pathGuard = ({ location }: PathProps) => {
-    if (authUser && query[routeQuery.REDIRECT_PATH]) {
-      return <Redirect to={getLocation(query[routeQuery.REDIRECT_PATH])} />;
-    }
-    if ((authUser && location.pathname === route.LOGIN) || location.pathname === "/") {
-      return <Redirect to={getLocation(route.DEFAULT)} />;
-    }
+  if (authUser && query[routeQuery.REDIRECT_PATH]) {
+    return <Redirect to={getLocation(query[routeQuery.REDIRECT_PATH])} />;
+  }
+  if ((authUser && location.pathname === routePath.LOGIN) || location.pathname === "/") {
+    return <Redirect to={getLocation(routePath.DEFAULT)} />;
+  }
 
-    return children;
-  };
-
-  return <Route>{pathGuard}</Route>;
+  return <Switch>{children}</Switch>;
 }
