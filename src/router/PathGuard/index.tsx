@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import { Location } from "history";
-import {Redirect, Switch} from "react-router-dom";
+import { Redirect, Switch } from "react-router-dom";
 import useAuthUser from "hooks/useAuthUser";
 import useRouterHistory from "hooks/useRouterHistory";
 import useQuery from "hooks/useQuery";
