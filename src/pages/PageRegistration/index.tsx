@@ -3,10 +3,10 @@ import { InputLogin } from "providers/api/LoginProvider/types";
 import useLoginRegister from "hooks/useLoginRegister";
 import useLoading from "hooks/useLoading";
 import EmailPasswordForm from "components/EmailPasswordForm";
+import ErrorMessageModal from "components/ErrorMessage";
 import BasePage from "UI/BasePage";
 import BaseMain from "UI/BaseMain";
 import "./style.scss";
-import ErrorMessageModal from "../../components/ErrorMessage";
 
 /* todo:
  *  [-] добавить вылидацию email

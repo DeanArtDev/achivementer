@@ -1,5 +1,5 @@
 import React, { MouseEvent, useState } from "react";
-import { InputLogin, InputRegister } from "providers/api/LoginProvider/types";
+import { InputLogin } from "providers/api/LoginProvider/types";
 import { KeysValuesType } from "types";
 import BaseInput from "UI/BaseInput";
 import BaseButton from "UI/BaseButton";
@@ -16,9 +16,9 @@ export default function EmailPasswordForm({ className, textButton, loading, onSu
   const cls = ["email-password-form"];
   if (className) cls.push(className);
 
-  const [loginFormData, setLoginFormData] = useState<InputRegister>({ email: "", password: "" });
+  const [loginFormData, setLoginFormData] = useState<InputLogin>({ email: "", password: "" });
 
-  const handleChangeLoginInput = (name: keyof InputRegister, value: KeysValuesType<InputRegister>) => {
+  const handleChangeLoginInput = (name: keyof InputLogin, value: KeysValuesType<InputLogin>) => {
     setLoginFormData({ ...loginFormData, [name]: value });
   };
 

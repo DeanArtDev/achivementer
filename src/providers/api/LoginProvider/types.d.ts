@@ -14,6 +14,4 @@ export type RegistrationResponse = LoginResponse;
 
 export type InputLogin = Pick<User, "email"> & { password: string };
 
-export type InputRegister = InputLogin;
-
 export type InputRegistration = Pick<User, "email" | "password">;
