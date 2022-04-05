@@ -1,6 +1,6 @@
-import {useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import { User } from "providers/api/LoginProvider/types";
-import { AuthUserContext } from "context/AuthUserContext/AuthUserContext";
+import { AuthUserContext } from "context/AuthUserContext";
 
 export default function useAuthUser() {
   const [{ user }] = useContext(AuthUserContext);
@@ -8,6 +8,6 @@ export default function useAuthUser() {
 
   useEffect(() => {
     setAuthUser(user);
-  }, [user])
+  }, [user]);
   return [authUser];
 }
