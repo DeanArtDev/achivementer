@@ -32,11 +32,6 @@ export default function FinancialReportPreviewInfo({
 
   const [isShowDetails, setIsShowDetails] = useState(false);
 
-  const handleEditReport = (callBack: () => void): void => {
-    callBack();
-    onEdit(report.id);
-  };
-
   return (
     <div className={cls.join(" ")}>
       <div className={"finance-report-details__header px-3"}>
@@ -45,10 +40,10 @@ export default function FinancialReportPreviewInfo({
         </h3>
 
         <FinancialReportManageMenu
-          className={"finance-report-details__menu pa-2 ml-auto"}
+          className={"finance-report-details__menu ml-auto"}
           loading={loading}
           onDelete={() => onDelete(report.id)}
-          onEdit={handleEditReport}
+          onEdit={() => onEdit(report.id)}
         />
 
         <span className={"finance-report-details__total-income mr-auto"}>

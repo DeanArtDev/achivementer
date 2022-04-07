@@ -1,28 +1,32 @@
 $content-height: 64px;
 $item-square: 44px;
 
-.report-manage-menu {
+.base-setting-menu {
   position: relative;
 
-  width: 42px;
+  width: $item-square;
+  height: $item-square;
 
-  .report-manage-menu__content {
+  &__active-btn {
+    flex-grow: 1;
+  }
+
+  &__content {
     position: absolute;
     top: 100%;
     right: 0;
     z-index: 1;
 
-    display: flex;
+    display: grid;
+    grid-column-gap: var(--sp-1);
+    grid-auto-columns: $item-square;
+    grid-auto-flow: column;
+    grid-auto-rows: $item-square;
     height: $content-height;
     padding: var(--sp-2);
 
     background-color: var(--palette-bg);
     border-radius: 15px;
     box-shadow: 2px 5px 10px 0 var(--palette-fg);
-  }
-
-  .report-manage-menu__item {
-    width: $item-square;
-    height: $item-square;
   }
 }
