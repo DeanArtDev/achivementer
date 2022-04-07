@@ -4,7 +4,8 @@ $item-square: 44px;
 .base-setting-menu {
   position: relative;
 
-  width: 42px;
+  width: $item-square;
+  height: $item-square;
 
   &__active-btn {
     flex-grow: 1;

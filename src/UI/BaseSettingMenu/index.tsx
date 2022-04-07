@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default function BaseSettingMenu({ className, children }: Props & { children: ReactElement | ReactElement[] }) {
-  const cls = ["base-setting-menu d-flex __center"];
+  const cls = ["base-setting-menu d-flex"];
   if (className) cls.push(className);
 
   const [isShowMenu, setIsShowMenu] = useState(false);

@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default function FinancialReportManageMenu({ className, loading, onEdit, onDelete }: Props) {
-  const cls = ["report-manage-menu"];
+  const cls = [];
   if (className) cls.push(className);
 
   const [isShowModal, setIsShowModal] = useState(false);
