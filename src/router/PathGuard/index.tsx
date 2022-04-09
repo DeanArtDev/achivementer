@@ -4,7 +4,7 @@ import { Redirect, Switch } from "react-router-dom";
 import useAuthUser from "hooks/useAuthUser";
 import useRouterHistory from "hooks/useRouterHistory";
 import useQuery from "hooks/useQuery";
-import { LocationState } from "../../types";
+import { LocationState } from "types";
 import { routePath, routeQuery } from "../consts";
 
 type Props = {

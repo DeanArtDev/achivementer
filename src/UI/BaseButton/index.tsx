@@ -53,14 +53,14 @@ export default function BaseButton({
 
   const preloaderColor = secondary ? "var(--palette-bg)" : "";
 
-  const onClickHandler = (evt: React.MouseEvent) => {
+  const handleButtonClick = (evt: React.MouseEvent) => {
     if (onClick && !loading && !disabled) {
       onClick(evt);
     }
   };
 
   return (
-    <button className={cls.join(" ")} type={type} disabled={disabled || loading} onClick={onClickHandler}>
+    <button className={cls.join(" ")} type={type} disabled={disabled || loading} onClick={handleButtonClick}>
       {loading && <BasePreloader size={24} color={preloaderColor} />}
       {!loading && children}
     </button>

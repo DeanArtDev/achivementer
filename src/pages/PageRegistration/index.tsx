@@ -1,25 +1,25 @@
 import React from "react";
 import { InputLogin } from "providers/api/LoginProvider/types";
+import emitter, { addPayload } from "utils/emitter";
+import { GlobalEmit } from "consts";
 import useLoginRegister from "hooks/useLoginRegister";
 import useLoading from "hooks/useLoading";
 import EmailPasswordForm from "components/EmailPasswordForm";
-import ErrorMessageModal from "components/ErrorMessage";
 import BasePage from "UI/BasePage";
 import BaseMain from "UI/BaseMain";
 import "./style.scss";
 
 /* todo:
  *  [-] добавить вылидацию email
- *  [-] добавить глобальную обработку ошибок
  *  */
 export default function PageRegistration() {
-  const { register, errorMessage, setErrorMessage } = useLoginRegister();
+  const { register } = useLoginRegister();
   const { loading, setLoading } = useLoading();
 
   const handleSubmitForm = async (loginFormData: InputLogin): Promise<void> => {
     if (loading) return;
     if (!loginFormData.email || !loginFormData.password) {
-      setErrorMessage("Both fields should be fill");
+      await emitter.emit(GlobalEmit.SHOW_NOTIFICATION, addPayload({ message: "Both fields should be fill" }));
       return;
     }
 
@@ -40,8 +40,6 @@ export default function PageRegistration() {
           textButton={"Register"}
           onSubmit={handleSubmitForm}
         />
-
-        {errorMessage && <ErrorMessageModal message={errorMessage} onCloseError={() => setErrorMessage("")} />}
       </BaseMain>
     </BasePage>
   );
