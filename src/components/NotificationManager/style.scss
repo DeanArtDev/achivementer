@@ -8,17 +8,24 @@
 
   padding-bottom: 35px;
 
-  background-image: linear-gradient(to top, transparent 0%, var(--palette-negative-lighten-7) 100%);
+  background-image: linear-gradient(to top, var(--palette-bg) 0%, var(--palette-negative-lighten-7) 40%);
 
   &__content {
-    display: flex;
-    justify-content: start;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    grid-column-gap: var(--sp-2);
+    align-content: center;
     align-items: center;
+    min-height: 168px;
+  }
+
+  &__msg-wrapper {
+    display: grid;
+    grid-row-gap: var(--sp-2);
+    grid-auto-rows: auto;
   }
 
   &__msg {
-    flex-grow: 1;
-
     text-align: center;
   }
 }

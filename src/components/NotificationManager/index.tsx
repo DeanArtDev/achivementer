@@ -7,13 +7,18 @@ import { GlobalEmit } from "consts";
 import "./style.scss";
 
 const HIDDEN_MESSAGE_TIMER = 5000;
+const MESSAGE_COUNT_LIMIT = 3;
 
 export default function NotificationManager() {
   const goToPortal = usePortal();
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessages, setErrorMessages] = useState<ShowNotificationPayload["message"][]>([]);
 
   const handleEmitterShow = ({ payload: { message } }: GlobalEmitPayload<ShowNotificationPayload>): void => {
-    setErrorMessage(message);
+    setErrorMessages((state) => {
+      const newState = [...state, message];
+      if (newState.length > MESSAGE_COUNT_LIMIT) newState.shift();
+      return newState;
+    });
   };
 
   useEffect(() => {
@@ -21,15 +26,27 @@ export default function NotificationManager() {
   });
 
   useEffect(() => {
-    errorMessage && setTimeout(() => setErrorMessage(""), HIDDEN_MESSAGE_TIMER)
-  }, [errorMessage])
+    let timeoutId: ReturnType<typeof setTimeout>;
+    if (errorMessages) {
+      timeoutId = setTimeout(() => setErrorMessages([]), HIDDEN_MESSAGE_TIMER);
+    }
 
-  if (!errorMessage) return null;
+    return () => timeoutId && clearTimeout(timeoutId);
+  }, [errorMessages]);
+
+  if (errorMessages.length === 0) return null;
   return goToPortal(
     <div className={"notification-manager container-narrow __x-padding mx-auto"}>
       <div className={"notification-manager__content py-4"}>
-        <NotificationIcon className={"mr-2"} width={35} height={35} />
-        <span className={"notification-manager__msg"}>{errorMessage}</span>
+        <NotificationIcon width={35} height={35} />
+
+        <div className={"notification-manager__msg-wrapper"}>
+          {errorMessages.map((message, index) => (
+            <span className={"notification-manager__msg"} key={message + index}>
+              {message}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
