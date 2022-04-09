@@ -38,3 +38,7 @@ export enum Regexp {
 export const enum LocalStorageKey {
   USER_LOGIN_DATA = "USER_LOGIN_DATA",
 }
+
+export const enum GlobalEmit {
+  SHOW_NOTIFICATION = "SHOW_NOTIFICATION",
+}

@@ -48,7 +48,6 @@ export default function PageFinances() {
         const updatedReport = await providers.FinancialReportProvider.update(report);
         replaceReport(updatedReport);
       } else {
-        //todo: [error exception] сделать вменяемую обработку ошибок
         const reportWithoutPartsIds = { ...report, parts: removeIdsFromParts(report.parts) };
         const newReport = await providers.FinancialReportProvider.create(reportWithoutPartsIds);
         setReports([...reports, newReport]);

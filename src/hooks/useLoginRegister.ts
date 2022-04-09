@@ -7,7 +7,7 @@ import StorageManager from "utils/StorageManager";
 import { userAction } from "context/AuthUserContext/consts";
 import { AuthUserContext } from "context/AuthUserContext";
 import { useHistory } from "react-router-dom";
-import { LocationState, LoginData } from "../types";
+import { LocationState, LoginData } from "types";
 import useRouterHistory from "./useRouterHistory";
 import { routePath } from "../router/consts";
 

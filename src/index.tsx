@@ -9,6 +9,9 @@ disableDevToolsForProductionBuild();
 /* todo:
  *  [-] добавить скрытый роут для регистрации
  *  [-] добавить отображение ошибок с бека UI/UX
+ *  [-] [error exception] Добавить view состояния ошибок
+ *  [-] [error exception] добавить в api глобальный отлов ошибок через глобальню шину данных
+ *  [-] [error exception] добавить в api отключение вывода глобальных
  *  */
 ReactDOM.render(
   <React.StrictMode>

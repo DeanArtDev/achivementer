@@ -1,4 +1,4 @@
-import { User } from "./providers/api/LoginProvider/types";
+import { User } from "../providers/api/LoginProvider/types";
 import { Location } from "history";
 
 export type ToMap<U extends string, T> = Record<U, T>;

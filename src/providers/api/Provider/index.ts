@@ -5,6 +5,7 @@ import { LocalStorageKey } from "consts";
 import StorageManager from "utils/StorageManager";
 import { merge } from "lodash-es";
 
+// todo: зависимости добавлять через конструктор
 export default abstract class Provider {
   protected path = "";
 
@@ -44,7 +45,8 @@ export default abstract class Provider {
 
   private get addPrivateHeaders(): { Authorization: string } {
     const loginData = StorageManager.getItem<LoginData>(LocalStorageKey.USER_LOGIN_DATA);
-    if (!loginData) return { Authorization: "" };
+    // todo: [error exception] переписать через глобальный отлов ошибок
+    if (!loginData) throw Error("There is no authorization token");
     return { Authorization: `Bearer ${loginData.token}` };
   }
 }

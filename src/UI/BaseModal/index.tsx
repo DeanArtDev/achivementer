@@ -8,11 +8,14 @@ type Props = {
 };
 
 export default function BaseModal({ children, className, onCloseModal }: PropsWithChildren<Props>) {
+  const cls = ["base-modal"];
+  className && cls.push(className);
+
   const goToPortal = usePortal();
 
   const handleCurrentTargetCloseModal = ({ target, currentTarget }: MouseEvent): void => {
     target === currentTarget && onCloseModal();
   };
 
-  return goToPortal({ children, onClick: handleCurrentTargetCloseModal, className });
+  return goToPortal({ children, onClick: handleCurrentTargetCloseModal, className: cls.join(" ") });
 }

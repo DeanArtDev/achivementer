@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import { useLocation } from "react-router";
-import { LocationState } from "../types";
+import { LocationState } from "types";
 import PrivateRoutes from "./PrivateRoutes";
 import PathGuard from "./PathGuard";
 import publicRoutes from "./PublicRoutes/config";
