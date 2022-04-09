@@ -1,0 +1,1 @@
+export type ValidationFieldsMap = Record<string, boolean>

@@ -1,27 +1,32 @@
-import { Predicate, PredicateMap } from "types";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
-export default function useViewController(): [
-  (predicatesMap: PredicateMap) => void,
-  (predicate: Predicate) => void,
-  Predicate
-] {
-  const validationPeriodCallbacks = useRef<PredicateMap>({});
-  const validationPartsCallbacks = useRef<PredicateMap>({});
+export default function useViewController(): {
+  setPartsValidation: (isValid: boolean) => void;
+  setPeriodValidation: (isValid: boolean) => void;
+  isAllFieldsValid: boolean;
+} {
+  const [isAllFieldsValid, setIsAllFieldsValid] = useState(false);
 
-  const isFieldsValid = (): boolean => {
-    return Object.values<Predicate>({ ...validationPartsCallbacks.current, ...validationPeriodCallbacks.current })
-      .map((cb) => cb())
-      .every((r) => r);
+  const validationParts = useRef<boolean>(false);
+  const validationPeriod = useRef<boolean>(false);
+  const checkAllValidation = () => {
+    if (isAllFieldsValid && (!validationParts.current || !validationPeriod.current)) {
+      setIsAllFieldsValid(false);
+    }
+    if (validationParts.current && validationPeriod.current) {
+      setIsAllFieldsValid(true);
+    }
   };
 
-  const setValidationPartsCallbacks = (predicatesMap: PredicateMap): void => {
-    validationPartsCallbacks.current = predicatesMap;
+  const setPartsValidation = (isValid: boolean): void => {
+    validationParts.current = isValid;
+    checkAllValidation();
   };
 
-  const setValidationPeriodCallbacks = (predicate: Predicate) => {
-    validationPeriodCallbacks.current = { ...validationPeriodCallbacks.current, [predicate.name]: predicate };
+  const setPeriodValidation = (isValid: boolean): void => {
+    validationPeriod.current = isValid;
+    checkAllValidation();
   };
 
-  return [setValidationPartsCallbacks, setValidationPeriodCallbacks, isFieldsValid];
+  return { setPartsValidation, setPeriodValidation, isAllFieldsValid };
 }

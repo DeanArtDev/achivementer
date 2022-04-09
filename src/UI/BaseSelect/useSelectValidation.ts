@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { PLACEHOLDER_VALUE } from "./consts";
-import { BaseOption, Predicate } from "types";
-import { UseSelectValidation } from "./types";
-import changeFunctionName from "utils/changeFunctionName";
+import { BaseOption } from "types";
+
+export type UseSelectValidation = {
+  isValid: boolean;
+  isShowError: boolean;
+  validate: (value: string) => boolean;
+};
 
 export default function useSelectValidation(
   name: string,
@@ -19,20 +23,12 @@ export default function useSelectValidation(
       setIsValid(false);
       return false;
     }
-    if (options.every(o => o.value !== value)) {
+    if (options.every((o) => o.value !== value)) {
       setIsValid(false);
       return false;
     }
 
     setIsValid(true);
-    return true;
-  };
-
-  const validatingCallback = () => {
-    if (required) {
-      setIsShowError(!isValid);
-      return isValid;
-    }
     return true;
   };
 
@@ -45,5 +41,5 @@ export default function useSelectValidation(
     setIsShowError(!isValid);
   }, [isValid]);
 
-  return [isValid, isShowError, validate, changeFunctionName<Predicate>(name, validatingCallback)];
+  return { isValid, isShowError, validate };
 }

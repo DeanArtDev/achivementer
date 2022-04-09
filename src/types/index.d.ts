@@ -13,9 +13,6 @@ export type LocationState = {
 
 export type KeysValuesType<T> = T[keyof T];
 
-export type Predicate = () => boolean;
-export type PredicateMap = ToMap<Predicate["name"], Predicate>;
-
 export type BaseOption = {
   value: string;
   text: string;

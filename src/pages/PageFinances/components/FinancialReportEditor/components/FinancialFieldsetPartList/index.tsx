@@ -1,44 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef } from "react";
 import { FinancialPart } from "providers/api/FinancialReportProvider/types";
-import { Predicate, PredicateMap, ToMap } from "types";
-import { pickBy } from "lodash-es";
+import {ValidationFieldsMap} from "../../../../types";
 import { Period } from "consts";
 import FieldsetPart from "./components/FieldsetPart";
-
 import "./style.scss";
 
 type Props = {
   className?: string;
   parts: FinancialPart[];
   onChangePart: (part: FinancialPart) => void;
-  setValidationCallbacks: (predicatesMap: PredicateMap) => void;
+  onValidCheck?: (isValid: boolean) => void;
 };
 
-export default function FinancialFieldsetPartList({ className, parts, onChangePart, setValidationCallbacks }: Props) {
+//todo: если после максимального колличества нажать не верный символ то прилетит false но не покрасит input
+export default function FinancialFieldsetPartList({ className, parts, onChangePart, onValidCheck }: Props) {
   const cls = ["finance-part-list"];
   if (className) cls.push(className);
 
-  const filterUnusedPredicates = (state: ToMap<Predicate["name"], Predicate>): PredicateMap => {
-    return pickBy(state, (_, predicateName) => {
-      return parts.some((p) => predicateName.includes(p.id));
-    });
+  const validationFieldsMap = useRef<ValidationFieldsMap>({});
+  const handlePartValidCheck = (id: string, isValid: boolean): void => {
+    validationFieldsMap.current[id] = isValid;
+    onValidCheck && onValidCheck(Object.values(validationFieldsMap.current).every(Boolean));
   };
-
-  const [validationCallbacksMap, setValidationCallbacksMap] = useState<PredicateMap>({});
-  const handleValidationCallback = (predicate: Predicate): void => {
-    setValidationCallbacksMap((state) => {
-      const updatedState = { ...state, [predicate.name]: predicate };
-      return filterUnusedPredicates(updatedState);
-    });
-  };
-
-  useEffect(() => {
-    setValidationCallbacks(validationCallbacksMap);
-  }, [validationCallbacksMap]);
-
-  useEffect(() => {
-    setValidationCallbacksMap((state) => filterUnusedPredicates(state));
-  }, [parts]);
 
   return (
     <ul className={cls.join(" ")}>
@@ -50,7 +33,7 @@ export default function FinancialFieldsetPartList({ className, parts, onChangePa
           key={part.id}
           tagName={"li"}
           onChangePart={onChangePart}
-          setValidationCallback={handleValidationCallback}
+          onValidCheck={(v) => handlePartValidCheck(part.id, v)}
         />
       ))}
     </ul>

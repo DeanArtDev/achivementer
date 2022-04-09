@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { BaseOption, Predicate } from "types";
+import { BaseOption } from "types";
 import { ReactComponent as BottomArrowIcon } from "assets/images/icons/bottom-arrow.svg";
 import { PLACEHOLDER_VALUE } from "./consts";
 import useSelectValidation from "./useSelectValidation";
@@ -16,7 +16,7 @@ type Props = {
   size?: number;
   placeholder?: string;
   onChange: (value: string) => void;
-  setValidationCallback?: (predicate: Predicate) => void;
+  onValidCheck?: (isValid: boolean) => void;
 };
 
 const defaultPlaceholder = (placeholder: string) => {
@@ -32,9 +32,9 @@ export default function BaseSelect({
   required = false,
   placeholder = "Empty",
   onChange,
-  setValidationCallback,
+  onValidCheck,
 }: Props) {
-  const [isValid, isShowError, validate, validatingCallback] = useSelectValidation(name, options, required);
+  const { isValid, isShowError, validate } = useSelectValidation(name, options, required);
 
   const cls = ["base-select"];
   if (className) cls.push(className);
@@ -57,12 +57,12 @@ export default function BaseSelect({
   if (isEmpty) cls.push("__empty");
 
   useEffect(() => {
-    setValidationCallback && setValidationCallback(validatingCallback);
+    onValidCheck && onValidCheck(isValid);
   }, [isValid]);
 
   useEffect(() => {
-    value && validate(value)
-  }, [value])
+    value && validate(value);
+  }, [value]);
 
   return (
     <div className={cls.join(" ")}>
