@@ -2,7 +2,7 @@ import Emittery from "emittery";
 import { EmitteryEventData, GlobalEmitData, GlobalEmitPayload } from "types/emittery";
 import { GlobalEmit } from "consts";
 
-export function addPayload<T>({ payload }: { payload: T }): GlobalEmitPayload<T> {
+export function addPayload<T>(payload: T): GlobalEmitPayload<T> {
   return {
     payload,
     trace: () => console.trace("Emittery trace: "),
