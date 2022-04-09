@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { FinancialPart } from "providers/api/FinancialReportProvider/types";
 import { InputValidationOptions } from "types";
+import {ValidationFieldsMap} from "../../../../../../types";
 import { numericToStringAdapter } from "utils/adapters";
 import { Regexp } from "consts";
 import CustomTag from "components/CustomTag";
@@ -31,7 +32,7 @@ export default function FieldsetPart({ id, part, title, tagName, className, onCh
     onChangePart({ ...part, [name]: value });
   };
 
-  const validationFieldsMap = useRef<Record<string, boolean>>({});
+  const validationFieldsMap = useRef<ValidationFieldsMap>({});
   const handleInputValidCheck = (name: keyof FinancialPart, isValid: boolean): void => {
     validationFieldsMap.current[name] = isValid;
     onValidCheck && onValidCheck(Object.values(validationFieldsMap.current).every(Boolean));

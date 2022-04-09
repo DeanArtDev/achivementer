@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { FinancialPart } from "providers/api/FinancialReportProvider/types";
+import {ValidationFieldsMap} from "../../../../types";
 import { Period } from "consts";
 import FieldsetPart from "./components/FieldsetPart";
 import "./style.scss";
@@ -16,7 +17,7 @@ export default function FinancialFieldsetPartList({ className, parts, onChangePa
   const cls = ["finance-part-list"];
   if (className) cls.push(className);
 
-  const validationFieldsMap = useRef<Record<string, boolean>>({});
+  const validationFieldsMap = useRef<ValidationFieldsMap>({});
   const handlePartValidCheck = (id: string, isValid: boolean): void => {
     validationFieldsMap.current[id] = isValid;
     onValidCheck && onValidCheck(Object.values(validationFieldsMap.current).every(Boolean));

@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { FinancialPeriodValue } from "providers/api/FinancialReportProvider/types";
+import { ValidationFieldsMap } from "../../../../types";
 import { InputFinancialPeriod } from "../../types";
 import { PARTS_LIMIT } from "../../consts";
 import { numericToStringAdapter } from "utils/adapters";
@@ -22,7 +23,7 @@ export default function FieldsetPeriod({ className, month, partCount, onChangePe
 
   const [periodOptions, partOptions] = useController();
 
-  const validationFieldsMap = useRef<Record<string, boolean>>({});
+  const validationFieldsMap = useRef<ValidationFieldsMap>({});
   const handleValidationCallback = (name: InputFinancialPeriod, isValid: boolean): void => {
     validationFieldsMap.current[name] = isValid;
     onValidCheck && onValidCheck(Object.values(validationFieldsMap.current).every(Boolean));
