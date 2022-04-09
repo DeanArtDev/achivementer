@@ -1,35 +1,34 @@
 @import "style/variables";
 
 .base-modal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  &__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
 
-  width: 100%;
-  padding: var(--sp-5);
+    width: 100%;
+    padding: var(--sp-5);
 
-  background-color: var(--palette-bg);
-  border-radius: 14px;
-  transform: translateX(-50%) translateY(-50%);
-}
+    background-color: var(--palette-bg);
+    border-radius: 14px;
+    transform: translateX(-50%) translateY(-50%);
 
-.overlay {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: $z-index-high-layout;
+    @include mobile-up {
+      max-width: 400px;
+    }
+  }
 
-  display: block;
+  &__overlay {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: $z-index-high-layout;
 
-  background-color: rgba(var(--palette-fg-rgb), 0.9);
-}
+    display: block;
 
-
-@include mobile-up {
-  .base-modal {
-    max-width: 400px;
+    background-color: rgba(var(--palette-fg-rgb), 0.9);
   }
 }
