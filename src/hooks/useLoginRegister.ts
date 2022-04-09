@@ -1,18 +1,18 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import axios from "axios";
 import { InputLogin } from "providers/api/LoginProvider/types";
 import providers from "providers";
-import { LocalStorageKey } from "consts";
+import { GlobalEmit, LocalStorageKey } from "consts";
 import StorageManager from "utils/StorageManager";
+import emitter, { addPayload } from "utils/emitter";
+import { routePath } from "router/consts";
 import { userAction } from "context/AuthUserContext/consts";
 import { AuthUserContext } from "context/AuthUserContext";
 import { useHistory } from "react-router-dom";
 import { LocationState, LoginData } from "types";
 import useRouterHistory from "./useRouterHistory";
-import { routePath } from "../router/consts";
 
 export default function useLoginRegister() {
-  const [errorMessage, setErrorMessage] = useState("");
   const [, dispatch] = useContext(AuthUserContext);
 
   const history = useHistory<LocationState>();
@@ -30,7 +30,7 @@ export default function useLoginRegister() {
       saveLoginDataAndRedirect(response);
     } catch (e) {
       if (axios.isAxiosError(e)) {
-        setErrorMessage(e.response?.data.message);
+        await emitter.emit(GlobalEmit.SHOW_NOTIFICATION, addPayload({ message: e.response?.data.message }));
         throw e;
       }
     }
@@ -42,11 +42,11 @@ export default function useLoginRegister() {
       saveLoginDataAndRedirect(response);
     } catch (e) {
       if (axios.isAxiosError(e)) {
-        setErrorMessage(e.response?.data.message);
+        await emitter.emit(GlobalEmit.SHOW_NOTIFICATION, addPayload({ message: e.response?.data.message }));
         throw e;
       }
     }
   };
 
-  return { login, register, errorMessage, setErrorMessage };
+  return { login, register };
 }
