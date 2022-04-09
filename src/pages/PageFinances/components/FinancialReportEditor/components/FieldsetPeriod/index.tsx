@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FinancialPeriodValue } from "providers/api/FinancialReportProvider/types";
 import { InputFinancialPeriod } from "../../types";
 import { PARTS_LIMIT } from "../../consts";
-import { Predicate } from "types";
 import { numericToStringAdapter } from "utils/adapters";
 import BaseSelect from "UI/BaseSelect";
 import useController from "./controller";
@@ -14,14 +13,20 @@ type Props = {
   partCount: number;
   month: number;
   onChangePeriod: (name: InputFinancialPeriod, value: FinancialPeriodValue) => void;
-  setValidationCallback: (predicate: Predicate) => void;
+  onValidCheck?: (isValid: boolean) => void;
 };
 
-export default function FieldsetPeriod({ className, month, partCount, onChangePeriod, setValidationCallback }: Props) {
+export default function FieldsetPeriod({ className, month, partCount, onChangePeriod, onValidCheck }: Props) {
   const cls = ["fieldset-period"];
   if (className) cls.push(className);
 
   const [periodOptions, partOptions] = useController();
+
+  const validationFieldsMap = useRef<Record<string, boolean>>({});
+  const handleValidationCallback = (name: InputFinancialPeriod, isValid: boolean): void => {
+    validationFieldsMap.current[name] = isValid;
+    onValidCheck && onValidCheck(Object.values(validationFieldsMap.current).every(Boolean));
+  };
 
   const handlePeriodChange = (name: InputFinancialPeriod, value: FinancialPeriodValue): void => {
     if (value <= PARTS_LIMIT || name === "month") {
@@ -41,8 +46,8 @@ export default function FieldsetPeriod({ className, month, partCount, onChangePe
             name={"month"}
             options={periodOptions}
             value={String(month)}
-            setValidationCallback={setValidationCallback}
             required
+            onValidCheck={(v) => handleValidationCallback("month", v)}
             onChange={(v) => handlePeriodChange("month", Number(v))}
           />
         </label>
@@ -57,7 +62,7 @@ export default function FieldsetPeriod({ className, month, partCount, onChangePe
             value={numericToStringAdapter(partCount)}
             placeholder={`1 - ${PARTS_LIMIT}`}
             required
-            setValidationCallback={setValidationCallback}
+            onValidCheck={(v) => handleValidationCallback("partCount", v)}
             onChange={(v) => handlePeriodChange("partCount", Number(v))}
           />
         </label>

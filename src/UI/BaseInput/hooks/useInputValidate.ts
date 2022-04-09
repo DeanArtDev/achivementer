@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useEffectOnce } from "react-use";
-import { InputValidationOptions, Predicate } from "types";
-import changeFunctionName from "utils/changeFunctionName";
+import { InputValidationOptions } from "types";
 
-type UseInputValidate = [boolean, boolean, (value: string) => boolean, () => boolean];
+type UseInputValidate = {
+  isValid: boolean;
+  isShowError: boolean;
+  isCanChangeField: (value: string) => boolean;
+};
 
 const checkByRegExp = (value: string, regexp: string): boolean => {
   const regExp = new RegExp(regexp);
@@ -48,14 +51,6 @@ export default function useInputValidate(
     return valid;
   };
 
-  const validatingCallback = () => {
-    if (require) {
-      setIsShowError(!isValid);
-      return isValid;
-    }
-    return true;
-  };
-
   useEffect(() => {
     const trimmedValue = value;
     if ((trimmedValue === "" && isValid) || !isFirstChange.current) {
@@ -80,10 +75,5 @@ export default function useInputValidate(
     if (value !== "") validate(value);
   });
 
-  return [
-    isValid,
-    isShowError,
-    isCanChangeField,
-    changeFunctionName<Predicate>(`${name}${inputValidateOptions?.predicateNameSpace ?? ""}`.trim(), validatingCallback),
-  ];
+  return { isValid, isShowError, isCanChangeField };
 }

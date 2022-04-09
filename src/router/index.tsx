@@ -7,7 +7,6 @@ import PathGuard from "./PathGuard";
 import publicRoutes from "./PublicRoutes/config";
 import privateRoutes from "./PrivateRoutes/config";
 
-// todo: добавить вложенные пути
 export default function MainRouter() {
   const location = useLocation<LocationState>();
 

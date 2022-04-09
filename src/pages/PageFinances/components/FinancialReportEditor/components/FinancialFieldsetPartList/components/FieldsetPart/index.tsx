@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FinancialPart } from "providers/api/FinancialReportProvider/types";
-import { InputValidationOptions, Predicate } from "types";
+import { InputValidationOptions } from "types";
 import { numericToStringAdapter } from "utils/adapters";
 import { Regexp } from "consts";
 import CustomTag from "components/CustomTag";
 import BaseInput from "UI/BaseInput";
-
 import "./style.scss";
 
 type Props = {
@@ -15,7 +14,7 @@ type Props = {
   tagName?: string;
   part: FinancialPart;
   onChangePart: (part: FinancialPart) => void;
-  setValidationCallback: (predicate: Predicate) => void;
+  onValidCheck?: (isValid: boolean) => void;
 };
 
 const getPercentsValidationOptions = (id: Props["id"]): InputValidationOptions => ({
@@ -24,20 +23,18 @@ const getPercentsValidationOptions = (id: Props["id"]): InputValidationOptions =
   require: true,
 });
 
-export default function FieldsetPart({
-  id,
-  part,
-  title,
-  tagName,
-  className,
-  onChangePart,
-  setValidationCallback,
-}: Props) {
+export default function FieldsetPart({ id, part, title, tagName, className, onChangePart, onValidCheck }: Props) {
   const cls = ["fieldset-part"];
   if (className) cls.push(className);
 
   const handleChangePercent = (name: keyof FinancialPart, value: string): void => {
     onChangePart({ ...part, [name]: value });
+  };
+
+  const validationFieldsMap = useRef<Record<string, boolean>>({});
+  const handleInputValidCheck = (name: keyof FinancialPart, isValid: boolean): void => {
+    validationFieldsMap.current[name] = isValid;
+    onValidCheck && onValidCheck(Object.values(validationFieldsMap.current).every(Boolean));
   };
 
   return (
@@ -52,7 +49,7 @@ export default function FieldsetPart({
           value={numericToStringAdapter(part.income)}
           inputValidateOptions={{ predicateNameSpace: id, regexp: Regexp.NUMERIC, require: true }}
           onChange={(v) => onChangePart({ ...part, income: Number(v) })}
-          setValidationCallback={setValidationCallback}
+          onValidCheck={(v) => handleInputValidCheck("income", v)}
         />
       </fieldset>
 
@@ -67,7 +64,7 @@ export default function FieldsetPart({
             placeholder={"50"}
             inputValidateOptions={getPercentsValidationOptions(id)}
             value={numericToStringAdapter(part.common)}
-            setValidationCallback={setValidationCallback}
+            onValidCheck={(v) => handleInputValidCheck("common", v)}
             onChange={(v) => handleChangePercent("common", v)}
           />
 
@@ -77,7 +74,7 @@ export default function FieldsetPart({
             placeholder={"20"}
             inputValidateOptions={getPercentsValidationOptions(id)}
             value={numericToStringAdapter(part.piggyBank)}
-            setValidationCallback={setValidationCallback}
+            onValidCheck={(v) => handleInputValidCheck("piggyBank", v)}
             onChange={(v) => handleChangePercent("piggyBank", v)}
           />
 
@@ -87,7 +84,7 @@ export default function FieldsetPart({
             placeholder={"30"}
             inputValidateOptions={getPercentsValidationOptions(id)}
             value={numericToStringAdapter(part.free)}
-            setValidationCallback={setValidationCallback}
+            onValidCheck={(v) => handleInputValidCheck("free", v)}
             onChange={(v) => handleChangePercent("free", v)}
           />
         </div>

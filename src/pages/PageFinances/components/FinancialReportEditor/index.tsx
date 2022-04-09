@@ -25,7 +25,7 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
   if (className) cls.push(className);
 
   const [formData, setFormData, shapeParts] = useController(editedReport);
-  const [setValidationPartsCallbacks, setValidationPeriodCallbacks, isFieldsValid] = useViewController();
+  const { setValidationParts, setValidationPeriod, isFieldsValid } = useViewController();
 
   const handleChangePart = (part: FinancialPart): void => {
     setFormData((state) => ({ ...state, parts: updateParts(part, state) }));
@@ -41,7 +41,7 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
 
   const handleSubmitForm = (evt: MouseEvent<HTMLFormElement>): void => {
     evt.preventDefault();
-    if (isFieldsValid()) onEditReport(formData);
+    if (isFieldsValid) onEditReport(formData);
   };
 
   return (
@@ -50,19 +50,19 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
         month={formData.month}
         partCount={formData.partCount}
         onChangePeriod={handleChangePeriod}
-        setValidationCallback={setValidationPeriodCallbacks}
+        onValidCheck={setValidationPeriod}
       />
 
       <FinancialFieldsetPartList
         parts={formData.parts}
         onChangePart={handleChangePart}
-        setValidationCallbacks={setValidationPartsCallbacks}
+        onValidCheck={setValidationParts}
       />
 
       <BaseButton
         className={"finance-report-editor__submit-btn mt-auto"}
         type={"submit"}
-        disabled={formData.parts.length === 0}
+        disabled={!isFieldsValid}
         secondary
         fullWith
       >

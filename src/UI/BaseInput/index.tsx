@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect } from "react";
-import { InputValidationOptions, Predicate } from "types";
+import { InputValidationOptions } from "types";
 import { ButtonTypes } from "./types";
 import useInputValidate from "./hooks/useInputValidate";
 
@@ -15,7 +15,7 @@ type Props = {
   placeholder?: string;
   inputValidateOptions?: InputValidationOptions;
   onChange?: (value: string) => void;
-  setValidationCallback?: (predicate: Predicate) => void;
+  onValidCheck?: (isValid: boolean) => void;
 };
 
 export default function BaseInput({
@@ -24,17 +24,13 @@ export default function BaseInput({
   value = "",
   type = "text",
   inputValidateOptions,
-  setValidationCallback,
+  onValidCheck,
   disabled,
   onChange,
   ...props
 }: Props) {
   const cls = ["base-input"];
-  const [isValid, isShowError, isCanChangeField, validatingCallback] = useInputValidate(
-    value,
-    name,
-    inputValidateOptions
-  );
+  const { isValid, isShowError, isCanChangeField } = useInputValidate(value, name, inputValidateOptions);
 
   if (className) cls.push(className);
   if (isShowError) cls.push("__invalid");
@@ -48,9 +44,8 @@ export default function BaseInput({
     }
   };
 
-  // todo: переписать логику валидации инпутов через проброс на верх значения а не callback
   useEffect(() => {
-    setValidationCallback && setValidationCallback(validatingCallback);
+    onValidCheck && onValidCheck(isValid);
   }, [isValid]);
 
   return (
