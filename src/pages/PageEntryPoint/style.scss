@@ -1,0 +1,20 @@
+@import "style/variables";
+
+.page-entry-point {
+  &__main {
+    display: grid;
+    grid-auto-rows: min-content;
+    grid-row: header / footer;
+    background-color: var(--palette-bg);
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__logout {
+    color: var(--palette-gray);
+  }
+}

@@ -19,7 +19,7 @@ export default function PathGuard({ children, location }: PropsWithChildren<Prop
   if (authUser && query[routeQuery.REDIRECT_PATH]) {
     return <Redirect to={getLocation(query[routeQuery.REDIRECT_PATH])} />;
   }
-  if ((authUser && location.pathname === routePath.LOGIN) || location.pathname === "/") {
+  if ((authUser && location.pathname === routePath.LOGIN)) {
     return <Redirect to={getLocation(routePath.DEFAULT)} />;
   }
 

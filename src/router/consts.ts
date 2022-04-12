@@ -4,10 +4,12 @@ export const enum financialPathname {
 }
 
 export const enum routePath {
-  DEFAULT = "/finances",
+  DEFAULT = "/",
+  FINANCES = "/finances",
   LOGIN = "/login",
   REGISTER = "/register",
   FINANCES_CORRECTOR = "/finances/corrector/:id",
+  LOGOUT = "/logout",
   ANY = "*",
 }
 
