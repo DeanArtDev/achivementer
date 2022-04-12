@@ -38,6 +38,12 @@ export default function PageFinances() {
   const resetEditMode = () => {
     editedReport.current = undefined;
     setIsEditMode(false);
+  }
+
+  const { goToHome } = useRouterHistory();
+  const handleBackClick = () => {
+    if (!isEditMode) return goToHome();
+    resetEditMode();
   };
 
   //todo: один репорт для оддного месяца, частей может быть до 3, но, репорт только один
@@ -93,7 +99,7 @@ export default function PageFinances() {
   return (
     <BasePage className={"page-finances"}>
       <BaseHeader className={"page-finances__header container-narrow mb-4"}>
-        <FinancialControl isEditMode={isEditMode} onAddClick={() => setIsEditMode(true)} onBackClick={resetEditMode} />
+        <FinancialControl onAddClick={() => setIsEditMode(true)} onBackClick={handleBackClick} />
       </BaseHeader>
 
       <BaseMain className={"page-finances__main container-narrow"}>

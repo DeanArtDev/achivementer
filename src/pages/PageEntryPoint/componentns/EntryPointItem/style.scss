@@ -1,0 +1,17 @@
+@import "style/variables";
+
+.entry-point-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-column-gap: var(--sp-3);
+  text-decoration: none;
+  color: var(--palette-fg);
+
+  &:hover {
+    background-color: var(--palette-gray-lighten-6);
+  }
+
+  &__title {
+    margin: 0;
+  }
+}
