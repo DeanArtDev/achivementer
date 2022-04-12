@@ -15,12 +15,11 @@ const checkByRegExp = (value: string, regexp: string): boolean => {
 
 export default function useInputValidate(
   value: string,
-  name: string,
-  inputValidateOptions?: InputValidationOptions
+  inputValidateOptions?: InputValidationOptions,
 ): UseInputValidate {
-  const { regexp, initialValue, require } = inputValidateOptions ?? {};
-  const [isValid, setIsValid] = useState(initialValue ?? false);
-  const [isShowError, setIsShowError] = useState(initialValue ? false : !isValid);
+  const { regexp, validValue, require } = inputValidateOptions ?? {};
+  const [isValid, setIsValid] = useState(validValue ?? false);
+  const [isShowError, setIsShowError] = useState(validValue ? false : !isValid);
   const isFirstChange = useRef(false);
 
   const validate = (newValue: string): boolean => {

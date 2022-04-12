@@ -8,7 +8,7 @@
 
   padding-bottom: 35px;
 
-  background-image: linear-gradient(to top, var(--palette-bg) 0%, var(--palette-negative-lighten-7) 40%);
+  background-image: linear-gradient(to top, transparent 0%, var(--palette-negative-lighten-7) 50%);
 
   &__content {
     display: grid;

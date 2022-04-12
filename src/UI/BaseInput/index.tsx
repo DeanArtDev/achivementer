@@ -10,6 +10,7 @@ type Props = {
   name: string;
   value?: string;
   disabled?: boolean;
+  customIsValid?: boolean;
   className?: string;
   type?: ButtonTypes;
   placeholder?: string;
@@ -26,11 +27,12 @@ export default function BaseInput({
   inputValidateOptions,
   onValidCheck,
   disabled,
+  customIsValid,
   onChange,
   ...props
 }: Props) {
   const cls = ["base-input"];
-  const { isValid, isShowError, isCanChangeField } = useInputValidate(value, name, inputValidateOptions);
+  const { isValid, isShowError, isCanChangeField } = useInputValidate(value, inputValidateOptions, customIsValid);
 
   if (className) cls.push(className);
   if (isShowError) cls.push("__invalid");
