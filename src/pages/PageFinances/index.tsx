@@ -42,8 +42,8 @@ export default function PageFinances() {
 
   const { goToHome } = useRouterHistory();
   const handleBackClick = () => {
-    if (!isEditMode) return goToHome();
-    resetEditMode();
+    if (isEditMode) return resetEditMode();
+    goToHome();
   };
 
   //todo: один репорт для оддного месяца, частей может быть до 3, но, репорт только один
