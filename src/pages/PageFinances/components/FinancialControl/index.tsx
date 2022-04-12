@@ -5,11 +5,12 @@ import BaseButton from "UI/BaseButton";
 import "./style.scss";
 
 type Props = {
+  idEditMode: boolean;
   onAddClick: () => void;
   onBackClick: () => void;
 };
 
-export default function FinancialControl({ onAddClick, onBackClick }: Props) {
+export default function FinancialControl({ idEditMode, onAddClick, onBackClick }: Props) {
   return (
     <ul className={"finance-control pr-4 py-2"}>
       <li className={"finance-control__item mr-auto"}>
@@ -18,9 +19,11 @@ export default function FinancialControl({ onAddClick, onBackClick }: Props) {
         </BaseButton>
       </li>
       <li className={"finance-control__item ml-auto"}>
-        <BaseButton className={"fw-light"} onClick={onAddClick}>
-          Add report
-        </BaseButton>
+        {!idEditMode && (
+          <BaseButton className={"fw-light"} onClick={onAddClick}>
+            Add report
+          </BaseButton>
+        )}
       </li>
     </ul>
   );
