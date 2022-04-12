@@ -22,9 +22,8 @@ export type BaseOption = {
 };
 
 export type InputValidationOptions = {
-  predicateNameSpace: string;
   regexp?: string;
-  initialValue?: boolean;
+  validValue?: boolean;
   require?: boolean;
 };
 

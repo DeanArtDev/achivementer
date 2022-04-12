@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { FinancialPart } from "providers/api/FinancialReportProvider/types";
-import {ValidationFieldsMap} from "../../../../types";
+import { ValidationFieldsMap } from "../../../../types";
 import { Period } from "consts";
 import FieldsetPart from "./components/FieldsetPart";
 import "./style.scss";
@@ -29,7 +29,6 @@ export default function FinancialFieldsetPartList({ className, parts, onChangePa
         <FieldsetPart
           title={`${Period[index]} part`}
           part={part}
-          id={part.id}
           key={part.id}
           tagName={"li"}
           onChangePart={onChangePart}
