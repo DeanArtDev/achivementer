@@ -24,7 +24,7 @@ export default function FieldsetPeriod({ className, month, partCount, onChangePe
   const [periodOptions, partOptions] = useController();
 
   const validationFieldsMap = useRef<ValidationFieldsMap>({});
-  const handleValidationCallback = (name: InputFinancialPeriod, isValid: boolean): void => {
+  const handleValidCheck = (name: InputFinancialPeriod, isValid: boolean): void => {
     validationFieldsMap.current[name] = isValid;
     onValidCheck && onValidCheck(Object.values(validationFieldsMap.current).every(Boolean));
   };
@@ -48,7 +48,7 @@ export default function FieldsetPeriod({ className, month, partCount, onChangePe
             options={periodOptions}
             value={String(month)}
             required
-            onValidCheck={(v) => handleValidationCallback("month", v)}
+            onValidCheck={(v) => handleValidCheck("month", v)}
             onChange={(v) => handlePeriodChange("month", Number(v))}
           />
         </label>
@@ -63,7 +63,7 @@ export default function FieldsetPeriod({ className, month, partCount, onChangePe
             value={numericToStringAdapter(partCount)}
             placeholder={`1 - ${PARTS_LIMIT}`}
             required
-            onValidCheck={(v) => handleValidationCallback("partCount", v)}
+            onValidCheck={(v) => handleValidCheck("partCount", v)}
             onChange={(v) => handlePeriodChange("partCount", Number(v))}
           />
         </label>
