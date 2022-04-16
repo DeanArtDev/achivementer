@@ -1,7 +1,8 @@
-import React, { useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import { FinancialPart } from "providers/api/FinancialReportProvider/types";
 import { InputValidationOptions } from "types";
-import { ValidationFieldsMap } from "../../../../../../types";
+import { ValidatingPartMap } from "../../../../../../types";
+import { PartValidateResultMap } from "../../../../types";
 import { numericToStringAdapter } from "utils/adapters";
 import emitter, { addPayload } from "utils/emitter";
 import { GlobalEmit, Regexp } from "consts";
@@ -14,21 +15,33 @@ type Props = {
   title: string;
   tagName?: string;
   part: FinancialPart;
+  partValidateResultMap: PartValidateResultMap;
   onChangePart: (part: FinancialPart) => void;
-  onValidCheck?: (isValid: boolean) => void;
+  getValidate?: (partValidateMap: ValidatingPartMap) => void;
 };
 
-const percentsValidationOptions: InputValidationOptions = {
-  regexp: Regexp.PERCENT,
+const getPercentsValidationOptions = (forceValue: InputValidationOptions["forceValue"]): InputValidationOptions => ({
   require: true,
-};
+  regexp: Regexp.PERCENT,
+  forceValue,
+});
 
 const PERCENT_LIMIT = 100;
+const PERCENT_DEFAULT_VALID = true;
 
-export default function FieldsetPart({ part, title, tagName, className, onChangePart, onValidCheck }: Props) {
+export default function FieldsetPart({
+  part,
+  title,
+  tagName,
+  className,
+  partValidateResultMap,
+  getValidate,
+  onChangePart,
+}: Props) {
   const cls = ["fieldset-part"];
   if (className) cls.push(className);
 
+  //todo: не верно работает логика после ввода символа он не добавляется визуально но учавствует в расчете в функции
   const originPart = useRef<FinancialPart>(part);
   const totalPercentMoreThanAvailable = (name: keyof FinancialPart, value: string): boolean => {
     originPart.current = { ...originPart.current, [name]: value };
@@ -48,11 +61,22 @@ export default function FieldsetPart({ part, title, tagName, className, onChange
     onChangePart({ ...part, [name]: value });
   };
 
-  const validationFieldsMap = useRef<ValidationFieldsMap>({});
-  const handleInputValidCheck = (name: keyof FinancialPart, isValid: boolean): void => {
-    validationFieldsMap.current[name] = isValid;
-    onValidCheck && onValidCheck(Object.values(validationFieldsMap.current).every(Boolean));
+  const partValidateMap = useRef<ValidatingPartMap>({
+    income: undefined,
+    common: undefined,
+    piggyBank: undefined,
+    free: undefined,
+  });
+  const handleInputValidateGet = (
+    name: keyof Omit<FinancialPart, "id">,
+    validate: (value?: string) => boolean
+  ): void => {
+    partValidateMap.current[name] = validate;
   };
+
+  useEffect(() => {
+    getValidate && getValidate(partValidateMap.current);
+  });
 
   return (
     <CustomTag className={cls.join(" ")} type={tagName}>
@@ -65,14 +89,17 @@ export default function FieldsetPart({ part, title, tagName, className, onChange
           name={"income"}
           placeholder={"20000"}
           value={numericToStringAdapter(part.income)}
-          inputValidateOptions={{ regexp: Regexp.NUMERIC, require: true }}
+          inputValidateOptions={{
+            require: true,
+            regexp: Regexp.NUMERIC,
+            forceValue: partValidateResultMap?.["income"] ?? PERCENT_DEFAULT_VALID,
+          }}
           onChange={(v) => onChangePart({ ...part, income: Number(v) })}
-          onValidCheck={(v) => handleInputValidCheck("income", v)}
+          getValidate={(cb) => handleInputValidateGet("income", cb)}
         />
       </fieldset>
 
       <fieldset>
-        {/* todo: если после цифры идет буква краснит input*/}
         <legend>Percents &quot;%&quot;:</legend>
 
         <div className={"fieldset-part__wrapper"}>
@@ -80,9 +107,11 @@ export default function FieldsetPart({ part, title, tagName, className, onChange
             className={"fieldset-part__input pa-3"}
             name={"common-percent"}
             placeholder={"50"}
-            inputValidateOptions={percentsValidationOptions}
+            inputValidateOptions={getPercentsValidationOptions(
+              partValidateResultMap?.["common"] ?? PERCENT_DEFAULT_VALID
+            )}
             value={numericToStringAdapter(part.common)}
-            onValidCheck={(v) => handleInputValidCheck("common", v)}
+            getValidate={(cb) => handleInputValidateGet("common", cb)}
             onChange={(v) => handleChangePercent("common", v)}
           />
 
@@ -90,9 +119,11 @@ export default function FieldsetPart({ part, title, tagName, className, onChange
             className={"fieldset-part__input pa-3"}
             name={"piggy-bank-percent"}
             placeholder={"20"}
-            inputValidateOptions={percentsValidationOptions}
+            inputValidateOptions={getPercentsValidationOptions(
+              partValidateResultMap?.["piggyBank"] ?? PERCENT_DEFAULT_VALID
+            )}
             value={numericToStringAdapter(part.piggyBank)}
-            onValidCheck={(v) => handleInputValidCheck("piggyBank", v)}
+            getValidate={(cb) => handleInputValidateGet("piggyBank", cb)}
             onChange={(v) => handleChangePercent("piggyBank", v)}
           />
 
@@ -100,9 +131,11 @@ export default function FieldsetPart({ part, title, tagName, className, onChange
             className={"fieldset-part__input pa-3"}
             name={"free-percent"}
             placeholder={"30"}
-            inputValidateOptions={percentsValidationOptions}
+            inputValidateOptions={getPercentsValidationOptions(
+              partValidateResultMap?.["free"] ?? PERCENT_DEFAULT_VALID
+            )}
             value={numericToStringAdapter(part.free)}
-            onValidCheck={(v) => handleInputValidCheck("free", v)}
+            getValidate={(cb) => handleInputValidateGet("free", cb)}
             onChange={(v) => handleChangePercent("free", v)}
           />
         </div>

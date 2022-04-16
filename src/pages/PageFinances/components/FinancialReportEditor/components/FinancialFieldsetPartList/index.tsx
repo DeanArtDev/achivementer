@@ -1,28 +1,43 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { FinancialPart } from "providers/api/FinancialReportProvider/types";
-import { ValidationFieldsMap } from "../../../../types";
 import { Period } from "consts";
+import { PartListValidateResultMap } from "../../types";
+import { ValidatingPartListMap, ValidatingPartMap } from "../../../../types";
 import FieldsetPart from "./components/FieldsetPart";
 import "./style.scss";
 
 type Props = {
   className?: string;
   parts: FinancialPart[];
+  partListValidateResultMap: PartListValidateResultMap;
   onChangePart: (part: FinancialPart) => void;
-  onValidCheck?: (isValid: boolean) => void;
+  getValidate?: (validatingPartListMap: ValidatingPartListMap) => void;
 };
 
-//todo: если после максимального колличества нажать не верный символ то прилетит false но не покрасит input
-export default function FinancialFieldsetPartList({ className, parts, onChangePart, onValidCheck }: Props) {
+export default function FinancialFieldsetPartList({
+  className,
+  parts,
+  partListValidateResultMap,
+  onChangePart,
+  getValidate,
+}: Props) {
   const cls = ["finance-part-list"];
   if (className) cls.push(className);
 
-  const validationFieldsMap = useRef<ValidationFieldsMap>({});
-  const handlePartValidCheck = (id: string, isValid: boolean): void => {
-    validationFieldsMap.current[id] = isValid;
-    onValidCheck && onValidCheck(Object.values(validationFieldsMap.current).every(Boolean));
+  const validatingPartListMap = useRef<ValidatingPartListMap>({});
+  const handlePartValidateGet = (id: FinancialPart["id"], map: ValidatingPartMap): void => {
+    validatingPartListMap.current = parts.reduce<ValidatingPartListMap>((acc, part) => {
+      if (validatingPartListMap.current[part.id]) acc[part.id] = validatingPartListMap.current[part.id];
+      if (part.id === id) acc[id] = map;
+      return acc;
+    }, {});
   };
 
+  useEffect(() => {
+    getValidate && getValidate(validatingPartListMap.current);
+  }, [parts]);
+
+  //todo: обернуть в мемо?
   return (
     <ul className={cls.join(" ")}>
       {parts.map((part, index) => (
@@ -30,9 +45,10 @@ export default function FinancialFieldsetPartList({ className, parts, onChangePa
           title={`${Period[index]} part`}
           part={part}
           key={part.id}
+          partValidateResultMap={partListValidateResultMap[part.id]}
           tagName={"li"}
           onChangePart={onChangePart}
-          onValidCheck={(v) => handlePartValidCheck(part.id, v)}
+          getValidate={(cb) => handlePartValidateGet(part.id, cb)}
         />
       ))}
     </ul>

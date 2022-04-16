@@ -2,11 +2,10 @@ import React, { MouseEvent } from "react";
 import { FinancialPart, FinancialPeriodValue, FinancialReport } from "providers/api/FinancialReportProvider/types";
 import { InputFinancialPeriod } from "./types";
 import useController from "./сontroller";
-import useViewController from "./viewController";
+import useFormValidate from "./useFormValidate";
 import BaseButton from "UI/BaseButton";
 import FieldsetPeriod from "./components/FieldsetPeriod";
 import FinancialFieldsetPartList from "./components/FinancialFieldsetPartList";
-
 import "./style.scss";
 
 type Props = {
@@ -25,7 +24,7 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
   if (className) cls.push(className);
 
   const [formData, setFormData, shapeParts] = useController(editedReport);
-  const { setPeriodValidation, setPartsValidation, isAllFieldsValid } = useViewController();
+  const { setPeriodValidation, setPartsValidation, validate, partsValidatingResultMap } = useFormValidate();
 
   const handleChangePart = (part: FinancialPart): void => {
     setFormData((state) => ({ ...state, parts: updateParts(part, state) }));
@@ -39,9 +38,9 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmitForm = (evt: MouseEvent<HTMLFormElement>): void => {
+  const handleSubmitForm = async (evt: MouseEvent<HTMLFormElement>): Promise<void> => {
     evt.preventDefault();
-    if (isAllFieldsValid) onEditReport(formData);
+    if (validate()) onEditReport(formData);
   };
 
   return (
@@ -50,22 +49,17 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
         month={formData.month}
         partCount={formData.partCount}
         onChangePeriod={handleChangePeriod}
-        onValidCheck={setPartsValidation}
+        onValidCheck={setPeriodValidation}
       />
 
       <FinancialFieldsetPartList
         parts={formData.parts}
+        partListValidateResultMap={partsValidatingResultMap}
         onChangePart={handleChangePart}
-        onValidCheck={setPeriodValidation}
+        getValidate={setPartsValidation}
       />
 
-      <BaseButton
-        className={"finance-report-editor__submit-btn mt-auto"}
-        type={"submit"}
-        disabled={!isAllFieldsValid}
-        secondary
-        fullWith
-      >
+      <BaseButton className={"finance-report-editor__submit-btn mt-auto"} type={"submit"} secondary fullWith>
         Save
       </BaseButton>
     </form>

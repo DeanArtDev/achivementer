@@ -23,6 +23,7 @@ export type BaseOption = {
 export type InputValidationOptions = {
   regexp?: string;
   initialValue?: boolean;
+  forceValue?: boolean;
   require?: boolean;
   maxChars?: number;
 };
