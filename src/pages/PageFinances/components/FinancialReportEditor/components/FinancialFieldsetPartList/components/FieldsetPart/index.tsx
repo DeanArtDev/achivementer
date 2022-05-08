@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
+import { useEffectOnce } from "react-use";
 import { FinancialPart } from "providers/api/FinancialReportProvider/types";
 import { InputValidationOptions } from "types";
 import { ValidatingPartMap } from "../../../../../../types";
@@ -74,7 +75,7 @@ export default function FieldsetPart({
     partValidateMap.current[name] = validate;
   };
 
-  useEffect(() => {
+  useEffectOnce(() => {
     getValidate && getValidate(partValidateMap.current);
   });
 

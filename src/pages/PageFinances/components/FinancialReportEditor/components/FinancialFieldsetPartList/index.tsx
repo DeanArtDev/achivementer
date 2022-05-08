@@ -26,16 +26,16 @@ export default function FinancialFieldsetPartList({
 
   const validatingPartListMap = useRef<ValidatingPartListMap>({});
   const handlePartValidateGet = (id: FinancialPart["id"], map: ValidatingPartMap): void => {
-    validatingPartListMap.current = parts.reduce<ValidatingPartListMap>((acc, part) => {
-      if (validatingPartListMap.current[part.id]) acc[part.id] = validatingPartListMap.current[part.id];
-      if (part.id === id) acc[id] = map;
-      return acc;
-    }, {});
+    validatingPartListMap.current = { ...validatingPartListMap.current, [id]: map };
   };
 
   useEffect(() => {
+    validatingPartListMap.current = parts.reduce<ValidatingPartListMap>((acc, part) => {
+      if (validatingPartListMap.current[part.id]) acc[part.id] = validatingPartListMap.current[part.id];
+      return acc;
+    }, {});
     getValidate && getValidate(validatingPartListMap.current);
-  }, [parts]);
+  }, [parts.length]);
 
   //todo: обернуть в мемо?
   return (
