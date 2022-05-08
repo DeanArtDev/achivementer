@@ -3,7 +3,6 @@ import { BaseOption } from "types";
 import { ReactComponent as BottomArrowIcon } from "assets/images/icons/bottom-arrow.svg";
 import { PLACEHOLDER_VALUE } from "./consts";
 import useSelectValidation from "./useSelectValidation";
-
 import "./style.scss";
 
 type Props = {
@@ -12,11 +11,11 @@ type Props = {
   required?: boolean;
   options: BaseOption[];
   value?: BaseOption["value"];
-  valid?: boolean;
+  isValid?: boolean;
   size?: number;
   placeholder?: string;
   onChange: (value: string) => void;
-  onValidCheck?: (isValid: boolean) => void;
+  getValidate?: (validate: (value?: string) => boolean) => void;
 };
 
 const defaultPlaceholder = (placeholder: string) => {
@@ -26,24 +25,25 @@ const defaultPlaceholder = (placeholder: string) => {
 export default function BaseSelect({
   size,
   name,
-  value,
+  value = "",
   options,
+  required,
   className,
-  required = false,
   placeholder = "Empty",
   onChange,
-  onValidCheck,
+  getValidate,
 }: Props) {
-  const { isValid, isShowError, validate } = useSelectValidation(name, options, required);
+  const [withPlaceholderOptions] = useState<BaseOption[]>([defaultPlaceholder(placeholder), ...options]);
+  const computedValue = value === "" ? withPlaceholderOptions[0].value : value;
+
+  const { isShowError, validate } = useSelectValidation(computedValue, options);
+  const [isPlaceholderShowed, setPlaceholder] = useState(value === "");
 
   const cls = ["base-select"];
   if (className) cls.push(className);
   if (isShowError) cls.push("__invalid");
-
-  const [withPlaceholderOptions] = useState<BaseOption[]>([defaultPlaceholder(placeholder), ...options]);
-
-  const [isPlaceholderShowed, setPlaceholder] = useState(true);
-  if (isPlaceholderShowed && !isValid) cls.push("__placeholder");
+  if (options.length === 0) cls.push("__empty");
+  if (isPlaceholderShowed) cls.push("__placeholder");
 
   const handeSelectChange = (evt: ChangeEvent<HTMLSelectElement>) => {
     const target = evt.target;
@@ -53,29 +53,16 @@ export default function BaseSelect({
     }
   };
 
-  const isEmpty = options.length === 0;
-  if (isEmpty) cls.push("__empty");
-
+  //todo: попробовть переписать на useEffectOnce, но есть проблемма. validate замыкается на старом значении value и создается разсинхрон значений
   useEffect(() => {
-    onValidCheck && onValidCheck(isValid);
-  }, [isValid]);
-
-  useEffect(() => {
-    value && validate(value);
-  }, [value]);
+    getValidate && getValidate(validate);
+  });
 
   return (
     <div className={cls.join(" ")}>
       <BottomArrowIcon className={"base-select__icon"} width={24} height={24} />
 
-      <select
-        size={size}
-        name={name}
-        value={isValid ? value : undefined}
-        required
-        defaultValue={!isValid ? PLACEHOLDER_VALUE : undefined}
-        onChange={handeSelectChange}
-      >
+      <select size={size} name={name} value={computedValue} required={required} onChange={handeSelectChange}>
         {withPlaceholderOptions.map((o) => (
           <option
             className={"base-select__option"}

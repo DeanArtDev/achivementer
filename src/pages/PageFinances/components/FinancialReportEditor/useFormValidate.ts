@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { FinancialPart } from "providers/api/FinancialReportProvider/types";
-import { ValidatingPartListMap } from "../../types";
+import { ValidatingPartListMap, ValidationPeriodMap } from "../../types";
 import { PartListValidateResultMap, PartValidateResultMap } from "./types";
 
 const shapePartsValidatingMap = (map: ValidatingPartListMap): PartListValidateResultMap => {
@@ -16,30 +16,27 @@ const shapePartsValidatingMap = (map: ValidatingPartListMap): PartListValidateRe
 
 export default function useFormValidate(): {
   setPartsValidation: (map: ValidatingPartListMap) => void;
-  setPeriodValidation: (isValid: boolean) => void;
+  setPeriodValidation: (map: ValidationPeriodMap) => void;
   partsValidatingResultMap: PartListValidateResultMap;
   validate: () => boolean;
 } {
-  const [partsValidatingResultMap, setPartsValidateMap] = useState<PartListValidateResultMap>({});
-
   const partValidateMap = useRef<ValidatingPartListMap>({});
-  const validationPeriod = useRef<boolean>(false);
-
   const setPartsValidation = (map: ValidatingPartListMap): void => {
     partValidateMap.current = map;
   };
 
-  // todo: заменить на ValidatingCallback and boolean returning (по аналогии с parts)
-  const setPeriodValidation = (isValid: boolean): void => {
-    validationPeriod.current = isValid;
+  const validationPeriod = useRef<ValidationPeriodMap>({ month: undefined, partCount: undefined });
+  const setPeriodValidation = (map: ValidationPeriodMap): void => {
+    validationPeriod.current = map;
   };
 
+  const [partsValidatingResultMap, setPartsValidateMap] = useState<PartListValidateResultMap>({});
   const validate = (): boolean => {
     const map = shapePartsValidatingMap(partValidateMap.current);
     setPartsValidateMap(map);
-    return Object.values(map).every((value) => {
-      return Object.values(value).every(Boolean);
-    });
+    const isPartsValid = Object.values(map).every((value) => Object.values(value).every(Boolean));
+    const isPeriodValid = Object.values(validationPeriod.current).every((cb) => cb && cb());
+    return isPartsValid && isPeriodValid;
   };
 
   return { setPartsValidation, setPeriodValidation, validate, partsValidatingResultMap };

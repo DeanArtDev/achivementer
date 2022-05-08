@@ -2,7 +2,6 @@ import React, { ChangeEvent, useEffect } from "react";
 import { InputValidationOptions } from "types";
 import { ButtonTypes } from "./types";
 import useInputValidate from "./hooks/useInputValidate";
-
 import "./style.scss";
 
 type Props = {

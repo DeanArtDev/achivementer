@@ -49,7 +49,7 @@ export default function FinancesReportEditor({ className, editedReport, onEditRe
         month={formData.month}
         partCount={formData.partCount}
         onChangePeriod={handleChangePeriod}
-        onValidCheck={setPeriodValidation}
+        getValidate={setPeriodValidation}
       />
 
       <FinancialFieldsetPartList
