@@ -1,4 +1,4 @@
-import React, { FocusEvent, useRef, useState, Children, ReactElement } from "react";
+import React, { FocusEvent, useRef, useState, Children, ReactElement, MouseEvent } from "react";
 import { useEffectOnce } from "react-use";
 import { ReactComponent as DotsIcon } from "assets/images/icons/dots-vertical.svg";
 import { extendReactElementByClassName } from "utils/templateHelpers";
@@ -25,6 +25,11 @@ export default function BaseSettingMenu({ className, children }: Props & { child
     setIsShowMenu(false);
   };
 
+  const handleButtonClick = (evt: MouseEvent) => {
+    evt.stopPropagation();
+    setIsShowMenu(true);
+  };
+
   useEffectOnce(() => {
     childrenWithClassName.current = Children.map(children, (c) => {
       return extendReactElementByClassName(c, TARGET_CLASS_NAME);
@@ -33,7 +38,7 @@ export default function BaseSettingMenu({ className, children }: Props & { child
 
   return (
     <div className={cls.join(" ")} onBlur={handleMenuBlur}>
-      <BaseButton className={"base-setting-menu__active-btn pa-0"} icon onClick={() => setIsShowMenu(true)}>
+      <BaseButton className={"base-setting-menu__active-btn pa-0"} icon onClick={handleButtonClick}>
         <DotsIcon height={22} width={22} />
       </BaseButton>
 
