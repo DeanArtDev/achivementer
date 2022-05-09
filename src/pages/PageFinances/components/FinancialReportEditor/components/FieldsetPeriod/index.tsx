@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
+import { useEffectOnce } from "react-use";
 import { FinancialPeriodValue } from "providers/api/FinancialReportProvider/types";
-import { ValidationFieldsMap } from "../../../../types";
+import { ValidationPeriodMap } from "../../../../types";
 import { InputFinancialPeriod } from "../../types";
 import { PARTS_LIMIT } from "../../consts";
 import { numericToStringAdapter } from "utils/adapters";
 import BaseSelect from "UI/BaseSelect";
 import useController from "./controller";
-
 import "./style.scss";
 
 type Props = {
@@ -14,19 +14,18 @@ type Props = {
   partCount: number;
   month: number;
   onChangePeriod: (name: InputFinancialPeriod, value: FinancialPeriodValue) => void;
-  onValidCheck?: (isValid: boolean) => void;
+  getValidate?: (validatingPartListMap: ValidationPeriodMap) => void;
 };
 
-export default function FieldsetPeriod({ className, month, partCount, onChangePeriod, onValidCheck }: Props) {
+export default function FieldsetPeriod({ className, month, partCount, onChangePeriod, getValidate }: Props) {
   const cls = ["fieldset-period"];
   if (className) cls.push(className);
 
   const [periodOptions, partOptions] = useController();
 
-  const validationFieldsMap = useRef<ValidationFieldsMap>({});
-  const handleValidationCallback = (name: InputFinancialPeriod, isValid: boolean): void => {
-    validationFieldsMap.current[name] = isValid;
-    onValidCheck && onValidCheck(Object.values(validationFieldsMap.current).every(Boolean));
+  const validationFieldsMap = useRef<ValidationPeriodMap>({ month: undefined, partCount: undefined });
+  const handleValidGet = (name: InputFinancialPeriod, validate: (value?: string) => boolean): void => {
+    validationFieldsMap.current[name] = validate;
   };
 
   const handlePeriodChange = (name: InputFinancialPeriod, value: FinancialPeriodValue): void => {
@@ -34,6 +33,10 @@ export default function FieldsetPeriod({ className, month, partCount, onChangePe
       onChangePeriod(name, value);
     }
   };
+
+  useEffectOnce(() => {
+    getValidate && getValidate(validationFieldsMap.current);
+  });
 
   return (
     <fieldset className={cls.join(" ")}>
@@ -47,8 +50,7 @@ export default function FieldsetPeriod({ className, month, partCount, onChangePe
             name={"month"}
             options={periodOptions}
             value={String(month)}
-            required
-            onValidCheck={(v) => handleValidationCallback("month", v)}
+            getValidate={(cb) => handleValidGet("month", cb)}
             onChange={(v) => handlePeriodChange("month", Number(v))}
           />
         </label>
@@ -62,8 +64,7 @@ export default function FieldsetPeriod({ className, month, partCount, onChangePe
             options={partOptions}
             value={numericToStringAdapter(partCount)}
             placeholder={`1 - ${PARTS_LIMIT}`}
-            required
-            onValidCheck={(v) => handleValidationCallback("partCount", v)}
+            getValidate={(cb) => handleValidGet("partCount", cb)}
             onChange={(v) => handlePeriodChange("partCount", Number(v))}
           />
         </label>

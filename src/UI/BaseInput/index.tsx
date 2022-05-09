@@ -2,7 +2,6 @@ import React, { ChangeEvent, useEffect } from "react";
 import { InputValidationOptions } from "types";
 import { ButtonTypes } from "./types";
 import useInputValidate from "./hooks/useInputValidate";
-
 import "./style.scss";
 
 type Props = {
@@ -15,7 +14,7 @@ type Props = {
   placeholder?: string;
   inputValidateOptions?: InputValidationOptions;
   onChange?: (value: string) => void;
-  onValidCheck?: (isValid: boolean) => void;
+  getValidate?: (validate: (value?: string) => boolean) => void;
 };
 
 export default function BaseInput({
@@ -23,14 +22,14 @@ export default function BaseInput({
   name,
   value = "",
   type = "text",
-  inputValidateOptions,
-  onValidCheck,
   disabled,
+  inputValidateOptions,
+  getValidate,
   onChange,
   ...props
 }: Props) {
   const cls = ["base-input"];
-  const { isValid, isShowError, isCanChangeField } = useInputValidate(value, name, inputValidateOptions);
+  const { isShowError, setIsShowError, validate } = useInputValidate(value, inputValidateOptions);
 
   if (className) cls.push(className);
   if (isShowError) cls.push("__invalid");
@@ -38,15 +37,16 @@ export default function BaseInput({
   if (disabled) cls.push("__disabled");
 
   const handleChangeInput = (evt: ChangeEvent<HTMLInputElement>) => {
-    const value = evt.target.value.trim();
-    if (isCanChangeField(value)) {
+    const value = evt.target.value;
+    if (validate(value) || value === "") {
+      setIsShowError(value === "");
       onChange && onChange(value);
     }
   };
 
   useEffect(() => {
-    onValidCheck && onValidCheck(isValid);
-  }, [isValid]);
+    getValidate && getValidate(validate);
+  }, [value]);
 
   return (
     <input

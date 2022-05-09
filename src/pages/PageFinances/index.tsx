@@ -38,7 +38,7 @@ export default function PageFinances() {
   const resetEditMode = () => {
     editedReport.current = undefined;
     setIsEditMode(false);
-  }
+  };
 
   const { goToHome } = useRouterHistory();
   const handleBackClick = () => {
@@ -99,7 +99,11 @@ export default function PageFinances() {
   return (
     <BasePage className={"page-finances"}>
       <BaseHeader className={"page-finances__header container-narrow mb-4"}>
-        <FinancialControl onAddClick={() => setIsEditMode(true)} onBackClick={handleBackClick} />
+        <FinancialControl
+          idEditMode={isEditMode}
+          onAddClick={() => setIsEditMode(true)}
+          onBackClick={handleBackClick}
+        />
       </BaseHeader>
 
       <BaseMain className={"page-finances__main container-narrow"}>

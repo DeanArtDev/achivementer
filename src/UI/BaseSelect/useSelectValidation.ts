@@ -1,45 +1,29 @@
-import { useEffect, useRef, useState } from "react";
-import { PLACEHOLDER_VALUE } from "./consts";
+import { useState } from "react";
 import { BaseOption } from "types";
+import { PLACEHOLDER_VALUE } from "./consts";
 
 export type UseSelectValidation = {
-  isValid: boolean;
   isShowError: boolean;
-  validate: (value: string) => boolean;
+  validate: (value?: string) => boolean;
 };
 
-export default function useSelectValidation(
-  name: string,
-  options: BaseOption[],
-  required: boolean
-): UseSelectValidation {
-  const [isValid, setIsValid] = useState(false);
+export default function useSelectValidation(value: BaseOption["value"], options: BaseOption[]): UseSelectValidation {
   const [isShowError, setIsShowError] = useState(false);
-  const isFirstChange = useRef(false);
 
-  const validate = (value: string) => {
-    isFirstChange.current = true;
-    if (value === PLACEHOLDER_VALUE) {
-      setIsValid(false);
+  const validate = (newValue?: string) => {
+    const trimmedValue = newValue?.trim() ?? value;
+
+    if (trimmedValue === PLACEHOLDER_VALUE) {
+      setIsShowError(true);
       return false;
     }
-    if (options.every((o) => o.value !== value)) {
-      setIsValid(false);
+    if (options.every((o) => o.value !== trimmedValue)) {
+      setIsShowError(true);
       return false;
     }
-
-    setIsValid(true);
+    setIsShowError(false);
     return true;
   };
 
-  useEffect(() => {
-    if (!isFirstChange.current) {
-      setIsShowError(false);
-      return;
-    }
-
-    setIsShowError(!isValid);
-  }, [isValid]);
-
-  return { isValid, isShowError, validate };
+  return { isShowError, validate };
 }

@@ -36,12 +36,8 @@ export default function useController(editedReport?: FinancialReport): FinancesP
     }
 
     const offset = parts.length - partCount;
-    if (offset > 0) {
-      return dropRight(parts, offset);
-    }
-    if (offset < 0) {
-      return [...parts, ...addNewParts(Math.abs(offset))];
-    }
+    if (offset > 0) return dropRight(parts, offset);
+    if (offset < 0) return parts.concat(addNewParts(Math.abs(offset)));
 
     return [];
   };

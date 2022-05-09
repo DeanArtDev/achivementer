@@ -1,7 +1,10 @@
+@import "style/_variables";
+
 .finance-control {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
+  min-height: $min-header-height;
   margin: 0;
   padding: 0;
 
