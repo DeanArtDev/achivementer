@@ -103,8 +103,15 @@
 
   @include button-hover-desktop-up;
 
-  &::before {
+  &::before,
+  &::after {
     background-image: none;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: transparent;
   }
 }
 
