@@ -1,20 +1,16 @@
 @import "style/_variables";
 
-.financial-corrector {
-  height: 100%;
-}
-
 .financial-corrector__header {
   display: flex;
+  grid-row: header-start / header-end;
   justify-content: space-between;
   align-items: center;
-  min-height: 70px;
+  min-height: $min-header-height;
+  padding-right: var(--sp-3);
   overflow: hidden;
 
   border-bottom-right-radius: 15px;
   border-bottom-left-radius: 15px;
-
-  padding-right: var(--sp-3);
 
   @include mobile-large-up {
     padding-right: var(--sp-5);
@@ -22,13 +18,43 @@
 }
 
 .financial-corrector__title {
+  margin-top: 0;
+  margin-bottom: 0;
+
   font-size: 20px;
+  text-align: center;
+}
+
+.financial-corrector__total {
+  text-align: center;
+  span {
+    color: var(--palette-positive);
+  }
 }
 
 .financial-corrector__main {
-  flex-grow: 1;
+  grid-row: body-start / footer-end;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 
   background-color: var(--palette-bg);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+
+  @include main-paddings;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+
+  &::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
+}
+
+.financial-corrector__part-list {
+  @include list-reset;
+}
+
+.financial-corrector__item {
+  margin-bottom: var(--sp-6);
 }

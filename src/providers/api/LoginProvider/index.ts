@@ -8,7 +8,7 @@ class LoginProvider extends Provider {
   public async login(data: InputLogin, options?: AxiosRequestConfig): Promise<LoginResponse> {
     try {
       this.shapePath("login");
-      return await super.abstractPut<LoginResponse, InputLogin>(data, options);
+      return await super.abstractPut<LoginResponse, InputLogin>(data, options, false);
     } finally {
       this.resetPath();
     }
@@ -17,7 +17,7 @@ class LoginProvider extends Provider {
   public async register(data: InputRegistration, options?: AxiosRequestConfig): Promise<RegistrationResponse> {
     try {
       this.shapePath("registration");
-      return await super.abstractPost<RegistrationResponse, InputRegistration>(data, options);
+      return await super.abstractPost<RegistrationResponse, InputRegistration>(data, options, false);
     } finally {
       this.resetPath();
     }

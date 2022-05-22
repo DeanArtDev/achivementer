@@ -110,6 +110,21 @@ $classListNegative: (
   }
 }
 
+@mixin list-reset {
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+@mixin main-paddings {
+  padding: var(--sp-2);
+
+  @include mobile-large-up {
+    padding: var(--sp-4);
+  }
+}
+
 @mixin add-font-face($font-family, $file-path, $weight: normal, $style: normal, $font-display: auto) {
   @font-face {
     font-style: $style;
@@ -117,8 +132,6 @@ $classListNegative: (
     font-family: $font-family;
 
     font-display: $font-display;
-    src: local("Roboto"),
-    url("#{$file-path}.woff") format("woff"),
-    url("#{$file-path}.woff2") format("woff2");
+    src: local("Roboto"), url("#{$file-path}.woff") format("woff"), url("#{$file-path}.woff2") format("woff2");
   }
 }

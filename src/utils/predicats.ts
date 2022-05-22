@@ -1,5 +1,3 @@
-import { Regexp } from "consts";
-
-export function isNumericOrVoid(value: string | number) {
-  return typeof value === "number" || value === "" || new RegExp(Regexp.NUMERIC).test(value);
+export function isUndefined(value: string | number | boolean | undefined): value is undefined {
+  return typeof value === "undefined";
 }
