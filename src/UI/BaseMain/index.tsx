@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
-import "./style.scss";
 import BasePreloader from "../BasePreloader";
+import "./style.scss";
 
 interface Props {
   className?: string;

@@ -11,6 +11,7 @@ import AddPercentCorrection from "./components/AddPercentCorrection";
 import PercentCorrectionEditor from "./components/PercentCorrectionEditor";
 import PercentCorrectionView from "./components/PercentCorrectionView";
 import "./style.scss";
+import PercentCorrectorConfirmation from "./components/PercentCorrectorConfirmation";
 
 type Props = {
   percentEntity: PercentEntity;
@@ -36,6 +37,7 @@ export default function PercentCorrector({
   if (className) cls.push(className);
 
   const [isEdit, setIsEdit] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const correction = useRef<FinancialPercentCorrection | undefined>();
 
   const partTotal = computeSumFormPartIncome(partIncome, percentFormIncome);
@@ -69,12 +71,19 @@ export default function PercentCorrector({
     setIsEdit(true);
   };
 
+  const deletingCorrectionId = useRef<FinancialPercentCorrection["id"] | null>(null);
   const handleCorrectionDelete = (id: FinancialPercentCorrection["id"]): void => {
+    deletingCorrectionId.current = id;
+    setShowDeleteConfirm(true);
+  };
+
+  const handleConfirmationConfirm = () => {
     if (onDeletePercentCorrection) {
-      onDeletePercentCorrection(id);
+      onDeletePercentCorrection(deletingCorrectionId.current ?? "");
     }
     correction.current = undefined;
-    setIsEdit(false);
+    deletingCorrectionId.current = null;
+    setShowDeleteConfirm(false);
   };
 
   // todo: подумать как сделать что бы editor появлялся под редактируемым полем а не снизу.
@@ -113,6 +122,13 @@ export default function PercentCorrector({
         <div className="percent-corrector__balance mt-auto px-2">
           Balance: <span className={classes({ __red: balance < 0, __green: balance >= 0 })}>{balance}</span>
         </div>
+      )}
+
+      {showDeleteConfirm && (
+        <PercentCorrectorConfirmation
+          onConfirmModal={handleConfirmationConfirm}
+          onCloseModal={() => setShowDeleteConfirm(false)}
+        />
       )}
     </div>
   );
