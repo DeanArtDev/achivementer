@@ -4,6 +4,8 @@ import { Location } from "history";
 export type ToNewType<T, U, D> = { [I in keyof T]: I extends U ? D : T[I] };
 export type ToOptionalID<T> = Omit<T, "id"> & { id?: UniqID };
 
+export type HasId = { id: UniqID };
+
 export type UniqID = string;
 export type LocationState = {
   notification?: string;

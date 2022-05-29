@@ -2,15 +2,37 @@
 
 .percent-corrector {
   min-height: 400px;
+  margin-bottom: var(--sp-4);
   padding: var(--sp-3);
 
   border: 1px solid var(--palette-gray-lighten-3);
   border-radius: 15px;
-  margin-bottom: var(--sp-4);
-}
 
-.percent-corrector__title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__correction-wrapper {
+    display: grid;
+    grid-row-gap: var(--sp-3);
+    grid-auto-rows: max-content;
+
+    border-right: 1px solid var(--palette-gray);
+    border-left: 1px solid var(--palette-gray);
+  }
+
+  &__balance {
+    font-size: 14px;
+    text-align: right;
+
+    & .__red {
+      color: var(--palette-negative);
+    }
+
+    & .__green {
+      color: var(--palette-positive);
+    }
+  }
 }

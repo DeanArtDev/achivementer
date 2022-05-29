@@ -12,8 +12,16 @@ import "./style.scss";
 export default function FinancialCorrector() {
   const history = useHistory();
 
-  const { title, monthIncome, correctionPartList, loading } = useController();
+  const {
+    title,
+    monthIncome,
+    correctionPercentsList,
+    loading,
+    createOrUpdatePercentCorrection,
+    deletePercentCorrection,
+  } = useController();
 
+  // todo: прикрутить локальный loading, блокировать кнопки при loading
   return (
     <BasePage className={"financial-corrector"}>
       <BaseHeader className={"financial-corrector__header container-narrow mb-4"}>
@@ -29,11 +37,16 @@ export default function FinancialCorrector() {
           Month income: <span>{monthIncome}</span>
         </div>
 
-        {correctionPartList?.length > 0 && (
+        {correctionPercentsList?.length > 0 && (
           <ul className={"financial-corrector__part-list"}>
-            {correctionPartList.map((i, index) => (
+            {correctionPercentsList.map((i, index) => (
               <li className={"financial-corrector__item"} key={index}>
-                <PartCorrectionList percentEntity={i} partCount={index} />
+                <PartCorrectionList
+                  correctionPercents={i}
+                  partCount={index}
+                  onUpdatePercentCorrection={createOrUpdatePercentCorrection}
+                  onDeletePercentCorrection={deletePercentCorrection}
+                />
               </li>
             ))}
           </ul>

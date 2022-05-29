@@ -32,6 +32,10 @@
       margin-top: 0;
     }
   }
+
+  &:disabled .corrector-editor__icon-accept {
+    fill: var(--palette-gray);
+  }
 }
 
 .corrector-editor__icon-accept {
