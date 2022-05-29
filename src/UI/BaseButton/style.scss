@@ -21,6 +21,13 @@
   border-radius: 25px;
   outline: none;
 
+  &:disabled {
+    color: var(--palette-bg);
+
+    background-color: var(--palette-gray-lighten-5);
+    border-color: transparent;
+  }
+
   @include landscape-up {
     cursor: pointer;
 
@@ -47,24 +54,6 @@
       opacity: 0.7;
     }
   }
-
-  &:disabled {
-    color: var(--palette-bg);
-
-    background-color: var(--palette-gray-lighten-5);
-    border-color: transparent;
-
-    @include landscape-up {
-      cursor: not-allowed;
-      &:hover::before {
-        height: 0;
-      }
-
-      &:active {
-        opacity: initial;
-      }
-    }
-  }
 }
 
 .base-button.__secondary {
@@ -79,7 +68,6 @@
   }
 
   &:disabled {
-    cursor: not-allowed;
     opacity: 0.3;
 
     @include landscape-up {
@@ -142,5 +130,25 @@
 .base-button.__loading {
   @include landscape-up {
     cursor: wait;
+  }
+}
+
+// should be the latest class into this file
+.base-button:disabled {
+  &:hover,
+  &:focus,
+  &:active {
+    opacity: 1;
+  }
+
+  @include landscape-up {
+    cursor: not-allowed;
+    &:hover::before {
+      height: 0;
+    }
+
+    &:active {
+      opacity: initial;
+    }
   }
 }
