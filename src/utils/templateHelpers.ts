@@ -1,11 +1,14 @@
 import { ReactElement } from "react";
 
-export function classes(classes: string | string[], computedClasses?: Record<string, boolean>): string {
-  const cls: string[] = [];
-  Array.isArray(classes) ? cls.push(...classes) : cls.push(classes);
+type ComputedClasses = Record<string, boolean>;
 
-  if (computedClasses) {
-    Object.entries(computedClasses).forEach(([key, value]) => {
+function classes(classes: string | string[] | ComputedClasses, computedClasses?: ComputedClasses): string {
+  const cls: string[] = [];
+
+  Array.isArray(classes) && cls.push(...classes);
+  typeof classes === "string" && cls.push(classes);
+  if (computedClasses || typeof classes === "object") {
+    Object.entries(computedClasses ?? classes).forEach(([key, value]) => {
       if (value) cls.push(key);
     });
   }
@@ -22,3 +25,5 @@ export function extendReactElementByClassName(child: ReactElement, className: st
     },
   };
 }
+
+export { classes };
