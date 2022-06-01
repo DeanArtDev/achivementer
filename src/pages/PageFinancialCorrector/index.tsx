@@ -37,7 +37,7 @@ export default function FinancialCorrector() {
           Month income: <span>{monthIncome}</span>
         </div>
 
-        {correctionPercentsList?.length > 0 && (
+        {correctionPercentsList.length > 0 && (
           <ul className={"financial-corrector__part-list"}>
             {correctionPercentsList.map((i, index) => (
               <li className={"financial-corrector__item"} key={index}>

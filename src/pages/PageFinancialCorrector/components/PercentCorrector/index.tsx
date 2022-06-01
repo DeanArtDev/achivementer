@@ -10,8 +10,8 @@ import { PartName } from "./config";
 import AddPercentCorrection from "./components/AddPercentCorrection";
 import PercentCorrectionEditor from "./components/PercentCorrectionEditor";
 import PercentCorrectionView from "./components/PercentCorrectionView";
-import "./style.scss";
 import PercentCorrectorConfirmation from "./components/PercentCorrectorConfirmation";
+import "./style.scss";
 
 type Props = {
   percentEntity: PercentEntity;
@@ -39,6 +39,8 @@ export default function PercentCorrector({
   const [isEdit, setIsEdit] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const correction = useRef<FinancialPercentCorrection | undefined>();
+
+  const hasCorrections = corrections.length > 0;
 
   const partTotal = computeSumFormPartIncome(partIncome, percentFormIncome);
   const correctionTotalAmount = corrections.reduce<number>((acc, c) => (acc += Number(c.amount)), 0);
@@ -94,7 +96,7 @@ export default function PercentCorrector({
         <span className="percent-corrector__total">{partTotal}</span>
       </span>
 
-      {corrections.length > 0 && (
+      {hasCorrections && (
         <div className="percent-corrector__correction-wrapper mb-2">
           {corrections.map((c) => (
             <PercentCorrectionView
@@ -107,18 +109,18 @@ export default function PercentCorrector({
         </div>
       )}
 
-      {isEdit && (
+      {isEdit ? (
         <PercentCorrectionEditor
           className={"mt-3"}
           correction={correction.current}
           onAccept={handleEditorAccept}
           onDecline={handleEditorDecline}
         />
+      ) : (
+        <AddPercentCorrection onClick={() => setIsEdit(true)} />
       )}
 
-      {!isEdit && <AddPercentCorrection onClick={() => setIsEdit(true)} />}
-
-      {corrections.length > 0 && (
+      {hasCorrections && (
         <div className="percent-corrector__balance mt-auto px-2">
           Balance: <span className={classes({ __red: balance < 0, __green: balance >= 0 })}>{balance}</span>
         </div>

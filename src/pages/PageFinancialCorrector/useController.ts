@@ -66,6 +66,7 @@ export default function useController() {
     updatedPercentEntityId?: PercentEntity["id"]
   ): Promise<void> => {
     const updatedCorrection = await updateOrCreateCorrection(correction);
+    const isNew = !guardOneOf(correction, "id");
 
     const updatedCorrectionPercentsList: CorrectionPercents[] = correctionPercentsList.map<CorrectionPercents>(
       ({ id, percentEntities }) => {
@@ -74,7 +75,7 @@ export default function useController() {
           percentEntities: percentEntities.map<PercentEntity>((p) => {
             if (p.id !== updatedPercentEntityId) return p;
 
-            const updatedCorrections = !guardOneOf(correction, "id")
+            const updatedCorrections = isNew
               ? p.corrections.concat(updatedCorrection)
               : p.corrections.map<FinancialPercentCorrection>((c) => isIdEqualReturnLast(c.id, c, updatedCorrection));
             return { ...p, corrections: updatedCorrections };

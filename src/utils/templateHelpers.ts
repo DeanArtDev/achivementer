@@ -2,6 +2,9 @@ import { ReactElement } from "react";
 
 type ComputedClasses = Record<string, boolean>;
 
+function classes(classes: ComputedClasses): string;
+function classes(classes: string, computedClasses: ComputedClasses): string;
+function classes(classes: string[], computedClasses: ComputedClasses): string;
 function classes(classes: string | string[] | ComputedClasses, computedClasses?: ComputedClasses): string {
   const cls: string[] = [];
 

@@ -1,7 +1,6 @@
 import React from "react";
 import BaseModal from "UI/BaseModal";
 import BaseButton from "UI/BaseButton";
-// import "./style.scss";
 
 type Props = {
   loading?: boolean;
@@ -9,6 +8,8 @@ type Props = {
   onCloseModal: () => void;
 };
 
+
+//todo: Подумать как сконцентрировать всю логику закрыти \ открытия модалки в одном компоненте.
 export default function PercentCorrectorConfirmation({ loading, onConfirmModal, onCloseModal }: Props) {
   return (
     <BaseModal onCloseModal={() => !loading && onCloseModal()}>

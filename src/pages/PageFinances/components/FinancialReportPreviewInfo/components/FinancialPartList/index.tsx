@@ -1,6 +1,5 @@
 import React from "react";
 import { FinancialPart } from "providers/api/FinancialReportProvider/types";
-import { classes } from "utils/templateHelpers";
 import { Period } from "consts";
 import FinancialPartItem from "../FinancialPartItem";
 
@@ -15,7 +14,7 @@ export default function FinancialPartList({ parts, className }: Props) {
   if (className) cls.push(className);
 
   return (
-    <table className={classes(cls)}>
+    <table className={cls.join(" ")}>
       <tbody className={"part-list__table-body pa-2"}>
         {parts.map((part, index) => (
           <FinancialPartItem part={part} title={`${Period[index]} part: `} key={part.id} />
