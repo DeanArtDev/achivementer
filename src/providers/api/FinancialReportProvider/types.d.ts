@@ -1,4 +1,5 @@
 import { ToOptionalID, UniqID } from "types";
+import { Correction } from "../CorrectionProvider/types";
 
 export type FinancialPart = {
   id: UniqID;
@@ -6,6 +7,7 @@ export type FinancialPart = {
   common: number;
   piggyBank: number;
   free: number;
+  corrections: Correction[];
 };
 
 export type FinancialReport = {

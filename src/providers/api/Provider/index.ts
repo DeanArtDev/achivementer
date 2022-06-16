@@ -16,7 +16,7 @@ export default abstract class Provider {
   }
 
   protected async abstractSearch<T, Data>(data: Data, options?: AxiosRequestConfig, isPrivate?: boolean): Promise<T> {
-    const response = await api.get<T>(this.path, this.shapeOptions(options, isPrivate));
+    const response = await api.post<T>(this.path, data, this.shapeOptions(options, isPrivate));
     return response.data;
   }
 

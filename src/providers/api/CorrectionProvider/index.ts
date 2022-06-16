@@ -25,7 +25,7 @@ class CorrectionProvider extends Provider {
   }
 
   private resetPath(): void {
-    this.path = "/user";
+    this.path = "/corrections";
   }
 }
 
