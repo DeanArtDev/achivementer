@@ -12,6 +12,8 @@ export type InputSearchCorrection = {
   financialPartId?: FinancialPart["id"];
 };
 
-export type InputCreateCorrection = Omit<Correction, "id">;
+export type CorrectionPure = Omit<Correction, "id">;
+
+export type InputCreateCorrection = Omit<Correction, "id"> & { financialPartId: FinancialPart["id"] };
 
 export type InputUpdateCorrection = Correction;

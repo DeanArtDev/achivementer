@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
-import { FinancialPercentCorrection } from "providers/api/FinancialReportProvider/types";
-import { InputCreateCorrection } from "providers/api/CorrectionProvider/types";
-import { PercentEntity } from "../../types";
+import { Correction, CorrectionPure } from "providers/api/CorrectionProvider/types";
+import { CreateOrUpdateCorrectionData, PercentEntity } from "../../types";
 import { calculatePercentage } from "utils/calculatePercentage";
 import { classes } from "utils/templateHelpers";
+import { guardOneOf } from "utils/typeGuards";
 import { PartName } from "./config";
 import AddPercentCorrection from "./components/AddPercentCorrection";
 import PercentCorrectionEditor from "./components/PercentCorrectionEditor";
@@ -14,11 +14,8 @@ import "./style.scss";
 type Props = {
   percentEntity: PercentEntity;
   className?: string;
-  onUpdatePercentCorrection?: (
-    correction: FinancialPercentCorrection | InputCreateCorrection,
-    id?: PercentEntity["id"]
-  ) => void;
-  onDeletePercentCorrection?: (id: FinancialPercentCorrection["id"]) => void;
+  onUpdatePercentCorrection?: (correctionData: CreateOrUpdateCorrectionData, id?: PercentEntity["id"]) => void;
+  onDeletePercentCorrection?: (id: Correction["id"]) => void;
 };
 
 const computeSumFormPartIncome = (income: number, percent: number): number => {
@@ -27,7 +24,7 @@ const computeSumFormPartIncome = (income: number, percent: number): number => {
 
 export default function PercentCorrector({
   className,
-  percentEntity: { id, name, partIncome, percentFormIncome, corrections },
+  percentEntity: { id, partId, name, partIncome, percentFormIncome, corrections },
   onUpdatePercentCorrection,
   onDeletePercentCorrection,
 }: Props) {
@@ -36,7 +33,7 @@ export default function PercentCorrector({
 
   const [isEdit, setIsEdit] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const correction = useRef<FinancialPercentCorrection | undefined>();
+  const correction = useRef<Correction | undefined>();
 
   const hasCorrections = corrections.length > 0;
 
@@ -44,17 +41,19 @@ export default function PercentCorrector({
   const correctionTotalAmount = corrections.reduce<number>((acc, c) => (acc += Number(c.amount)), 0);
   const balance = partTotal - correctionTotalAmount;
 
-  const hasChanges = (checkingCorrection: FinancialPercentCorrection | InputCreateCorrection): boolean => {
+  const hasChanges = (checkingCorrection: Correction | CorrectionPure): boolean => {
     return (
       checkingCorrection.name !== correction.current?.name || checkingCorrection.amount !== correction.current?.amount
     );
   };
 
-  const handleEditorAccept = (
-    updatedCorrection: FinancialPercentCorrection | InputCreateCorrection
-  ): void => {
-    if (onUpdatePercentCorrection && hasChanges(updatedCorrection)) {
-      onUpdatePercentCorrection(updatedCorrection, id);
+  const handleEditorAccept = (correctionData: Correction | CorrectionPure): void => {
+    if (!guardOneOf<Correction>(correctionData, "id")) {
+      onUpdatePercentCorrection && onUpdatePercentCorrection({ ...correctionData, financialPartId: partId }, id);
+    }
+
+    if (guardOneOf<Correction>(correctionData, "id") && hasChanges(correctionData)) {
+      onUpdatePercentCorrection && onUpdatePercentCorrection(correctionData, id);
     }
 
     correction.current = undefined;
@@ -66,13 +65,13 @@ export default function PercentCorrector({
     setIsEdit(false);
   };
 
-  const handeCorrectionEdit = (id: FinancialPercentCorrection["id"]): void => {
+  const handeCorrectionEdit = (id: Correction["id"]): void => {
     correction.current = corrections.find((c) => c.id === id);
     setIsEdit(true);
   };
 
-  const deletingCorrectionId = useRef<FinancialPercentCorrection["id"] | null>(null);
-  const handleCorrectionDelete = (id: FinancialPercentCorrection["id"]): void => {
+  const deletingCorrectionId = useRef<Correction["id"] | null>(null);
+  const handleCorrectionDelete = (id: Correction["id"]): void => {
     deletingCorrectionId.current = id;
     setShowDeleteConfirm(true);
   };

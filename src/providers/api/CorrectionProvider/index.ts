@@ -1,6 +1,6 @@
 import Provider from "../Provider";
 import { AxiosRequestConfig } from "axios";
-import { Correction, InputCreateCorrection, InputSearchCorrection, InputUpdateCorrection } from "./types";
+import {Correction, CorrectionPure, InputCreateCorrection, InputSearchCorrection, InputUpdateCorrection} from "./types";
 
 class CorrectionProvider extends Provider {
   override path = "/corrections";
@@ -13,7 +13,7 @@ class CorrectionProvider extends Provider {
   }
 
   public async create(data: InputCreateCorrection, options?: AxiosRequestConfig): Promise<Correction> {
-    return await super.abstractPost<Correction, InputCreateCorrection>(data, options);
+    return await super.abstractPost<Correction, CorrectionPure>(data, options);
   }
 
   public async delete(id: Correction["id"], options?: AxiosRequestConfig): Promise<boolean> {

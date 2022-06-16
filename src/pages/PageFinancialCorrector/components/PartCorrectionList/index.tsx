@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
-import { FinancialPercentCorrection } from "providers/api/FinancialReportProvider/types";
-import { InputCreateCorrection } from "providers/api/CorrectionProvider/types";
-import { CorrectionPercents, PercentEntity } from "../../types";
+import { Correction } from "providers/api/CorrectionProvider/types";
+import { CorrectionPercents, CreateOrUpdateCorrectionData, PercentEntity } from "../../types";
 import { Period } from "consts";
 import { isUndefined } from "utils/predicats";
 import PercentCorrector from "../PercentCorrector";
@@ -11,11 +10,8 @@ type Props = {
   partCount?: Period;
   correctionPercents: CorrectionPercents;
   className?: string;
-  onUpdatePercentCorrection?: (
-    correction: FinancialPercentCorrection | InputCreateCorrection,
-    id?: PercentEntity["id"]
-  ) => void;
-  onDeletePercentCorrection?: (id: FinancialPercentCorrection["id"]) => void;
+  onUpdatePercentCorrection?: (correctionData: CreateOrUpdateCorrectionData, id?: PercentEntity["id"]) => void;
+  onDeletePercentCorrection?: (id: Correction["id"]) => void;
 };
 
 export default function PartCorrectionList({
@@ -29,13 +25,13 @@ export default function PartCorrectionList({
   if (className) cls.push(className);
 
   const handlePercentCorrectionUpdate = (
-    correction: FinancialPercentCorrection | InputCreateCorrection,
+    correctionData: CreateOrUpdateCorrectionData,
     id?: PercentEntity["id"]
   ): void => {
-    onUpdatePercentCorrection && onUpdatePercentCorrection(correction, id);
+    onUpdatePercentCorrection && onUpdatePercentCorrection(correctionData, id);
   };
 
-  const handlePercentCorrectionDelete = (id: FinancialPercentCorrection["id"]) => {
+  const handlePercentCorrectionDelete = (id: Correction["id"]) => {
     onDeletePercentCorrection && onDeletePercentCorrection(id);
   };
 

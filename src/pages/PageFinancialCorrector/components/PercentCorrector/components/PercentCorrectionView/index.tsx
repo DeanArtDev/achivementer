@@ -1,16 +1,16 @@
 import React, { MouseEvent } from "react";
-import { FinancialPercentCorrection } from "providers/api/FinancialReportProvider/types";
 import { ReactComponent as CrossIcon } from "assets/images/icons/close-cross.svg";
+import { Correction } from "providers/api/CorrectionProvider/types";
 import { classes } from "utils/templateHelpers";
 import BaseButton from "UI/BaseButton";
 import "./style.scss";
 
 type Props = {
-  correction: FinancialPercentCorrection;
+  correction: Correction;
   className?: string;
   hide?: boolean;
-  onEdit?: (id: FinancialPercentCorrection["id"]) => void;
-  onDelete?: (id: FinancialPercentCorrection["id"]) => void;
+  onEdit?: (id: Correction["id"]) => void;
+  onDelete?: (id: Correction["id"]) => void;
 };
 
 const ICON_SIZE = 16;

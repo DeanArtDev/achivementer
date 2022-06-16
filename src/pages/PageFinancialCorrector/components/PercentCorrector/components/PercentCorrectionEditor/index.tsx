@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useEffectOnce } from "react-use";
-import { FinancialPercentCorrection } from "providers/api/FinancialReportProvider/types";
-import { InputCreateCorrection } from "providers/api/CorrectionProvider/types";
+import { Correction, CorrectionPure } from "providers/api/CorrectionProvider/types";
 import { KeysValuesType } from "types";
 import { Regexp } from "consts";
 import { ReactComponent as CheckIcon } from "assets/images/icons/check.svg";
@@ -12,12 +11,12 @@ import "./style.scss";
 
 type Props = {
   className?: string;
-  correction?: FinancialPercentCorrection;
-  onAccept?: (correction: FinancialPercentCorrection | InputCreateCorrection) => void;
+  correction?: Correction;
+  onAccept?: (correction: Correction | CorrectionPure) => void;
   onDecline?: () => void;
 };
 
-type LocalCorrection = FinancialPercentCorrection | InputCreateCorrection | null;
+type LocalCorrection = Correction | CorrectionPure | null;
 
 const ICON_SIZE = 26;
 
@@ -26,10 +25,7 @@ export default function PercentCorrectionEditor({ className, correction, onAccep
   if (className) cls.push(className);
   const [localCorrection, setLocalCorrection] = useState<LocalCorrection>(null);
 
-  const handleInputChange = (
-    name: keyof FinancialPercentCorrection,
-    value: KeysValuesType<FinancialPercentCorrection>
-  ): void => {
+  const handleInputChange = (name: keyof Correction, value: KeysValuesType<Correction>): void => {
     if (localCorrection) return setLocalCorrection({ ...localCorrection, [name]: value });
     setLocalCorrection({ name: "", amount: "", ...{ [name]: value } });
   };

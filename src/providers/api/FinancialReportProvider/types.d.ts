@@ -21,9 +21,3 @@ export type FinancialPeriodValue = FinancialReport["month"] | FinancialReport["y
 export type InputFinancialReport = Omit<FinancialReport, "id" | "parts"> & {
   parts: ToOptionalID<FinancialPart>[];
 };
-
-export type FinancialPercentCorrection = {
-  id: UniqID;
-  name: string;
-  amount: string;
-};

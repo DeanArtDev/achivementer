@@ -2,17 +2,15 @@ import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useEffectOnce } from "react-use";
 import { v1 as uuidv1 } from "uuid";
-import { FinancialPercentCorrection, FinancialReport } from "providers/api/FinancialReportProvider/types";
-import { InputCreateCorrection } from "providers/api/CorrectionProvider/types";
+import { FinancialReport } from "providers/api/FinancialReportProvider/types";
+import { Correction, InputCreateCorrection } from "providers/api/CorrectionProvider/types";
 import { UniqID } from "types";
-import { PercentEntity, CorrectionPercents } from "./types";
+import { PercentEntity, CorrectionPercents, CreateOrUpdateCorrectionData } from "./types";
 import { isIdEqualReturnLast } from "utils/predicats";
 import { guardOneOf } from "utils/typeGuards";
 import useLoading from "hooks/useLoading";
 import providers from "providers";
 import { Month } from "../../consts";
-
-type LocalCorrection = FinancialPercentCorrection | InputCreateCorrection;
 
 const INCLUDED_VALUES = ["free", "common", "piggyBank"];
 const shapeCorrectionList = (financialReport: FinancialReport): CorrectionPercents[] => {
@@ -21,13 +19,10 @@ const shapeCorrectionList = (financialReport: FinancialReport): CorrectionPercen
       if (INCLUDED_VALUES.includes(key)) {
         acc.push({
           id: uuidv1(),
+          partId: p.id,
           name: key as PercentEntity["name"],
           percentFormIncome: Number(percent),
-          // temp
-          corrections: [
-            { id: uuidv1(), name: "hello", amount: "10000" },
-            { id: uuidv1(), name: "hello2", amount: "200000" },
-          ],
+          corrections: [],
           partIncome: p.income,
         });
       }
@@ -42,11 +37,11 @@ const shapeCorrectionList = (financialReport: FinancialReport): CorrectionPercen
   });
 };
 
-const updateOrCreateCorrection = async (correction: LocalCorrection): Promise<FinancialPercentCorrection> => {
-  if (!guardOneOf<FinancialPercentCorrection>(correction, "id")) {
-    return await providers.CorrectionProvider.create(correction);
+const updateOrCreateCorrection = async (correctionData: CreateOrUpdateCorrectionData): Promise<Correction> => {
+  if (guardOneOf<InputCreateCorrection>(correctionData, "financialPartId")) {
+    return await providers.CorrectionProvider.create(correctionData);
   } else {
-    return await providers.CorrectionProvider.update(correction);
+    return await providers.CorrectionProvider.update(correctionData);
   }
 };
 
@@ -59,11 +54,11 @@ export default function useController() {
   const monthIncome = useRef<number>(0);
 
   const createOrUpdatePercentCorrection = async (
-    correction: LocalCorrection,
+    correctionData: CreateOrUpdateCorrectionData,
     updatedPercentEntityId?: PercentEntity["id"]
   ): Promise<void> => {
-    const updatedCorrection = await updateOrCreateCorrection(correction);
-    const isNew = !guardOneOf(correction, "id");
+    const updatedCorrection = await updateOrCreateCorrection(correctionData);
+    const isNew = guardOneOf<InputCreateCorrection>(correctionData, "financialPartId");
 
     const updatedCorrectionPercentsList: CorrectionPercents[] = correctionPercentsList.map<CorrectionPercents>(
       ({ id, percentEntities }) => {
@@ -74,7 +69,7 @@ export default function useController() {
 
             const updatedCorrections = isNew
               ? p.corrections.concat(updatedCorrection)
-              : p.corrections.map<FinancialPercentCorrection>((c) => isIdEqualReturnLast(c.id, c, updatedCorrection));
+              : p.corrections.map<Correction>((c) => isIdEqualReturnLast(c.id, c, updatedCorrection));
             return { ...p, corrections: updatedCorrections };
           }),
         };
@@ -85,7 +80,7 @@ export default function useController() {
     return new Promise((resolve) => resolve());
   };
 
-  const deletePercentCorrection = async (deletedCorrectionId: FinancialPercentCorrection["id"]): Promise<boolean> => {
+  const deletePercentCorrection = async (deletedCorrectionId: Correction["id"]): Promise<boolean> => {
     const response = await providers.CorrectionProvider.delete(deletedCorrectionId);
     if (!response) return response;
 
