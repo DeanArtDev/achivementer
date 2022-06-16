@@ -22,8 +22,6 @@ export type InputFinancialReport = Omit<FinancialReport, "id" | "parts"> & {
   parts: ToOptionalID<FinancialPart>[];
 };
 
-export type InputFinancialPercentCorrection = Omit<FinancialPercentCorrection, "id">;
-
 export type FinancialPercentCorrection = {
   id: UniqID;
   name: string;

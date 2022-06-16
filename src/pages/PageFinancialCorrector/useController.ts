@@ -2,11 +2,8 @@ import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useEffectOnce } from "react-use";
 import { v1 as uuidv1 } from "uuid";
-import {
-  FinancialPercentCorrection,
-  FinancialReport,
-  InputFinancialPercentCorrection,
-} from "providers/api/FinancialReportProvider/types";
+import { FinancialPercentCorrection, FinancialReport } from "providers/api/FinancialReportProvider/types";
+import { InputCreateCorrection } from "providers/api/CorrectionProvider/types";
 import { UniqID } from "types";
 import { PercentEntity, CorrectionPercents } from "./types";
 import { isIdEqualReturnLast } from "utils/predicats";
@@ -15,7 +12,7 @@ import useLoading from "hooks/useLoading";
 import providers from "providers";
 import { Month } from "../../consts";
 
-type LocalCorrection = FinancialPercentCorrection | InputFinancialPercentCorrection;
+type LocalCorrection = FinancialPercentCorrection | InputCreateCorrection;
 
 const INCLUDED_VALUES = ["free", "common", "piggyBank"];
 const shapeCorrectionList = (financialReport: FinancialReport): CorrectionPercents[] => {
@@ -47,9 +44,9 @@ const shapeCorrectionList = (financialReport: FinancialReport): CorrectionPercen
 
 const updateOrCreateCorrection = async (correction: LocalCorrection): Promise<FinancialPercentCorrection> => {
   if (!guardOneOf<FinancialPercentCorrection>(correction, "id")) {
-    return await providers.FinancialReportProvider.createCorrection(correction);
+    return await providers.CorrectionProvider.create(correction);
   } else {
-    return await providers.FinancialReportProvider.updateCorrection(correction);
+    return await providers.CorrectionProvider.update(correction);
   }
 };
 
@@ -89,7 +86,7 @@ export default function useController() {
   };
 
   const deletePercentCorrection = async (deletedCorrectionId: FinancialPercentCorrection["id"]): Promise<boolean> => {
-    const response = await providers.FinancialReportProvider.deleteCorrection(deletedCorrectionId);
+    const response = await providers.CorrectionProvider.delete(deletedCorrectionId);
     if (!response) return response;
 
     const updatedCorrectionPercentsList: CorrectionPercents[] = correctionPercentsList.map<CorrectionPercents>(

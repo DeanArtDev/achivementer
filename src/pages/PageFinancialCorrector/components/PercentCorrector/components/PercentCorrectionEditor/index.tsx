@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { useEffectOnce } from "react-use";
-import {
-  FinancialPercentCorrection,
-  InputFinancialPercentCorrection,
-} from "providers/api/FinancialReportProvider/types";
+import { FinancialPercentCorrection } from "providers/api/FinancialReportProvider/types";
+import { InputCreateCorrection } from "providers/api/CorrectionProvider/types";
 import { KeysValuesType } from "types";
 import { Regexp } from "consts";
 import { ReactComponent as CheckIcon } from "assets/images/icons/check.svg";
@@ -15,11 +13,11 @@ import "./style.scss";
 type Props = {
   className?: string;
   correction?: FinancialPercentCorrection;
-  onAccept?: (correction: FinancialPercentCorrection | InputFinancialPercentCorrection) => void;
+  onAccept?: (correction: FinancialPercentCorrection | InputCreateCorrection) => void;
   onDecline?: () => void;
 };
 
-type LocalCorrection = FinancialPercentCorrection | InputFinancialPercentCorrection | null;
+type LocalCorrection = FinancialPercentCorrection | InputCreateCorrection | null;
 
 const ICON_SIZE = 26;
 

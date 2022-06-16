@@ -1,8 +1,6 @@
 import React, { useRef, useState } from "react";
-import {
-  FinancialPercentCorrection,
-  InputFinancialPercentCorrection,
-} from "providers/api/FinancialReportProvider/types";
+import { FinancialPercentCorrection } from "providers/api/FinancialReportProvider/types";
+import { InputCreateCorrection } from "providers/api/CorrectionProvider/types";
 import { PercentEntity } from "../../types";
 import { calculatePercentage } from "utils/calculatePercentage";
 import { classes } from "utils/templateHelpers";
@@ -17,7 +15,7 @@ type Props = {
   percentEntity: PercentEntity;
   className?: string;
   onUpdatePercentCorrection?: (
-    correction: FinancialPercentCorrection | InputFinancialPercentCorrection,
+    correction: FinancialPercentCorrection | InputCreateCorrection,
     id?: PercentEntity["id"]
   ) => void;
   onDeletePercentCorrection?: (id: FinancialPercentCorrection["id"]) => void;
@@ -46,14 +44,14 @@ export default function PercentCorrector({
   const correctionTotalAmount = corrections.reduce<number>((acc, c) => (acc += Number(c.amount)), 0);
   const balance = partTotal - correctionTotalAmount;
 
-  const hasChanges = (checkingCorrection: FinancialPercentCorrection | InputFinancialPercentCorrection): boolean => {
+  const hasChanges = (checkingCorrection: FinancialPercentCorrection | InputCreateCorrection): boolean => {
     return (
       checkingCorrection.name !== correction.current?.name || checkingCorrection.amount !== correction.current?.amount
     );
   };
 
   const handleEditorAccept = (
-    updatedCorrection: FinancialPercentCorrection | InputFinancialPercentCorrection
+    updatedCorrection: FinancialPercentCorrection | InputCreateCorrection
   ): void => {
     if (onUpdatePercentCorrection && hasChanges(updatedCorrection)) {
       onUpdatePercentCorrection(updatedCorrection, id);
