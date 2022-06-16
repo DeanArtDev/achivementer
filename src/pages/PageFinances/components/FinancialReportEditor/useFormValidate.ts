@@ -7,7 +7,7 @@ const shapePartsValidatingMap = (map: ValidatingPartListMap): PartListValidateRe
   const newMap: PartListValidateResultMap = {};
   for (const partId in map) {
     newMap[partId] = Object.entries(map[partId]).reduce((acc, [key, value]) => {
-      if (value) acc[key as keyof Omit<FinancialPart, "id">] = value();
+      if (value) acc[key as keyof Omit<FinancialPart, "id" | "corrections">] = value();
       return acc;
     }, {} as PartValidateResultMap);
   }

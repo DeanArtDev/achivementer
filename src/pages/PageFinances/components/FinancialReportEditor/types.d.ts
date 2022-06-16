@@ -4,6 +4,6 @@ export type InputFinancialPeriod = keyof Pick<FinancialReport, "month" | "partCo
 
 export type ValidateResultMap<T = string> = Record<T, boolean>;
 
-export type PartValidateResultMap = ValidateResultMap<keyof Omit<FinancialPart, "id">>;
+export type PartValidateResultMap = ValidateResultMap<keyof Omit<FinancialPart, "id" | "corrections">>;
 
 export type PartListValidateResultMap = Record<FinancialPart["id"], PartValidateResultMap>;

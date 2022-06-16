@@ -28,6 +28,7 @@ export default function useController(editedReport?: FinancialReport): FinancesP
       common: 0,
       piggyBank: 0,
       free: 0,
+      corrections: []
     }));
   };
   const shapeParts = (partCount: number, parts: FinancialPart[]): FinancialPart[] => {

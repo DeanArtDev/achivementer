@@ -69,7 +69,7 @@ export default function FieldsetPart({
     free: undefined,
   });
   const handleInputValidateGet = (
-    name: keyof Omit<FinancialPart, "id">,
+    name: keyof Omit<FinancialPart, "id" | "corrections">,
     validate: (value?: string) => boolean
   ): void => {
     partValidateMap.current[name] = validate;
