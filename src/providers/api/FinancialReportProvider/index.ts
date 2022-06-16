@@ -1,11 +1,5 @@
-import { v1 as uuidv1 } from "uuid";
 import Provider from "../Provider";
-import {
-  FinancialPercentCorrection,
-  FinancialReport,
-  InputFinancialPercentCorrection,
-  InputFinancialReport
-} from "./types";
+import { FinancialReport, InputFinancialReport } from "./types";
 import { AxiosRequestConfig } from "axios";
 import { SearchData } from "../../types";
 
@@ -33,21 +27,6 @@ class FinancialReportProvider extends Provider {
 
   public async update(data: FinancialReport, options?: AxiosRequestConfig): Promise<FinancialReport> {
     return await super.abstractPut<FinancialReport, FinancialReport>(data, options);
-  }
-
-  public async updateCorrection(data: FinancialPercentCorrection): Promise<FinancialPercentCorrection> {
-    return data;
-  }
-
-  public async deleteCorrection(id: FinancialPercentCorrection["id"]): Promise<boolean> {
-    return true;
-  }
-
-  public async createCorrection(data: InputFinancialPercentCorrection): Promise<FinancialPercentCorrection> {
-    return {
-      ...data,
-      id: uuidv1(),
-    };
   }
 }
 
