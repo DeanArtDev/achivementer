@@ -87,6 +87,7 @@ export default function PercentCorrector({
   };
 
   const titleWithPercent = `${PartName[name]}: ${percentFormIncome}%`;
+  const filteredCorrectionsByType = corrections.filter(c => c.type === name);
 
   // todo: подумать как сделать что бы editor появлялся под редактируемым полем а не снизу.
   return (
@@ -98,7 +99,7 @@ export default function PercentCorrector({
 
       {hasCorrections && (
         <div className="percent-corrector__correction-wrapper mb-2">
-          {corrections.map((c) => (
+          {filteredCorrectionsByType.map((c) => (
             <PercentCorrectionView
               correction={c}
               key={c.id}

@@ -13,28 +13,31 @@ import providers from "providers";
 import { Month } from "../../consts";
 
 const INCLUDED_VALUES = ["free", "common", "piggyBank"];
-const shapeCorrectionList = (financialReport: FinancialReport): CorrectionPercents[] => {
-  return financialReport.parts.map((p) => {
-    const percentEntities = Object.entries(p).reduce<PercentEntity[]>((acc, [key, percent]) => {
+const shapeCorrectionList = async (financialReport: FinancialReport): Promise<CorrectionPercents[]> => {
+  const correctionPercents: CorrectionPercents[] = [];
+
+  for (let i = 0; i < financialReport.parts.length; i++) {
+    const part = financialReport.parts[i];
+
+    const corrections = await providers.CorrectionProvider.search({ financialPartId: part.id });
+    const percentEntities = Object.entries(part).reduce<PercentEntity[]>((acc, [key, percent]) => {
       if (INCLUDED_VALUES.includes(key)) {
         acc.push({
           id: uuidv1(),
-          partId: p.id,
+          partId: part.id,
           name: key as PercentEntity["name"],
           percentFormIncome: Number(percent),
-          corrections: [],
-          partIncome: p.income,
+          corrections,
+          partIncome: part.income,
         });
       }
 
       return acc;
     }, []);
+    correctionPercents.push({ id: financialReport.id, percentEntities });
+  }
 
-    return {
-      id: financialReport.id,
-      percentEntities,
-    };
-  });
+  return correctionPercents;
 };
 
 const updateOrCreateCorrection = async (correctionData: CreateOrUpdateCorrectionData): Promise<Correction> => {
@@ -106,7 +109,8 @@ export default function useController() {
         if (response && response?.parts.length > 0) {
           title.current = Month[response.month];
           monthIncome.current = response.parts.reduce<number>((acc, p) => (acc += p.income), 0);
-          setCorrectionPercentsList(shapeCorrectionList(response));
+
+          shapeCorrectionList(response).then(setCorrectionPercentsList);
         }
       })
       .finally(() => setLoading(false));
