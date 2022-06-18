@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useEffectOnce } from "react-use";
-import { Correction, CorrectionPure } from "providers/api/CorrectionProvider/types";
+import { Correction } from "providers/api/CorrectionProvider/types";
 import { KeysValuesType } from "types";
+import { EditedCorrection } from "../../../../types";
 import { Regexp } from "consts";
 import { ReactComponent as CheckIcon } from "assets/images/icons/check.svg";
 import { ReactComponent as CloseCrossIcon } from "assets/images/icons/close-cross.svg";
@@ -12,20 +13,18 @@ import "./style.scss";
 type Props = {
   className?: string;
   correction?: Correction;
-  onAccept?: (correction: Correction | CorrectionPure) => void;
+  onAccept?: (correction: EditedCorrection) => void;
   onDecline?: () => void;
 };
-
-type LocalCorrection = Correction | CorrectionPure | null;
 
 const ICON_SIZE = 26;
 
 export default function PercentCorrectionEditor({ className, correction, onAccept, onDecline }: Props) {
   const cls = ["corrector-editor"];
   if (className) cls.push(className);
-  const [localCorrection, setLocalCorrection] = useState<LocalCorrection>(null);
+  const [localCorrection, setLocalCorrection] = useState<EditedCorrection | null>(null);
 
-  const handleInputChange = (name: keyof Correction, value: KeysValuesType<Correction>): void => {
+  const handleInputChange = (name: keyof EditedCorrection, value: KeysValuesType<EditedCorrection>): void => {
     if (localCorrection) return setLocalCorrection({ ...localCorrection, [name]: value });
     setLocalCorrection({ name: "", amount: "", ...{ [name]: value } });
   };

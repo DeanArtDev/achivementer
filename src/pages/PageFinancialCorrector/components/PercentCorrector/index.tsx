@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Correction, CorrectionPure } from "providers/api/CorrectionProvider/types";
-import { CreateOrUpdateCorrectionData, PercentEntity } from "../../types";
+import { CreateOrUpdateCorrectionData, EditedCorrection, PercentEntity } from "../../types";
 import { calculatePercentage } from "utils/calculatePercentage";
 import { classes } from "utils/templateHelpers";
 import { guardOneOf } from "utils/typeGuards";
@@ -47,13 +47,14 @@ export default function PercentCorrector({
     );
   };
 
-  const handleEditorAccept = (correctionData: Correction | CorrectionPure): void => {
-    if (!guardOneOf<Correction>(correctionData, "id")) {
-      onUpdatePercentCorrection && onUpdatePercentCorrection({ ...correctionData, financialPartId: partId }, id);
+  const handleEditorAccept = (editedCorrection: EditedCorrection): void => {
+    if (!guardOneOf<Correction>(editedCorrection, "id")) {
+      onUpdatePercentCorrection &&
+        onUpdatePercentCorrection({ ...editedCorrection, financialPartId: partId, type: name }, id);
     }
 
-    if (guardOneOf<Correction>(correctionData, "id") && hasChanges(correctionData)) {
-      onUpdatePercentCorrection && onUpdatePercentCorrection(correctionData, id);
+    if (guardOneOf<Correction>(editedCorrection, "id") && hasChanges(editedCorrection)) {
+      onUpdatePercentCorrection && onUpdatePercentCorrection(editedCorrection, id);
     }
 
     correction.current = undefined;
@@ -85,11 +86,13 @@ export default function PercentCorrector({
     setShowDeleteConfirm(false);
   };
 
+  const titleWithPercent = `${PartName[name]}: ${percentFormIncome}%`;
+
   // todo: подумать как сделать что бы editor появлялся под редактируемым полем а не снизу.
   return (
     <div className={cls.join(" ")}>
       <span className="percent-corrector__title mb-4">
-        {`${PartName[name]}: ${percentFormIncome}%`}
+        {titleWithPercent}
         <span className="percent-corrector__total">{partTotal}</span>
       </span>
 
