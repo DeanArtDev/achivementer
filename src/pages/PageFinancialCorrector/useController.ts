@@ -104,7 +104,7 @@ export default function useController() {
 
   useEffectOnce(() => {
     setLoading(true);
-    providers.FinancialReportProvider.search({ ids: [id] }, true)
+    providers.FinancialReportProvider.search({ ids: [id] })
       .then((response) => {
         if (response && response?.parts.length > 0) {
           title.current = Month[response.month];
