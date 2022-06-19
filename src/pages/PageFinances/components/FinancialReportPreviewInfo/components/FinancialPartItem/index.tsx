@@ -1,20 +1,11 @@
 import React, { Fragment } from "react";
 import { FinancialPart } from "providers/api/FinancialReportProvider/types";
-
+import { calculatePercentage } from "utils/calculatePercentage";
 import "./style.scss";
 
 type Props = {
   title: string;
   part: FinancialPart;
-};
-
-type FinancialPartPercentage = FinancialPart["common"] | FinancialPart["piggyBank"] | FinancialPart["free"];
-
-const calculatePercentageOfIncome = (
-  income: FinancialPart["income"],
-  percentage: FinancialPartPercentage
-): FinancialPartPercentage => {
-  return Number(((income / 100) * percentage).toFixed(2));
 };
 
 export default function FinancialPartItem({ part, title }: Props) {
@@ -33,9 +24,9 @@ export default function FinancialPartItem({ part, title }: Props) {
         <td className={"financial-part__table-data pb-4"}>{common}%</td>
         <td className={"financial-part__table-data pb-4"}>{free}%</td>
         <td className={"financial-part__table-data pb-4"}>{piggyBank}%</td>
-        <td className={"financial-part__table-data __red"}>{calculatePercentageOfIncome(income, common)}</td>
-        <td className={"financial-part__table-data __green"}>{calculatePercentageOfIncome(income, free)}</td>
-        <td className={"financial-part__table-data __yellow"}>{calculatePercentageOfIncome(income, piggyBank)}</td>
+        <td className={"financial-part__table-data __red"}>{calculatePercentage(income, common).toFixed(2)}</td>
+        <td className={"financial-part__table-data __green"}>{calculatePercentage(income, free).toFixed(2)}</td>
+        <td className={"financial-part__table-data __yellow"}>{calculatePercentage(income, piggyBank).toFixed(2)}</td>
       </tr>
     </Fragment>
   );

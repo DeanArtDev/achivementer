@@ -1,0 +1,22 @@
+@import "style/_variables";
+
+.part-correction-list {
+  @include list-reset;
+
+  .part-correction-list__item:first-child .percent-corrector__total {
+    color: var(--palette-negative-lighten-4);
+  }
+
+  .part-correction-list__item:nth-child(2) .percent-corrector__total {
+    color: orange;
+  }
+
+  .part-correction-list__item:nth-child(3) .percent-corrector__total {
+    color: var(--palette-positive);
+  }
+}
+
+.part-correction-list__title {
+  margin-top: 0;
+  margin-bottom: var(--sp-3);
+}

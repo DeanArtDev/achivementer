@@ -1,0 +1,47 @@
+@import "style/_variables";
+
+.corrector-editor {
+  display: grid;
+  grid-template-rows: repeat(3, max-content);
+  align-items: center;
+
+  @include mobile-large-up {
+    grid-template-columns: 1fr 1fr max-content max-content;
+    grid-template-rows: initial;
+    grid-column-gap: var(--sp-3);
+  }
+}
+
+.corrector-editor__input-amount {
+  border: none;
+  border-bottom: 1px solid var(--palette-fg);
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.base-button {
+  &.corrector-editor__btn {
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    margin-left: auto;
+    margin-top: var(--sp-4);
+
+    @include mobile-large-up {
+      margin-left: 0;
+      margin-top: 0;
+    }
+  }
+
+  &:disabled .corrector-editor__icon-accept {
+    fill: var(--palette-gray);
+  }
+}
+
+.corrector-editor__icon-accept {
+  fill: var(--palette-positive);
+}
+
+.corrector-editor__icon-decline {
+  fill: var(--palette-negative);
+}
