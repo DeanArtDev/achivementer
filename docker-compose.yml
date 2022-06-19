@@ -7,6 +7,8 @@ services:
     ports:
       - published: ${REACT_APP_PORT}
         target: ${REACT_APP_PORT}
+      - published: ${DB_STUDIO_PORT}
+        target: ${DB_STUDIO_PORT}
     build:
       context: .
       dockerfile: Dockerfile
