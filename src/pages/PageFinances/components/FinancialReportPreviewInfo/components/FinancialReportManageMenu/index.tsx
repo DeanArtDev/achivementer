@@ -19,11 +19,11 @@ export default function FinancialReportManageMenu({ className, loading, onEdit, 
   const [isShowModal, setIsShowModal] = useState(false);
 
   const toggleCallback = useRef<(() => void) | null>(null);
-  const handleToggleMenu = (callback: () => void): void => {
+  const handleMenuToggle = (callback: () => void): void => {
     toggleCallback.current = callback;
   };
 
-  const handleDeleteButton = (evt: MouseEvent) => {
+  const handleButtonDelete = (evt: MouseEvent) => {
     evt.stopPropagation();
     setIsShowModal(true);
     toggleCallback.current && toggleCallback.current();
@@ -31,8 +31,8 @@ export default function FinancialReportManageMenu({ className, loading, onEdit, 
 
   return (
     <Fragment>
-      <BaseSettingMenu className={cls.join(" ")} onToggleShowing={handleToggleMenu}>
-        <BaseButton className={"pa-0"} icon onClick={handleDeleteButton}>
+      <BaseSettingMenu className={cls.join(" ")} onToggleShowing={handleMenuToggle}>
+        <BaseButton className={"pa-0"} icon onClick={handleButtonDelete}>
           <DeleteIcon />
         </BaseButton>
 
