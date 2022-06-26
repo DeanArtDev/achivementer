@@ -14,6 +14,7 @@ type Props = {
 export default function PathGuard({ children, location }: PropsWithChildren<Props>) {
   const [authUser] = useAuthUser();
   const { getLocation } = useRouterHistory();
+  // todo: добавить типизацию, что подал в дженерик то и будет прихдодить
   const query = useQuery();
 
   if (authUser && query[routeQuery.REDIRECT_PATH]) {
