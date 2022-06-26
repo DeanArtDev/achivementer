@@ -5,8 +5,8 @@
   grid-template-rows: repeat(3, max-content);
   align-items: center;
 
-  @include mobile-large-up {
-    grid-template-columns: 1fr 1fr max-content max-content;
+  @include container-narrow-up {
+    grid-template-columns: 1fr 1fr max-content;
     grid-template-rows: initial;
     grid-column-gap: var(--sp-3);
   }
@@ -17,6 +17,16 @@
   border-bottom: 1px solid var(--palette-fg);
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+.corrector-editor__btn-wrapper {
+  margin-top: var(--sp-3);
+  margin-left: auto;
+
+  @include container-narrow-up {
+    margin-top: 0;
+    align-self: center;
+  }
 }
 
 .base-button {

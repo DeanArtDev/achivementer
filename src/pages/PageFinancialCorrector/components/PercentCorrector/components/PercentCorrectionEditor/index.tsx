@@ -63,12 +63,14 @@ export default function PercentCorrectionEditor({ className, correction, onAccep
         onChange={(v) => handleInputChange("amount", v)}
       />
 
-      <BaseButton className={"corrector-editor__btn"} icon disabled={!localCorrection} onClick={handleButtonAccept}>
-        <CheckIcon className={"corrector-editor__icon-accept"} width={ICON_SIZE} height={ICON_SIZE} />
-      </BaseButton>
-      <BaseButton className={"corrector-editor__btn"} icon onClick={handleButtonDecline}>
-        <CloseCrossIcon className={"corrector-editor__icon-decline"} width={ICON_SIZE} height={ICON_SIZE} />
-      </BaseButton>
+      <div className={"corrector-editor__btn-wrapper d-flex"}>
+        <BaseButton className={"corrector-editor__btn"} icon disabled={!localCorrection} onClick={handleButtonAccept}>
+          <CheckIcon className={"corrector-editor__icon-accept"} width={ICON_SIZE} height={ICON_SIZE} />
+        </BaseButton>
+        <BaseButton className={"corrector-editor__btn"} icon onClick={handleButtonDecline}>
+          <CloseCrossIcon className={"corrector-editor__icon-decline"} width={ICON_SIZE} height={ICON_SIZE} />
+        </BaseButton>
+      </div>
     </div>
   );
 }
