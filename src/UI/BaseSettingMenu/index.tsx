@@ -1,48 +1,42 @@
-import React, { FocusEvent, useRef, useState, Children, ReactElement, MouseEvent } from "react";
+import React, { ReactElement, MouseEvent } from "react";
 import { useEffectOnce } from "react-use";
 import { ReactComponent as DotsIcon } from "assets/images/icons/dots-vertical.svg";
-import { extendReactElementByClassName } from "utils/templateHelpers";
+import useToggleComponentVisibility from "hooks/useToggleComponentVisibility";
 import BaseButton from "../BaseButton";
 import "./style.scss";
 
-const TARGET_CLASS_NAME = "base-setting-menu__item";
-
 type Props = {
   className?: string;
+  onToggleShowing?: (cb: () => void) => void;
 };
 
-export default function BaseSettingMenu({ className, children }: Props & { children: ReactElement | ReactElement[] }) {
+export default function BaseSettingMenu({
+  className,
+  onToggleShowing,
+  children,
+}: Props & { children: ReactElement | ReactElement[] }) {
   const cls = ["base-setting-menu d-flex"];
   if (className) cls.push(className);
 
-  const [isShowMenu, setIsShowMenu] = useState(false);
-  const childrenWithClassName = useRef<ReactElement[]>([]);
+  const { ref, isVisible, setIsVisible } = useToggleComponentVisibility(false);
 
-  const handleMenuBlur = ({ relatedTarget }: FocusEvent<HTMLDivElement, HTMLButtonElement>): void => {
-    if (relatedTarget && relatedTarget.className.includes(TARGET_CLASS_NAME)) {
-      relatedTarget.click();
-    }
-    setIsShowMenu(false);
-  };
-
-  const handleButtonClick = (evt: MouseEvent) => {
+  const handleButtonClick = (evt: MouseEvent): void => {
     evt.stopPropagation();
-    setIsShowMenu(true);
+    setIsVisible((state) => !state);
   };
 
   useEffectOnce(() => {
-    childrenWithClassName.current = Children.map(children, (c) => {
-      return extendReactElementByClassName(c, TARGET_CLASS_NAME);
-    });
+    const toggleShowing = () => setIsVisible((state) => !state);
+    onToggleShowing && onToggleShowing(toggleShowing);
   });
 
   return (
-    <div className={cls.join(" ")} onBlur={handleMenuBlur}>
+    <div className={cls.join(" ")} ref={ref}>
       <BaseButton className={"base-setting-menu__active-btn pa-0"} icon onClick={handleButtonClick}>
         <DotsIcon height={22} width={22} />
       </BaseButton>
 
-      {isShowMenu && <div className={"base-setting-menu__content"}>{childrenWithClassName.current}</div>}
+      {isVisible && <div className={"base-setting-menu__content"}>{children}</div>}
     </div>
   );
 }

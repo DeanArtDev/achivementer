@@ -1,5 +1,9 @@
 @import "style/_variables";
 
+.financial-corrector {
+  overflow-y: unset;
+}
+
 .financial-corrector__header {
   display: flex;
   grid-row: header-start / header-end;

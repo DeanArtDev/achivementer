@@ -34,7 +34,7 @@ export default function FinancialReportPreviewInfo({
 
   return (
     <div className={cls.join(" ")}>
-      <div className={"finance-report-details__header px-3"} onClick={() => setIsShowDetails(!isShowDetails)}>
+      <div className={"finance-report-details__header px-3"}>
         <h3 className={"finance-report-details__title mr-auto"} onClick={() => onCorrect(report.id)}>
           {title}
         </h3>
@@ -52,6 +52,7 @@ export default function FinancialReportPreviewInfo({
         <BaseButton
           className={classes("finance-report-details__show-btn ml-auto pa-2", { __active: isShowDetails })}
           icon
+          onClick={() => setIsShowDetails((state) => !state)}
         >
           <LeftArrowIcon width={18} height={18} />
         </BaseButton>

@@ -1,5 +1,3 @@
-import { ReactElement } from "react";
-
 type ComputedClasses = Record<string, boolean>;
 
 function classes(classes: ComputedClasses): string;
@@ -17,16 +15,6 @@ function classes(classes: string | string[] | ComputedClasses, computedClasses?:
   }
 
   return cls.join(" ");
-}
-
-export function extendReactElementByClassName(child: ReactElement, className: string): ReactElement {
-  return {
-    ...child,
-    props: {
-      ...child.props,
-      className: child.props.className ? `${className} ${child.props.className}` : className,
-    },
-  };
 }
 
 export { classes };

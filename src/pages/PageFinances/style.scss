@@ -1,4 +1,7 @@
 @import "style/_variables";
+.page-finances {
+  overflow-y: unset;
+}
 
 .page-finances__header {
   grid-row: header-start / header-end;
@@ -11,6 +14,7 @@
 .page-finances__main {
   grid-row: body-start / footer-end;
   height: 100%;
+  overflow-y: scroll;
 
   background-color: var(--palette-bg);
   border-top-left-radius: 15px;

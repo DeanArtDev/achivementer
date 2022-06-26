@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useRef, useState, MouseEvent } from "react";
 import { ReactComponent as DeleteIcon } from "assets/images/icons/delete.svg";
 import { ReactComponent as EditIcon } from "assets/images/icons/edit.svg";
 import BaseButton from "UI/BaseButton";
@@ -18,13 +18,20 @@ export default function FinancialReportManageMenu({ className, loading, onEdit, 
 
   const [isShowModal, setIsShowModal] = useState(false);
 
-  const handleButtonDelete = () => {
-    setIsShowModal(true);
+  const toggleCallback = useRef<(() => void) | null>(null);
+  const handleMenuToggle = (callback: () => void): void => {
+    toggleCallback.current = callback;
   };
+
+  const handleButtonDelete = (evt: MouseEvent) => {
+    evt.stopPropagation();
+    setIsShowModal(true);
+    toggleCallback.current && toggleCallback.current();
+  }
 
   return (
     <Fragment>
-      <BaseSettingMenu className={cls.join(" ")}>
+      <BaseSettingMenu className={cls.join(" ")} onToggleShowing={handleMenuToggle}>
         <BaseButton className={"pa-0"} icon onClick={handleButtonDelete}>
           <DeleteIcon />
         </BaseButton>
